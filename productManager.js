@@ -27,6 +27,10 @@ class ProductManager {
     }
     return id;
   }
+
+  getProductsById(id) {
+    return this.products.find((product) => product.id === id )
+  }
 }
 
 let nuevoProducto = new ProductManager();
@@ -38,12 +42,7 @@ nuevoProducto.addProduct(
   "abc123",
   25
 );
-nuevoProducto.addProduct(
-  "producto 2",
-  "este es un producto 2",
-  50,
-  "sin imagen",
-  "abc1254",
-  25
-);
-console.log(nuevoProducto.products);
+
+console.log(nuevoProducto.getProductsById(1))
+
+
