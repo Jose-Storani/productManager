@@ -9,8 +9,15 @@ class ProductManager {
 
   addProduct(title, description, price, thumbnail, code, stock) {
     if(title == null, description == null, price == null, thumbnail == null, code == null, stock == null){
-      alert("Debe ingresar todos los campos correspondientes")   
+      alert("Debe ingresar todos los campos correspondientes");
+      
+    } else if(this.products.length !== 0 && this.products.some((product) => product.code === code)) {
+      alert("EL CODIGO NO PUEDE SER IGUAL")
+      
+
     }
+
+    
     else{
     let product = {
       title,
@@ -38,10 +45,20 @@ class ProductManager {
   }
 }
 
+//Instanciamos el producto y añadimos uno nuevo
 let sucursalCentro = new ProductManager();
-sucursalCentro.addProduct("producto prueba", "este es un producto prueba", 200, "sin imagen", "abc123",20
+sucursalCentro.addProduct("producto prueba", "este es un producto prueba", 200, "sin imagen", "abc123",
+20
   )
-console.log(sucursalCentro.getProducts())
+
+//Prueba 2: añadimos otro producto, si no se ingresa un campo, sale un alert, y si el CODE esta repetido, sale otro Alert.
+sucursalCentro.addProduct("producto prueba", "este es un producto prueba", 200, "sin imagen", "abc123456",
+20)
+
+
+
+
+
 
 
 
