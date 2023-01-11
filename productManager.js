@@ -41,7 +41,9 @@ class ProductManager {
   }
 
   getProductsById(id) {
-    return this.products.find((product) => product.id === id )
+    let productById = this.products.find((product) => product.id === id) ?? "NOT FOUND";
+    return productById;
+   
   }
 }
 
@@ -55,8 +57,8 @@ sucursalCentro.addProduct("producto prueba", "este es un producto prueba", 200, 
 sucursalCentro.addProduct("producto prueba", "este es un producto prueba", 200, "sin imagen", "abc123456",
 20)
 
-
-
+//Prueba 3: obtener producto por su ID.
+console.log(sucursalCentro.getProductsById(2))
 
 
 
