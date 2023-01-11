@@ -8,6 +8,10 @@ class ProductManager {
   }
 
   addProduct(title, description, price, thumbnail, code, stock) {
+    if(title == null, description == null, price == null, thumbnail == null, code == null, stock == null){
+      alert("Debe ingresar todos los campos correspondientes")   
+    }
+    else{
     let product = {
       title,
       description,
@@ -18,6 +22,7 @@ class ProductManager {
       id: this.#generarId(),
     };
     this.products.push(product);
+    }
   }
 
   #generarId() {
@@ -33,16 +38,15 @@ class ProductManager {
   }
 }
 
-let nuevoProducto = new ProductManager();
-nuevoProducto.addProduct(
-  "producto prueba",
-  "este es un producto prueba",
-  200,
-  "sin imagen",
-  "abc123",
-  25
-);
+let sucursalCentro = new ProductManager();
+sucursalCentro.addProduct("producto prueba", "este es un producto prueba", 200, "sin imagen", "abc123",20
+  )
+console.log(sucursalCentro.getProducts())
 
-console.log(nuevoProducto.getProductsById(1))
+
+
+
+
+
 
 
