@@ -7,8 +7,14 @@ class ProductManager {
     return this.products;
   }
 
+
+  // Hola jose como estas ? muy bien el  trabajo todo funcionando correctamente y cumple con las consignas. Lo que podrias mejorar seria la verificacion de la info que te llega en  addProducts dentro el if pones  si name == null  no se agrega. Pero podrias ponerlo de esta forma 
+
+// if(title, description, price, thumbnail, code, stock){}
+// Ahi lo que interpretaria seria si name y thumbnail estan activos entra al if  y bueno ahi lo agregas . Es una recomendacion tu trabajo esta aprobado!
+
   addProduct(title, description, price, thumbnail, code, stock) {
-    if(title == null, description == null, price == null, thumbnail == null, code == null, stock == null){
+    if(!(title , description , price , thumbnail , code , stock) ){
       alert("Debe ingresar todos los campos correspondientes");
       
     } else if(this.products.length !== 0 && this.products.some((product) => product.code === code)) {
@@ -59,6 +65,7 @@ sucursalCentro.addProduct("producto prueba", "este es un producto prueba", 200, 
 
 //Prueba 3: obtener producto por su ID.
 console.log(sucursalCentro.getProductsById(2))
+
 
 
 
