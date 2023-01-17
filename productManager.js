@@ -1,17 +1,15 @@
+const fs = require("fs")
+
 class ProductManager {
   constructor() {
     this.products = [];
+    this.path = "./products.json"
   }
 
   getProducts() {
     return this.products;
   }
 
-
-  // Hola jose como estas ? muy bien el  trabajo todo funcionando correctamente y cumple con las consignas. Lo que podrias mejorar seria la verificacion de la info que te llega en  addProducts dentro el if pones  si name == null  no se agrega. Pero podrias ponerlo de esta forma 
-
-// if(title, description, price, thumbnail, code, stock){}
-// Ahi lo que interpretaria seria si name y thumbnail estan activos entra al if  y bueno ahi lo agregas . Es una recomendacion tu trabajo esta aprobado!
 
   addProduct(title, description, price, thumbnail, code, stock) {
     if(!(title , description , price , thumbnail , code , stock) ){
@@ -35,8 +33,14 @@ class ProductManager {
       id: this.#generarId(),
     };
     this.products.push(product);
+    fs.writeFileSync(this.path, JSON.stringify(this.products))
+    console.log(this.products)
+
+    //Control de salida de datos
+    console.log(JSON.parse(fs.readFileSync(this.path, "utf-8" )))
     }
   }
+  
 
   #generarId() {
     let id = 1;
@@ -55,16 +59,23 @@ class ProductManager {
 
 //Instanciamos el producto y añadimos uno nuevo
 let sucursalCentro = new ProductManager();
-sucursalCentro.addProduct("producto prueba", "este es un producto prueba", 200, "sin imagen", "abc123",
-20
+sucursalCentro.addProduct("producto prueba 2", "este es un producto prueba 2", 300, "sin imagen", "abc1234",
+30
   )
 
+  sucursalCentro.addProduct("producto prueba ", "este es un producto prueba ", 200, "sin imagen", "abc123",
+30
+  )
+
+
+
+
 //Prueba 2: añadimos otro producto, si no se ingresa un campo, sale un alert, y si el CODE esta repetido, sale otro Alert.
-sucursalCentro.addProduct("producto prueba", "este es un producto prueba", 200, "sin imagen", "abc123456",
-20)
+// sucursalCentro.addProduct("producto prueba", "este es un producto prueba", 200, "sin imagen", "abc123456",
+// 20)
 
 //Prueba 3: obtener producto por su ID.
-console.log(sucursalCentro.getProductsById(2))
+// console.log(sucursalCentro.getProductsById(2))
 
 
 
