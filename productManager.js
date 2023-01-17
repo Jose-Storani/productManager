@@ -7,7 +7,8 @@ class ProductManager {
   }
 
   getProducts() {
-    return this.products;
+    let dataProducts = fs.readFileSync(this.path,"utf-8");
+    return JSON.parse(dataProducts)
   }
 
 
@@ -34,13 +35,13 @@ class ProductManager {
     };
     this.products.push(product);
     fs.writeFileSync(this.path, JSON.stringify(this.products))
-    console.log(this.products)
+    
 
     //Control de salida de datos
-    console.log(JSON.parse(fs.readFileSync(this.path, "utf-8" )))
+    // console.log(JSON.parse(fs.readFileSync(this.path, "utf-8" )))
     }
   }
-  
+
 
   #generarId() {
     let id = 1;
@@ -51,7 +52,9 @@ class ProductManager {
   }
 
   getProductsById(id) {
-    let productById = this.products.find((product) => product.id === id) ?? "NOT FOUND";
+    let dataProducts = fs.readFileSync(this.path,"utf-8");
+    dataProducts = JSON.parse(dataProducts)
+    let productById = dataProducts.find((product) => product.id === id) ?? "NOT FOUND";
     return productById;
    
   }
@@ -67,6 +70,9 @@ sucursalCentro.addProduct("producto prueba 2", "este es un producto prueba 2", 3
 30
   )
 
+
+//Prueba de encontrar por ID
+console.log(sucursalCentro.getProductsById(2))
 
 
 
