@@ -58,7 +58,28 @@ class ProductManager {
     return productById;
    
   }
+
+  //Principal problema: Modificar el elemento del array y despues escribir el archivo JSON sin modificar la totalidad del archivo. 
+  //Para agregar: corrobar que fieldToUpdate sea un string, si no, el acceso a la propiedad no funcionaria
+
+  updateProduct(id, fieldToUpdate,newValue){
+    let productsCopy = this.getProducts();
+    let productToUpdate = productsCopy[id - 1];
+    productToUpdate[fieldToUpdate] = newValue;
+
+    fs.writeFileSync(this.path, JSON.stringify(productsCopy))
+     
+  }
+
+  deleteProduct (id){
+    
+    
+
+
+  }
 }
+
+  
 
 //Instanciamos el producto y añadimos uno nuevo
 let sucursalCentro = new ProductManager();
@@ -72,16 +93,12 @@ sucursalCentro.addProduct("producto prueba 2", "este es un producto prueba 2", 3
 
 
 //Prueba de encontrar por ID
-console.log(sucursalCentro.getProductsById(2))
-
-
-
-//Prueba 2: añadimos otro producto, si no se ingresa un campo, sale un alert, y si el CODE esta repetido, sale otro Alert.
-// sucursalCentro.addProduct("producto prueba", "este es un producto prueba", 200, "sin imagen", "abc123456",
-// 20)
-
-//Prueba 3: obtener producto por su ID.
 // console.log(sucursalCentro.getProductsById(2))
+
+sucursalCentro.updateProduct(2, "stock", 10)
+
+
+
 
 
 
