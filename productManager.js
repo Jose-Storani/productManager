@@ -62,6 +62,8 @@ class ProductManager {
   //Principal problema: Modificar el elemento del array y despues escribir el archivo JSON sin modificar la totalidad del archivo. 
   //Para agregar: corrobar que fieldToUpdate sea un string, si no, el acceso a la propiedad no funcionaria
 
+  //Esto solo funciona para modificar una propiedad a la vez, tiene que mejorar para tomar cualquier cantidad de valores o incluso el objeto entero.
+
   updateProduct(id, fieldToUpdate,newValue){
     let productsCopy = this.getProducts();
     let productToUpdate = productsCopy[id - 1];
@@ -71,8 +73,19 @@ class ProductManager {
      
   }
 
+  //optimizar, debe haber otra forma de hacerlo.
   deleteProduct (id){
+    let productsCopy = this.getProducts();
+    let indexToDelete = id - 1
+    productsCopy.splice(indexToDelete, 1);
+
     
+    
+
+     fs.writeFileSync(this.path, JSON.stringify(productsCopy))
+
+
+
     
 
 
@@ -95,7 +108,8 @@ sucursalCentro.addProduct("producto prueba 2", "este es un producto prueba 2", 3
 //Prueba de encontrar por ID
 // console.log(sucursalCentro.getProductsById(2))
 
-sucursalCentro.updateProduct(2, "stock", 10)
+sucursalCentro.deleteProduct(2)
+
 
 
 
