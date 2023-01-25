@@ -1,9 +1,10 @@
-const fs = require("fs")
 
-class ProductManager {
+import fs from "fs"
+
+export class ProductManager {
   constructor() {
     this.products = [];
-    this.path = "./products.json"
+    this.path = "../products.json"
   }
 
   getProducts() {
@@ -14,10 +15,10 @@ class ProductManager {
 
   addProduct(title, description, price, thumbnail, code, stock) {
     if(!(title , description , price , thumbnail , code , stock) ){
-      alert("Debe ingresar todos los campos correspondientes");
+      console.log("Debe ingresar todos los campos correspondientes");
       
     } else if(this.products.length !== 0 && this.products.some((product) => product.code === code)) {
-      alert("EL CODIGO NO PUEDE SER IGUAL")
+      console.log("EL CODIGO NO PUEDE SER IGUAL")
       
 
     }
@@ -95,20 +96,23 @@ class ProductManager {
   
 
 //Instanciamos el producto y añadimos uno nuevo
-let sucursalCentro = new ProductManager();
-sucursalCentro.addProduct("producto prueba 2", "este es un producto prueba 2", 300, "sin imagen", "abc1234",
+export let sucursalCentro = new ProductManager();
+sucursalCentro.addProduct("TV", "TV LG 32 pulgadas", 300, "sin imagen", "abc1234",
 30
   )
 
-  sucursalCentro.addProduct("producto prueba ", "este es un producto prueba ", 200, "sin imagen", "abc123",
-30
+  sucursalCentro.addProduct("Smartphone ", "Samsung Galaxy S20 ", 500, "sin imagen", "abc123",
+20
   )
+
+sucursalCentro.addProduct("PC ", "INTEL i9 + NVIDIA 3060 ", 800, "sin imagen", "abc12345",
+10)
 
 
 //Prueba de encontrar por ID
 // console.log(sucursalCentro.getProductsById(2))
 
-sucursalCentro.deleteProduct(2)
+
 
 
 
