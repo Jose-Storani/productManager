@@ -1,43 +1,63 @@
 
 import express from "express"
-import {  sucursalCentro } from "./productManager.js"
+import { ProductManager } from "./productManager.js";
 
+//exporto la variable que contiene la clase instanciada para tener acceso a los diferentes metodos de la clase.
+export let sucursalCentro = new ProductManager
+export const products = await sucursalCentro.getProducts();
+
+
+//express
 const app = express ()
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 
-const products = sucursalCentro.getProducts()
+//rutas
 
+import productRoute from "./routes/products.router.js"
+import cartsRoute from "./routes/carts.router.js"
 
-//Obtener todos los productos o el limite especificado por query
-app.get("/products", (req,res) => {   
-    const{limit} = req.query
-    if(limit){
-        let productsLimit = products.slice(0, limit);
-        res.json(productsLimit)
-    }
-
-    else{
-        res.json(products);
-    }
-})
+app.use("/api/products", productRoute);
+app.use("/api/carts", cartsRoute);
 
 
-//Obtener producto unico por ID
-app.get("/products/:id",(req, res) => {
-    const {id} = req.params;
-    const product = products.find(p => p.id === Number(id));
 
-    if(product){
-        res.json(product)
-    }
-    else{
-        res.json("Producto no encontrado")
-    }
 
-    
+
+
+
+
+
+
+
+app.listen(8080, () => {
+    console.log("Escuchando 8080");
     
 })
 
-app.listen(5050, () => {
-    console.log("Escuchando 5050");
-    
-})
+
+
+
+
+
+
+
+
+
+
+
+// const update = (req,res) => {
+//     const id = req.params
+//     const { nombre, precio, code, cantidad} = req.body
+//     const producto = product.search(id)
+//     if(!nombre) {nombre = producto.nombre}
+//     if(!precio) {precio = producto.precio}
+//     if(!code) {code = producto.code}
+//     if(!cantidad) {cantidad = producto.cantidad}
+//     const update = product.update(id, {
+//         nombre: nombre,
+//         precio: precio,
+//         code: code
+//         cantidad: cantidad
+//     })
+// }
