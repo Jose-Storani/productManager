@@ -4,8 +4,10 @@ import { sucursalCentro } from "../app.js";
 const router= Router();
 
 
+
+
 //Obtener todos los productos o el limite especificado por query
-router.get("/", (req,res) => {   
+router.get("/", async (req,res) => {   
     const{limit} = req.query
     if(limit){
         let productsLimit = products.slice(0, limit);
@@ -37,13 +39,41 @@ router.get("/:id",(req, res) => {
 
 router.post("/",async (req,res) => {
     let {title, description,code, price,status,stock,category,thumbnail} = req.body;
-    await sucursalCentro.addProduct(title, description,code, price,status,stock,category, thumbnail);
-    res.send("producto agregado con exito")
+    const respuestaProductos = await sucursalCentro.addProduct(title, description,code, price,status,stock,category, thumbnail);
+
+    if(respuestaProductos === 401){
+        res.status(400).send("Debe ingresar todos los campos requeridos")
+    }
+        else if(respuestaProductos === 402) {
+            res.status(400).send("El codigo no puede ser igual a uno existente")
+        }
+        else{
+            res.status(200).send("producto agregado con exito")
+        }
+    
+    
     
 
 })
 
-router.put("/",(req,res) => {
+router.put("/:pid",async (req,res) => {
+    const {pid} = req.params
+    let productoBuscado = await sucursalCentro.getProductsById(parseInt(pid));   
+    if(productoBuscado === 400){
+        res.status(400).send("Producto no encontrado, ID incorrecta");
+    }
+    else{
+        
+        let respuestaUpdate = await sucursalCentro.updateProduct(parseInt(pid), req.body);
+        if(respuestaUpdate === 400){
+            res.status(400).send("El codigo no puede ser igual a uno existente");
+        }
+        else{
+            res.status(200).send("Producto modificado con exito")
+        }
+        
+    }
+
     
 })
 

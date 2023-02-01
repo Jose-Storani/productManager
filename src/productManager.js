@@ -22,11 +22,11 @@ export class ProductManager {
     const productsFile = await this.getProducts()
     if (!(title, description,code, price,status,stock,category)) {
       // res.status(400).send("Debe ingresar todos los campos correspondientes");
-      return "Debe ingresar todos los campos correspondientes"
+      return 401
 
     } else if (productsFile.length !== 0 && productsFile.some((product) => product.code === code)) {
       // res.status(400).send("EL CODIGO NO PUEDE SER IGUAL")
-      return "EL CODIGO NO PUEDE SER IGUAL A UNO EXISTENTE"
+      return 402
     }
 
 
@@ -43,7 +43,7 @@ export class ProductManager {
         id: await this.#generarId(),
       };
       productsFile.push(product);
-      fs.promises.writeFile(this.path, JSON.stringify(productsFile))
+     await fs.promises.writeFile(this.path, JSON.stringify(productsFile))
       // res.status(200).send("Producto agregado con exito")
 
 
@@ -64,22 +64,60 @@ export class ProductManager {
 
   async getProductsById(id) {
     let dataProducts = await this.getProducts()
-    let productById = dataProducts.find((product) => product.id === id) ?? "NOT FOUND";
+    let productById = dataProducts.find((product) => product.id === id) ?? 400;
     return productById;
 
   }
 
-  //Principal problema: Modificar el elemento del array y despues escribir el archivo JSON sin modificar la totalidad del archivo. 
-  //Para agregar: corrobar que fieldToUpdate sea un string, si no, el acceso a la propiedad no funcionaria
+  
 
-  //Esto solo funciona para modificar una propiedad a la vez, tiene que mejorar para tomar cualquier cantidad de valores o incluso el objeto entero.
-
-  async updateProduct(id, fieldToUpdate, newValue) {
+  async updateProduct(id, fieldToUpdate) {
     let productsCopy = await this.getProducts();
-    let productToUpdate = productsCopy[id - 1];
-    productToUpdate[fieldToUpdate] = newValue;
+    let productToUpdate = productsCopy.find((product) => product.id === id);
+    
+     let {title, description,code, price,stock,category,thumbnail,status} = fieldToUpdate
+     
 
-    fs.promises.writeFile(this.path, JSON.stringify(productsCopy))
+    // aca hay que comprobar si el codigo nuevo ingresado no coincide con uno anteriormente registrado
+    if(code && productsCopy.some((product) => product.code === code)){
+        return 400
+    }
+      else if(code){
+        productToUpdate.code = code 
+      }
+
+    if(title){
+      productToUpdate.title = title
+    }
+
+  
+    if(description){
+      productToUpdate.description = description
+    }
+    
+    if(price){
+      productToUpdate.price = price
+    }
+    if(stock){
+      productToUpdate.stock = stock
+    }
+
+    if(category){
+      productToUpdate.category = category
+    }
+    
+    if(thumbnail){
+      productToUpdate.thumbnail = thumbnail
+    }
+
+    if(status){
+      productToUpdate.status = status
+    }
+  
+
+    await fs.promises.writeFile(this.path, JSON.stringify(productsCopy))
+
+    
 
   }
 
@@ -89,7 +127,7 @@ export class ProductManager {
     let indexToDelete = id - 1
     productsCopy.splice(indexToDelete, 1);
 
-    fs.promises.writeFile(this.path, JSON.stringify(productsCopy))
+    await fs.promises.writeFile(this.path, JSON.stringify(productsCopy))
 
 
 
