@@ -121,20 +121,25 @@ export class ProductManager {
 
   }
 
-  // optimizar, debe haber otra forma de hacerlo.
-  async deleteProduct(id) {
-    let productsCopy = await this.getProducts();
-    let indexToDelete = id - 1
-    productsCopy.splice(indexToDelete, 1);
-
-    await fs.promises.writeFile(this.path, JSON.stringify(productsCopy))
-
+  async eliminarProducto(id){
+    const productsFile = await this.getProducts();
+    const nuevoArray = productsFile.filter(u => u.id !== id);
+    await fs.promises.writeFile(this.path, JSON.stringify(nuevoArray));
+  
+   }
+  
+   async eliminarProductos() {
+    if(fs.existsSync(this.path)){
+      await fs.promises.unlink(this.path)
+  
+    }
+   }
 
 
 
 
     // }
-  }
+  
 }
 
 
