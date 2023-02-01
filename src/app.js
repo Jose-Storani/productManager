@@ -9,7 +9,7 @@ export let sucursalCentro = new ProductManager
 export const products = await sucursalCentro.getProducts();
 
 //carrito
-export const carrito = await sucursalCentro.getCart();
+export const carritos = await sucursalCentro.getCart();
 
 
 //express
