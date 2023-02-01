@@ -1,13 +1,17 @@
 import { Router } from "express";
-
+import { sucursalCentro } from "../app.js";
+import { carrito } from "../app.js";
 const router= Router();
 
-router.get("/", (req,res) => {   
-    res.send("todo ok")
+
+
+router.get("/",async (req,res) => {   
+    res.json(carrito)
 })
 
 
-router.post("/",(req,res) => {
+router.post("/",async (req,res) => {
+    res.status(200).json(await sucursalCentro.addToCart());
 
 })
 

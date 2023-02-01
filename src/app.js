@@ -4,7 +4,12 @@ import { ProductManager } from "./productManager.js";
 
 //exporto la variable que contiene la clase instanciada para tener acceso a los diferentes metodos de la clase.
 export let sucursalCentro = new ProductManager
+
+//productos
 export const products = await sucursalCentro.getProducts();
+
+//carrito
+export const carrito = await sucursalCentro.getCart();
 
 
 //express

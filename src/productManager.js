@@ -3,8 +3,12 @@ import fs from "fs"
 export class ProductManager {
   constructor() {
     this.products = [];
-    this.path = "./src/products/products.json"
+    this.path = "./src/products/products.json";
+    this.pathCart = "./src/products/carrito.json";
   }
+
+
+  //*PRODUCTOS
 
   async getProducts() {
     if(fs.existsSync(this.path)){
@@ -138,8 +142,40 @@ export class ProductManager {
 
 
 
-    // }
+   //*CARRITO
+   
+   async getCart() {
+    if(fs.existsSync(this.pathCart)){
+      let dataCart = await fs.promises.readFile(this.pathCart, "utf-8");
+    return JSON.parse(dataCart)
+    }
+    else{
+      return []
+    }
+    
+  }
   
+  async #generarIdCart() {
+    let id = 1;
+    const cartFile = await this.getCart()
+    if (cartFile.length !== 0) {
+      id = cartFile[cartFile.length - 1].id + 1;
+    }
+    return id;
+  }
+
+  async addToCart() {
+    const cartFile = await this.getCart();
+    let newCart = {
+      id:await this.#generarIdCart(),
+      products: []
+    }
+
+    cartFile.push(newCart);
+    await fs.promises.writeFile(this.pathCart, JSON.stringify(cartFile))
+    return newCart
+
+  }
 }
 
 
