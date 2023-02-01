@@ -164,7 +164,7 @@ export class ProductManager {
     return id;
   }
 
-  async addToCart() {
+  async createACart() {
     const cartFile = await this.getCart();
     let newCart = {
       id:await this.#generarIdCart(),
@@ -175,6 +175,19 @@ export class ProductManager {
     await fs.promises.writeFile(this.pathCart, JSON.stringify(cartFile))
     return newCart
 
+  }
+
+  async addToCart(cid,pid){
+    let cartFile = await this.getCart();
+    let cartToUpdate = cartFile.find(element => element.id === cid);    
+    let productCart = {
+      id: pid,
+      quantity : 1
+  }
+
+  cartToUpdate["products"].push(productCart);
+  await fs.promises.writeFile(this.pathCart, JSON.stringify(cartFile))
+  return cartToUpdate
   }
 }
 

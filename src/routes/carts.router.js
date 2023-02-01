@@ -23,7 +23,18 @@ router.get("/:cId", async ( req, res) => {
 })
 
 router.post("/",async (req,res) => {
-    res.status(200).json(await sucursalCentro.addToCart());
+    res.status(200).json(await sucursalCentro.createACart());
+
+})
+
+router.post("/:cid/product/:pid", async (req,res) => {
+    const {cid,pid} = req.params;
+   const respuesta =  await sucursalCentro.addToCart(parseInt(cid),parseInt(pid));
+   res.json(respuesta)
+
+    
+    
+
 
 })
 
