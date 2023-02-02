@@ -30,7 +30,13 @@ router.post("/",async (req,res) => {
 router.post("/:cid/product/:pid", async (req,res) => {
     const {cid,pid} = req.params;
    const respuesta =  await sucursalCentro.addToCart(parseInt(cid),parseInt(pid));
-   res.json(respuesta)
+   if(respuesta === 400){
+    res.status(400).send("ID de carrito no encontrado");
+   }
+   else{
+    res.status(200).json({message: "Producto agregado con exito", respuesta})
+   }
+   
 
     
     

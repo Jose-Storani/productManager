@@ -179,13 +179,26 @@ export class ProductManager {
 
   async addToCart(cid,pid){
     let cartFile = await this.getCart();
-    let cartToUpdate = cartFile.find(element => element.id === cid);    
-    let productCart = {
-      id: pid,
-      quantity : 1
-  }
+    let cartToUpdate = cartFile.find(element => element.id === cid) ?? 400;
+    if(cartToUpdate === 400){
+      return cartToUpdate
+    }
+    else if(cartToUpdate["products"].some(product => product.id === pid)){
+      let addQuantity = cartToUpdate["products"].find(product => product.id === pid);
+      addQuantity["quantity"]++
+      
 
-  cartToUpdate["products"].push(productCart);
+    }
+    else{
+      let productCart = {
+        id: pid,
+        quantity : 1
+    }
+    cartToUpdate["products"].push(productCart);
+    }
+    
+
+  
   await fs.promises.writeFile(this.pathCart, JSON.stringify(cartFile))
   return cartToUpdate
   }
