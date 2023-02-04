@@ -183,12 +183,14 @@ export class ProductManager {
     if(cartToUpdate === 400){
       return cartToUpdate
     }
+    //busco el producto que coincida con el productoID dentro del carrito ya seleccionado, si ya existe, le sumo 1.
     else if(cartToUpdate["products"].some(product => product.id === pid)){
       let addQuantity = cartToUpdate["products"].find(product => product.id === pid);
       addQuantity["quantity"]++
       
 
     }
+    //si no existe, lo creo
     else{
       let productCart = {
         id: pid,
@@ -205,23 +207,6 @@ export class ProductManager {
 }
 
 
-//Instanciamos el producto y añadimos uno nuevo
-
-
-// await sucursalCentro.addProduct("TV", "TV LG 32 pulgadas", 300, ["sin imagen"], "abc1234",
-//   30
-// )
-
-// await sucursalCentro.addProduct("Smartphone ", "Samsung Galaxy S20 ", 500, ["sin imagen"], "abc123",
-//   20
-// )
-
-// await sucursalCentro.addProduct("PC ", "INTEL i9 + NVIDIA 3060 ", 800, ["sin imagen"], "abc12345",
-//   10)
-
-
-//Prueba de encontrar por ID
-// console.log(sucursalCentro.getProductsById(2))
 
 
 
@@ -237,25 +222,3 @@ export class ProductManager {
 
 
 
-
-// {
-//   "title": "Monitor Samsung", 
-// "description": "22 pulgadas 75 mhz",
-// "code": "12345mon22", 
-//   "price": 500,
-//   "status":true,
-//   "stock":25,
-// "category":"monitors", 
-// "thumbnail":"imagen1monitor.png"
-// }
-
-
-// {
-//   "title": "Monitor LG", 
-// "description": "19 pulgadas 60 mhz",
-// "code": "12345monLG19", 
-//   "price": 300,
-//   "stock":15,
-// "category":"monitors", 
-// "thumbnail":"imagen2monitor.png"
-// }
