@@ -35,10 +35,11 @@ import viewsRoute from "./routes/views.router.js"
 
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartsRoute);
-app.use("/views", viewsRoute)
+app.use("/", viewsRoute)
 
 
-
+//alojamiento de dataProducts
+let productsListServer = [];
 
 //SERVER + SOCKET
 const httpServer = app.listen(8080, () => {
@@ -55,9 +56,14 @@ socketServer.on("connection", (socket)=>{
         console.log("Usuario desconectado")
     });
 
-    socket.on("message",(data)=> {
-        console.log(data)
+    socket.on("dataForm", (dataForm)=>{
+        // let productsListServer = await sucursalCentro.listToShow();
+        console.log(dataForm)
+        productsListServer.push(dataForm);
+        socketServer.emit("productsList", productsListServer);
     })
+
+    
 
 
 
@@ -72,18 +78,3 @@ socketServer.on("connection", (socket)=>{
 
 
 
-// const update = (req,res) => {
-//     const id = req.params
-//     const { nombre, precio, code, cantidad} = req.body
-//     const producto = product.search(id)
-//     if(!nombre) {nombre = producto.nombre}
-//     if(!precio) {precio = producto.precio}
-//     if(!code) {code = producto.code}
-//     if(!cantidad) {cantidad = producto.cantidad}
-//     const update = product.update(id, {
-//         nombre: nombre,
-//         precio: precio,
-//         code: code
-//         cantidad: cantidad
-//     })
-// }

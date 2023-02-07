@@ -40,7 +40,6 @@ router.get("/:id",(req, res) => {
 //agregar producto 
 router.post("/",async (req,res) => {
     let {title, description,code, price,status,stock,category,thumbnail} = req.body;
-    console.log(req.body)
     const respuestaProductos = await sucursalCentro.addProduct(title, description,code, price,status,stock,category, thumbnail);
 
     if(respuestaProductos === 401){
@@ -50,8 +49,8 @@ router.post("/",async (req,res) => {
             res.status(400).send("El codigo no puede ser igual a uno existente")
         }
         else{
-            res.status(200).send("producto agregado con exito")
-            // res.redirect("/views")
+            // res.status(200).send("producto agregado con exito")
+            res.redirect("/realtimeproducts")
         }
     
     

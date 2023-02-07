@@ -25,7 +25,7 @@ export class ProductManager {
 
   async addProduct(title, description,code, price,status =true,stock,category, thumbnail = []) {
     const productsFile = await this.getProducts()
-    if (!(title, description,code, price,stock,category)) {
+    if (!(title, description,code,price,stock,category)) {
       // res.status(400).send("Debe ingresar todos los campos correspondientes");
       return 401
 
@@ -204,6 +204,29 @@ export class ProductManager {
   
   await fs.promises.writeFile(this.pathCart, JSON.stringify(cartFile))
   return cartToUpdate
+  }
+
+  async listToShow (){
+    let products = await this.getProducts();
+    if(products.length === 0){
+      return products
+    }
+    else{
+      let productsList = [];
+      productsList = products.map((product) =>{
+        let productSimplificado = {
+          Producto: product.title,
+          Precio: product.price
+        }
+        return productSimplificado
+
+      } 
+        
+        
+      )
+      return productsList
+    }
+
   }
 }
 

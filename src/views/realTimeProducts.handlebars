@@ -1,22 +1,40 @@
 <h3>Agregar producto</h3>
-<form id="formulario" action="/api/products" method="post" >
+<form id="formulario" action="/api/products" method="post">
 
- Title:<input type="text" name="title" id="title" required>
-Description:   <input type="text" name="description" id="description" required>
-Code: <input type="text" name="code" id="code" required>
-Price: <input type="number" name="price" id="price" required>
-Status: <input type="text" name="status" id="status">
-Category: <input type="text" name="category" id="category" required>
-Thumbnail: <input type="url" name="thumbnail" id="thumbnail">
+    Title:<input type="text" name="title" id="title" required>
+    Description: <input type="text" name="description" id="description" required>
+    Code: <input type="text" name="code" id="code" required>
+    Price: <input type="number" name="price" id="price" required>
+    Status: <input type="text" name="status" id="status">
+    Category: <input type="text" name="category" id="category" required>
+    Thumbnail: <input type="url" name="thumbnail" id="thumbnail">
 
-<input type="submit" value="enviar">
+    <input type="submit" value="enviar">
 </form>
 
 
 <h3>Eliminar producto</h3>
 ID: <form id="deleteForm" action="/api/products" method="delete">
-<input type="number" name="idProduct" id="idProduct"
+    <input type="number" name="idProduct" id="idProduct">
 </form>
+
+
+
+<h3>LISTA DE PRODUCTOS</h3>
+<p id="productsList"></p>
+{{#if products.length}}
+{{#each products}}
+
+<p>Producto: {{title}} </p>
+
+<p>Precio: {{price}}</p>
+
+{{/each}}
+
+{{else}}
+<h2>NO HAY PRODUCTOS REGISTRADOS</h2>
+{{/if}}
+
 <script src="/socket.io/socket.io.js"></script>
 
 <script src="/js/index.js"></script>
