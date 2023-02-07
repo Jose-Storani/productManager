@@ -1,10 +1,11 @@
 import fs from "fs"
+import { __dirname } from "./utilities.js";
 
 export class ProductManager {
   constructor() {
     this.products = [];
-    this.path = "./src/products/products.json";
-    this.pathCart = "./src/products/carrito.json";
+    this.path = __dirname + "/products/products.json";
+    this.pathCart = __dirname + "/products/carrito.json";
   }
 
 
@@ -24,7 +25,7 @@ export class ProductManager {
 
   async addProduct(title, description,code, price,status =true,stock,category, thumbnail = []) {
     const productsFile = await this.getProducts()
-    if (!(title, description,code, price,status,stock,category)) {
+    if (!(title, description,code, price,stock,category)) {
       // res.status(400).send("Debe ingresar todos los campos correspondientes");
       return 401
 
