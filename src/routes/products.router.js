@@ -43,19 +43,15 @@ router.post("/",async (req,res) => {
     const respuestaProductos = await sucursalCentro.addProduct(title, description,code, price,status,stock,category, thumbnail);
 
     if(respuestaProductos === 401){
-        res.status(400).send("Debe ingresar todos los campos requeridos")
+        res.status(400).json("Debe ingresar todos los campos requeridos")
     }
         else if(respuestaProductos === 402) {
-            res.status(400).send("El codigo no puede ser igual a uno existente")
+            res.status(400).json("El codigo no puede ser igual a uno existente")
         }
         else{
-            res.status(200).send("producto agregado con exito")
+            res.status(200).send({mensaje: "producto agregado con exito"})
             
         }
-    
-    
-    
-
 })
 
 //modificar producto por ID pasada por params
