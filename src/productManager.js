@@ -206,10 +206,27 @@ export class ProductManager {
   return cartToUpdate
   }
 
-  async listToShow (){
+
+
+  //manejo con el servidor
+
+  async listToShow (id){
     let products = await this.getProducts();
     if(products.length === 0){
       return products
+    }
+
+    else if(id){
+      let products = await this.getProducts();
+      let productsListFiltered = products.filter(u => u.id !== id);
+      let productsList = productsListFiltered.map((product) =>{
+        let productSimplificado = {
+          title: product.title,
+          price: product.price
+        }
+        return productSimplificado
+     } )
+     return productsList
     }
     else{
       let productsList = [];
@@ -219,9 +236,7 @@ export class ProductManager {
           price: product.price
         }
         return productSimplificado
-     } 
-        
-        
+    }     
       )
       
       return productsList

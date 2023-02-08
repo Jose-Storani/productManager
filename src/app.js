@@ -58,12 +58,19 @@ socketServer.on("connection", (socket)=>{
 
     socket.on("dataForm",async (dataForm)=>{
         let productsListServer = await sucursalCentro.listToShow();
-        
+
         //log para ver si lo enviado desde el cliente llega correctamente
         console.log(dataForm)
 
         productsListServer.push(dataForm);
         socketServer.emit("productsList", productsListServer);
+    });
+
+
+    socket.on("dataDeleted",async (data) =>{
+        const {id} = data;
+        let productsListServer = await sucursalCentro.listToShow(id);
+        socketServer.emit("productsListDeleted", productsListServer)
     })
 
     
