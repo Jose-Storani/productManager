@@ -77,24 +77,3 @@ router.put("/:pid",async (req,res) => {
 })
 
 
-//borrar producto por ID pasada por params
-router.delete("/:pid",async (req,res) => {
-    const {pid} = req.params;
-    let productoBuscado = await sucursalCentro.getProductsById(parseInt(pid));
-    if(productoBuscado === 400){
-        res.status(400).send("Producto no encontrado, ID incorrecta");
-    }
-    else{
-        await sucursalCentro.eliminarProducto(parseInt(pid));
-        res.status(200).send("Producto eliminado con exito")
-    }
-    
-})
-
-//borrar todos los productos
-router.delete("/", async (req,res) => {
-    await sucursalCentro.eliminarProductos();
-    res.status(200).send("Productos eliminados con exito")
-})
-
-export default router
