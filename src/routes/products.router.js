@@ -49,8 +49,8 @@ router.post("/",async (req,res) => {
             res.status(400).send("El codigo no puede ser igual a uno existente")
         }
         else{
-            // res.status(200).send("producto agregado con exito")
-            res.redirect("/realtimeproducts")
+            res.status(200).send("producto agregado con exito")
+            
         }
     
     
