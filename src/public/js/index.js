@@ -27,7 +27,7 @@ formAddProduct.addEventListener("submit", (e) => {
         method: "POST",        
         headers: {
             "Content-Type": "application/json"
-          },
+        },
         body: JSON.stringify(producto)
     };
 
@@ -41,30 +41,27 @@ formAddProduct.addEventListener("submit", (e) => {
             else
                 throw new Error(response.status);
         })
-        .then(data => {
-            console.log("Datos: " + data);
-        })
         .catch(err => {
             console.error("ERROR: ", err.message)
         });
 
 
-    // socketClient.emit("dataForm", { title : producto.title , price: producto.price })
+    socketClient.emit("dataForm", { title : producto.title , price: producto.price })
 
 
-    // socketClient.on("productsList", (productsListArray) => {
-    //     let listToRender = "";
+    socketClient.on("productsList", (productsListArray) => {
+        let listToRender = "";
 
-    //     productsListArray.forEach(product => {
-    //         listToRender += `Producto: ${product.title} </br>
-    //         Precio: $${product.price} </br> `
+        productsListArray.forEach(product => {
+            listToRender += `Producto: ${product.title} </br>
+            Precio: $${product.price} </br> `
 
-    //     });
+        });
 
-    //     productsList.innerHTML = listToRender
+        productsList.innerHTML = listToRender
 
 
-    // })
+    })
 
 
 })

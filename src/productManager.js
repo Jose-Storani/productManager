@@ -215,18 +215,18 @@ export class ProductManager {
       let productsList = [];
       productsList = products.map((product) =>{
         let productSimplificado = {
-          Producto: product.title,
-          Precio: product.price
+          title: product.title,
+          price: product.price
         }
         return productSimplificado
-
-      } 
+     } 
         
         
       )
+      
       return productsList
     }
-
+    
   }
 }
 

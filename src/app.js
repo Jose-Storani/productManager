@@ -39,7 +39,7 @@ app.use("/", viewsRoute)
 
 
 //alojamiento de dataProducts
-let productsListServer = [];
+// let productsListServer = [];
 
 //SERVER + SOCKET
 const httpServer = app.listen(8080, () => {
@@ -56,10 +56,11 @@ socketServer.on("connection", (socket)=>{
         console.log("Usuario desconectado")
     });
 
-    socket.on("dataForm", (dataForm)=>{
-        // let productsListServer = await sucursalCentro.listToShow();
+    socket.on("dataForm",async (dataForm)=>{
+        let productsListServer = await sucursalCentro.listToShow();
         console.log(dataForm)
         productsListServer.push(dataForm);
+        console.log(productsListServer)
         socketServer.emit("productsList", productsListServer);
     })
 
