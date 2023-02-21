@@ -1,6 +1,5 @@
 
 import express from "express"
-import { ProductManager } from "./productManager.js";
 import { ProductManager } from "./dao/fileManager/productManager.js";
 import { CartManager } from "./dao/fileManager/cartManager.js";
 import { __dirname } from "./utilities.js";
@@ -9,12 +8,15 @@ import { Server } from "socket.io";
 
 //exporto la variable que contiene la clase instanciada para tener acceso a los diferentes metodos de la clase.
 
+export let productManager = new ProductManager;
+export let cartManager = new CartManager;
 
 //productos
-export const products = await sucursalCentro.getProducts();
+
+export const productos = await productManager.getProducts()
 
 //carritos
-export const carritos = await sucursalCentro.getCart();
+export const carts = await cartManager.getCart();
 
 
 //express
@@ -40,8 +42,6 @@ app.use("/api/carts", cartsRoute);
 app.use("/", viewsRoute)
 
 
-//alojamiento de dataProducts
-// let productsListServer = [];
 
 //SERVER + SOCKET
 const httpServer = app.listen(8080, () => {
@@ -59,7 +59,7 @@ socketServer.on("connection", (socket)=>{
     });
 
     socket.on("dataForm",async (dataForm)=>{
-        let productsListServer = await sucursalCentro.listToShow();
+        let productsListServer = await productManager.listToShow();
 
         //log para ver si lo enviado desde el cliente llega correctamente
         console.log(dataForm)
@@ -71,7 +71,7 @@ socketServer.on("connection", (socket)=>{
 
     socket.on("dataDeleted",async (data) =>{
         const {id} = data;
-        let productsListServer = await sucursalCentro.listToShow(id);
+        let productsListServer = await productManager.listToShow(id);
         socketServer.emit("productsListDeleted", productsListServer)
     })
 

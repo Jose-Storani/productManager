@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { products } from "../app.js";
+import { productos } from "../app.js";
 const router = Router();
 
 router.get("/", (req,res)=>{  
-    res.render("home",{products})
+    res.render("home",{productos})
    
 })
 
 router.get("/realtimeproducts", (req,res)=>{
-    res.render("realTimeProducts",{products})
+    res.render("realTimeProducts",{productos})
 
 })
 

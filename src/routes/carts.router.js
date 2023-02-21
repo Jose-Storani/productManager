@@ -1,19 +1,19 @@
 import { Router } from "express";
-import { sucursalCentro } from "../app.js";
-import { carritos } from "../app.js";
+import { cartManager } from "../app.js";
+import { carts } from "../app.js";
 const router= Router();
 
 
 //todos los carritos
 router.get("/",async (req,res) => {   
-    res.json(carritos)
+    res.json(carts)
 })
 
 //carrito por ID pasado por params
 
 router.get("/:cId", async ( req, res) => {
     const {cId} = req.params
-    let cart = carritos.find(element => element.id === parseInt(cId));
+    let cart = carts.find(element => element.id === parseInt(cId));
     if(!cart){
         res.status(400).send("Carrito no encontrado");
     }
@@ -23,13 +23,13 @@ router.get("/:cId", async ( req, res) => {
 })
 
 router.post("/",async (req,res) => {
-    res.status(200).json(await sucursalCentro.createACart());
+    res.status(200).json(await cartManager.createACart());
 
 })
 
 router.post("/:cid/product/:pid", async (req,res) => {
     const {cid,pid} = req.params;
-   const respuesta =  await sucursalCentro.addToCart(parseInt(cid),parseInt(pid));
+   const respuesta =  await cartManager.addToCart(parseInt(cid),parseInt(pid));
    if(respuesta === 400){
     res.status(400).send("ID de carrito no encontrado");
    }

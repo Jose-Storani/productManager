@@ -76,7 +76,7 @@ export class ProductManager {
         let productsFile = await this.getProducts();
         let productToUpdate = productsFile.find((product) => product.id === id);
 
-        
+
         let { title, description, code, price, stock, category, thumbnail, status } = fieldToUpdate
 
 
@@ -87,7 +87,7 @@ export class ProductManager {
         else if (code) {
             productToUpdate.code = code
         }
-        
+
         //compruebo si existen algunos de los valores pasados para hacer update o no
 
         if (title) {
@@ -137,5 +137,41 @@ export class ProductManager {
             await fs.promises.unlink(this.pathProduct)
 
         }
+    }
+
+    //manejo con el servidor
+
+    async listToShow(id) {
+        let products = await this.getProducts();
+        if (products.length === 0) {
+            return products
+        }
+
+        else if (id) {
+            // let products = await this.getProducts();
+            let productsListFiltered = products.filter(u => u.id !== id);
+            let productsList = productsListFiltered.map((product) => {
+                let productSimplificado = {
+                    title: product.title,
+                    price: product.price
+                }
+                return productSimplificado
+            })
+            return productsList
+        }
+        else {
+            let productsList = [];
+            productsList = products.map((product) => {
+                let productSimplificado = {
+                    title: product.title,
+                    price: product.price
+                }
+                return productSimplificado
+            }
+            )
+
+            return productsList
+        }
+
     }
 }
