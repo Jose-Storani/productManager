@@ -8,9 +8,7 @@ import handlebars from "express-handlebars"
 import { Server } from "socket.io";
 
 //exporto la variable que contiene la clase instanciada para tener acceso a los diferentes metodos de la clase.
-export let sucursalCentro = new ProductManager
-export let productManager = new ProductManager
-export let cartManager = new CartManager
+
 
 //productos
 export const products = await sucursalCentro.getProducts();
