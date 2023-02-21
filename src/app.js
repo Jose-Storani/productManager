@@ -1,12 +1,16 @@
 
 import express from "express"
 import { ProductManager } from "./productManager.js";
+import { ProductManager } from "./dao/fileManager/productManager.js";
+import { CartManager } from "./dao/fileManager/cartManager.js";
 import { __dirname } from "./utilities.js";
 import handlebars from "express-handlebars"
 import { Server } from "socket.io";
 
 //exporto la variable que contiene la clase instanciada para tener acceso a los diferentes metodos de la clase.
 export let sucursalCentro = new ProductManager
+export let productManager = new ProductManager
+export let cartManager = new CartManager
 
 //productos
 export const products = await sucursalCentro.getProducts();

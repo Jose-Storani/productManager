@@ -49,7 +49,7 @@ router.post("/",async (req,res) => {
             res.status(400).json("El codigo no puede ser igual a uno existente")
         }
         else{
-            res.status(200).send({mensaje: "producto agregado con exito"})
+            res.status(200).json({mensaje: "producto agregado con exito"})
             
         }
 })

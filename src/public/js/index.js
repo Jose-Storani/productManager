@@ -99,6 +99,7 @@ formDelete.addEventListener("submit", (e)=> {
         });
 
 
+//POR ALGUNA RAZON, EL ENVIO EN TIEMPO REAL DE LA LISTA CON PRODUCTO ELIMINADO SOLO ES A UN SOCKET Y NO A TODOS LOS NAVEGADORES ABIERTOS.
 
         socketClient.on("productsListDeleted", (productsListArray) => {
             let listToRender = "";
