@@ -40,17 +40,20 @@ router.get("/:id",(req, res) => {
 
 //agregar producto 
 router.post("/",async (req,res) => {
-    let {title, description,code, price,status,stock,category,thumbnail} = req.body;
-    const respuestaProductos = await productManager.addProduct(title, description,code, price,status,stock,category, thumbnail);
+    const objProduct = req.body
+    const newProduct = await productManager.addProduct(objProduct);
 
-    if(respuestaProductos === 401){
+    if(newProduct === 401){
         res.status(400).json({error:"Debe ingresar todos los campos requeridos"})
     }
-        else if(respuestaProductos === 402) {
+        else if(newProduct === 402) {
             res.status(400).json({error:"El codigo no puede ser igual a uno existente"})
         }
         else{
-            res.status(200).json({mensaje: "producto agregado con exito"})
+            res.status(200).json({mensaje: "producto agregado con exito",newProduct});
+            console.log(`Producto agregado con exito: ${newProduct}`)
+            
+            
             
         }
 })

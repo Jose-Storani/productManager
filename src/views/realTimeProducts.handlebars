@@ -6,6 +6,7 @@
     Code: <input class="form" type="text" name="code" id="code" required>
     Price: <input class="form" type="number" name="price" id="price" required>
     Status: <input class="form" type="text" name="status" id="status">
+    Stock: <input class="form" type="number" name="status" id="status">
     Category: <input class="form" type="text" name="category" id="category" required>
     Thumbnail: <input class="form" type="url" name="thumbnail" id="thumbnail">
 
@@ -23,8 +24,8 @@ ID: <form id="deleteForm" action="/api/products" method="delete">
 
 <h3>LISTA DE PRODUCTOS</h3>
 <p id="productsList">
-{{!-- {{#if products.length}}
-{{#each products}}
+    {{!-- {{#if products.length}}
+    {{#each products}}
 
 <p>Producto: {{title}} </p>
 

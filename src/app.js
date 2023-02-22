@@ -1,15 +1,22 @@
 
 import express from "express"
-import { ProductManager } from "./dao/fileManager/productManager.js";
+// import { ProductManager } from "./dao/fileManager/productManager.js";
 import { CartManager } from "./dao/fileManager/cartManager.js";
+import { ProductManager } from "./dao/mongoManager/productManagerMDB.js";
 import { __dirname } from "./utilities.js";
 import handlebars from "express-handlebars"
 import { Server } from "socket.io";
+import "./dao/dbConfig.js"
+
 
 //exporto la variable que contiene la clase instanciada para tener acceso a los diferentes metodos de la clase.
 
 export let productManager = new ProductManager;
 export let cartManager = new CartManager;
+
+//MONGO DB
+export let productManagerD
+
 
 //productos
 
@@ -44,8 +51,10 @@ app.use("/", viewsRoute)
 
 
 //SERVER + SOCKET
-const httpServer = app.listen(8080, () => {
-    console.log("Escuchando 8080");
+const PORT = process.env.PORT || 8080
+
+const httpServer = app.listen(PORT, () => {
+    console.log(`Escuchando al ${PORT}`);
     
 })
 
