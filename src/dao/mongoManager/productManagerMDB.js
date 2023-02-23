@@ -13,18 +13,34 @@ export class ProductManager {
 
 async addProduct(obj){
     try {
+        
         const products = await this.getProducts()
         const {title, description, code, price, status = true, stock, category, thumbnail = []} = obj;
-        if (!(title, description, code, price, stock, category)) {
 
+        //esto deberia ser un middleware, pero por el momento lo dejamos dentro del metodo
+        if (!(title, description, code, price, stock, category)) {
             return 401
 
         } else if (products.length !== 0 && products.some((product) => product.code === code)) {
-            // res.status(400).send("EL CODIGO NO PUEDE SER IGUAL")
             return 402
         }
-        const newProduct = await productsModel.create(obj);
-        return newProduct
+        else{
+            // let objProduct = {
+            //     title,
+            //     description,
+            //     code,
+            //     price,
+            //     status,
+            //     stock,
+            //     category,
+            //     thumbnail,
+            //     id: 
+            // }
+            const newProduct = await productsModel.create(obj);
+            return newProduct
+
+        }
+        
     } catch (error) {
         console.log(error)
         
@@ -49,6 +65,42 @@ async deleteById(){
     } catch (error) {
         console.log(error)
     }
+}
+
+ //manejo con el servidor
+
+ async listToShow(id) {
+    let products = await this.getProducts();
+    if (products.length === 0) {
+        return products
+    }
+
+    else if (id) {
+        // let products = await this.getProducts();
+        let productsListFiltered = products.filter(u => u.id !== id);
+        let productsList = productsListFiltered.map((product) => {
+            let productSimplificado = {
+                title: product.title,
+                price: product.price
+            }
+            return productSimplificado
+        })
+        return productsList
+    }
+    else {
+        let productsList = [];
+        productsList = products.map((product) => {
+            let productSimplificado = {
+                title: product.title,
+                price: product.price
+            }
+            return productSimplificado
+        }
+        )
+
+        return productsList
+    }
+
 }
 
 }

@@ -24,6 +24,7 @@ router.get("/:cId", async ( req, res) => {
 
 router.post("/",async (req,res) => {
     res.status(200).json(await cartManager.createACart());
+    
 
 })
 

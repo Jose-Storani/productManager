@@ -16,6 +16,7 @@ router.get("/", async (req,res) => {
 
     else{
         res.json(productos);
+        
     }
    
 })

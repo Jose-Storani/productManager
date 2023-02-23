@@ -38,7 +38,7 @@ formAddProduct.addEventListener("submit", (e) => {
     fetch("/api/products", options)
         .then(response => {
             if (response.ok)
-                console.log(response)
+                console.log(response.json())
             else
                 throw new Error(response.status);
         })

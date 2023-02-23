@@ -4,7 +4,9 @@ import mongoose from "mongoose";
 
 //string necesario para conectar desde atlas
 
-const URI= "mongodb+srv://JoseStorani:Hammerfall777@ecommercemanager.kdrfgjg.mongodb.net/ecommerce?retryWrites=true&w=majority"
+const URI= "mongodb+srv://JoseStorani:Hammerfall3076@ecommercemanager.kdrfgjg.mongodb.net/ecommerce?retryWrites=true&w=majority"
+
+
 
 //despues de la barra, hay que poner el nombre de la collecion (si existe, accede a ella, si no, la crea)
 
