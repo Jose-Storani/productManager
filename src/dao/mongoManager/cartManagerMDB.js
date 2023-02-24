@@ -2,10 +2,9 @@ import { cartsModel } from "../models/cart.model.js";
 
 export class CartManager {
 
-    async getCart() {
+    async getCarts() {
         try {
-            const carts = await cartsModel.find();
-           
+            const carts = await cartsModel.find();           
                 return carts           
             
         } catch (error) {
@@ -16,9 +15,8 @@ export class CartManager {
 
 
     async createACart() {
-        try {
-            
-            const newCart = await cartsModel.create();
+        try {            
+            const newCart = await cartsModel.create({});
             console.log(newCart)
             return newCart
             
@@ -54,8 +52,13 @@ export class CartManager {
 
 
 
-        await fs.promises.writeFile(this.pathCart, JSON.stringify(cartFile))
+        
         return cartToUpdate
+    }
+
+    async deleteAllCarts (){
+        const deletedCarts = await cartsModel.deleteMany();
+        return deletedCarts
     }
 
 }

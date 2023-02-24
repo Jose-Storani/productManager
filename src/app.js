@@ -27,7 +27,7 @@ export let messagesManager = new MessagesManager
 export const productos = await productManager.getProducts()
 
 //carritos
-export const carts = await cartManager.getCart();
+export const carts = await cartManager.getCarts();
 
 
 //express

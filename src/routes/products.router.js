@@ -62,11 +62,11 @@ router.post("/", async (req, res) => {
 //modificar producto por ID pasada por params
 router.put("/:pid", async (req, res) => {
     try {
-        const {pid} = req.params        
+        const { pid } = req.params
         const update = req.body
-        const responseUpdated = await productManager.updateProduct(pid,update)        
+        const responseUpdated = await productManager.updateProduct(pid, update)
         res.json(responseUpdated)
-        
+
     } catch (error) {
         console.log("Error: ", error)
     }
@@ -80,21 +80,29 @@ router.delete("/:pid", async (req, res) => {
         const { pid } = req.params;
         // let productoBuscado = await productManager.getProductsById(parseInt(pid));    
         const deletedProduct = await productManager.deleteById(pid);
-        res.status(200).json({"producto eliminado con exito: " : deletedProduct})
-        
+        res.status(200).json({"producto eliminado con exito: ": deletedProduct })
+
     } catch (error) {
-        
+
     }
-    
-    
+
+
 
 })
 
 //borrar todos los productos
 router.delete("/", async (req, res) => {
-    const response = await productManager.deleteAll();
-    res.status(200).json({mensaje: "Productos eliminados con exito",
-cantidad: response })
-})
+    try {
+        const response = await productManager.deleteAll();
+        res.status(200).json({
+            mensaje: "Productos eliminados con exito",
+            cantidad: response
+        })
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+)
 
 export default router

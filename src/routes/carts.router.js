@@ -12,20 +12,21 @@ router.get("/",async (req,res) => {
 //carrito por ID pasado por params
 
 router.get("/:cId", async ( req, res) => {
-    const {cId} = req.params
-    let cart = carts.find(element => element.id === parseInt(cId));
-    if(!cart){
-        res.status(400).send("Carrito no encontrado");
-    }
-    else{
+    const carts = await cartManager.getCarts()
+    const { cId } = req.params;
+    //si uso fileSystem, tengo que hacer parseInt al id, con MONGO, el id es un string
+    const cart = carts.find(p => p.id === cId);
+    if (cart) {
         res.json(cart)
+    }
+    else {
+        res.json({ mensage: "Carrito no encontrado" })
     }
 })
 
 router.post("/",async (req,res) => {
     res.status(200).json(await cartManager.createACart());
     
-
 })
 
 router.post("/:cid/product/:pid", async (req,res) => {
@@ -51,8 +52,13 @@ router.put("/",(req,res) => {
     
 })
 
-router.delete("/",(req,res) => {
-    
+router.delete("/", async(req,res) => {
+    try {
+        const response = await cartManager.deleteAllCarts();
+        res.json({mensaje: "Carritos eliminados con exito", cantidad: response})
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 export default router
