@@ -6,6 +6,16 @@ let productsList = document.getElementById("productsList");
 //* todos los inputs del form
 const formElements = [...document.getElementsByClassName("form")];
 
+//al conectarse al endpoint, display de los productos en la BD
+socketClient.on("productsList", (productsListArray) => {
+    let listToRender = "";
+    productsListArray.forEach(product => {
+        listToRender += `Producto: ${product.title} </br>
+        Precio: $${product.price} </br></br> `
+    });
+    productsList.innerHTML = listToRender
+});
+
 
 formAddProduct.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -22,16 +32,15 @@ formAddProduct.addEventListener("submit", (e) => {
         thumbnail: formElements[7].value
     }
 
-    
+
     // variable con info para el request
     const options = {
-        method: "POST",        
+        method: "POST",
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
-          },
+        },
         body: JSON.stringify(producto)
     };
-
 
 
     // envio al endpoint
@@ -46,22 +55,21 @@ formAddProduct.addEventListener("submit", (e) => {
             console.error("ERROR: ", err.message)
         });
 
-
-
-        //manejo de data del servidor hacia el cliente y viceversa
-    socketClient.emit("dataForm", { title : producto.title , price: producto.price })
+    //manejo de data del servidor hacia el cliente y viceversa
+    socketClient.emit("dataForm", { title: producto.title, price: producto.price })
     socketClient.on("productsList", (productsListArray) => {
         let listToRender = "";
 
         productsListArray.forEach(product => {
             listToRender += `Producto: ${product.title} </br>
-            Precio: $${product.price} </br> `
+            Precio: $${product.price} </br></br> `
         });
-
         productsList.innerHTML = listToRender
     })
 
 })
+
+
 
 
 
@@ -71,15 +79,15 @@ let formDelete = document.getElementById("deleteForm");
 let idDeleteElement = document.getElementById("idProduct");
 
 
-formDelete.addEventListener("submit", (e)=> {
+formDelete.addEventListener("submit", (e) => {
     e.preventDefault();
 
     let idProductToDelete = idDeleteElement.value;
     let url = "/api/products/" + idProductToDelete
-    
+
 
     const options = {
-        method : "DELETE",
+        method: "DELETE",
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
         }
@@ -93,27 +101,27 @@ formDelete.addEventListener("submit", (e)=> {
                 throw new Error(response.status);
         })
         .then(() => {
-            socketClient.emit("dataDeleted",{id: idProductToDelete});
+            socketClient.emit("dataDeleted", { id: idProductToDelete });
         })
         .catch(err => {
             console.error("ERROR: ", err.message)
         });
 
 
-//POR ALGUNA RAZON, EL ENVIO EN TIEMPO REAL DE LA LISTA CON PRODUCTO ELIMINADO SOLO ES A UN SOCKET Y NO A TODOS LOS NAVEGADORES ABIERTOS.
+    //POR ALGUNA RAZON, EL ENVIO EN TIEMPO REAL DE LA LISTA CON PRODUCTO ELIMINADO SOLO ES A UN SOCKET Y NO A TODOS LOS NAVEGADORES ABIERTOS.
 
-        socketClient.on("productsListDeleted", (productsListArray) => {
-            let listToRender = "";
-    
-            productsListArray.forEach(product => {
-                listToRender += `Producto: ${product.title} </br>
+    socketClient.on("productsListDeleted", (productsListArray) => {
+        let listToRender = "";
+
+        productsListArray.forEach(product => {
+            listToRender += `Producto: ${product.title} </br>
                 Precio: $${product.price} </br>
                 </br> `
-            });
-    
-            productsList.innerHTML = listToRender
-        })
-        
+        });
+
+        productsList.innerHTML = listToRender
+    })
+
 })
 
 

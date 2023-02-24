@@ -23,15 +23,10 @@ if(!user){
 }
 
 formulario.addEventListener("submit", (e)=>{
-    e.preventDefault();    
-        //con esto corrobaramos que el mensaje no este vacio ni contenga espacios vacios
-        // if(formulario.value.trim().length>0){
-        //     const info={
-        //         user:user, message: inputMensaje.value
-        //     }
-
+    e.preventDefault();           
             const info={
-                user:user, message: inputMensaje.value}
+                user:user, message: inputMensaje.value
+            }
 
             socketChat.emit("messageChat", info);
             inputMensaje.value = ""
@@ -52,6 +47,7 @@ socketChat.on("messageLogs",(dataMessages)=>{
     
 })
 
+//notificacion cada vez que ingrese un usuario al chat
 socketChat.on("broadcast", (usuario)=>{
     Toastify({
         text: `Ingresó ${usuario} al chat`,

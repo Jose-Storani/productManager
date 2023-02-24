@@ -1,2 +1,0 @@
-//manejo con el servidor
-
