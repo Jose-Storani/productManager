@@ -4,59 +4,73 @@ export class CartManager {
 
     async getCarts() {
         try {
-            const carts = await cartsModel.find();           
-                return carts           
-            
+            const carts = await cartsModel.find();
+            return carts
+
         } catch (error) {
             console.log("Error: ", error)
         }
 
+    }
+
+    async getCartbyId(cId) {
+        try {
+            return await cartsModel.findById(cId);
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
 
     async createACart() {
-        try {            
+        try {
             const newCart = await cartsModel.create({});
-            console.log(newCart)
             return newCart
-            
         } catch (error) {
             console.log("Error: ", error)
         }
-        
-
     }
 
     //cid = cartId , pid = productId
     async addToCart(cid, pid) {
-        let cartFile = await this.getCart();
-        let cartToUpdate = cartFile.find(element => element.id === cid) ?? 400;
-        if (cartToUpdate === 400) {
-            return cartToUpdate
-        }
-        //busco el producto que coincida con el productoID dentro del carrito ya seleccionado, si ya existe, le sumo 1.
-        else if (cartToUpdate["products"].some(product => product.id === pid)) {
-            let productFound = cartToUpdate["products"].find(product => product.id === pid);
-            productFound["quantity"]++
-
-
-        }
-        //si no existe, lo creo
-        else {
-            let productCart = {
-                id: pid,
-                quantity: 1
+        try {
+            const cart = await this.getCartbyId(cid)
+            if (!cart) {
+                return cart
             }
-            cartToUpdate["products"].push(productCart);
+
+            const idProduct = cart.products.findIndex((e) => e.productId === pid);
+            console.log(idProduct)
+            if (idProduct !== -1) {
+                let updateQ = await cartsModel.updateOne(
+                    {_id: cid, "products.productId" : pid},
+                    { $inc: {"products.$.quantity" : 1}}
+                )
+                return updateQ;
+            }
+            else {
+                const pushProduct = cartsModel.updateOne(
+                    { _id: cid },
+                    {
+                        $push: {
+                            "products": {
+                                productId: pid,
+                                quantity: 1
+                            }
+                        }
+                    }
+                )
+                return pushProduct;
+            }
+
+        } catch (error) {
+            console.log(error)
         }
-
-
-
         
-        return cartToUpdate
     }
 
-    async deleteAllCarts (){
+    async deleteAllCarts() {
         const deletedCarts = await cartsModel.deleteMany();
         return deletedCarts
     }

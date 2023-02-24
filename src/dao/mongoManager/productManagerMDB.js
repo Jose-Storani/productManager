@@ -3,8 +3,8 @@ import { productsModel } from "../models/products.model.js";
 export class ProductManager {
     async getProducts() {
         try {
-            const products = await productsModel.find({});
-            return products
+            return await productsModel.find({});
+            
         }
         catch (error) {
             console.log("Error: ", error);
@@ -33,8 +33,8 @@ export class ProductManager {
                 //     thumbnail,
                 //     id: 
                 // }
-                const newProduct = await productsModel.create(obj);
-                return newProduct
+                return await productsModel.create(obj);
+                
             }
         } catch (error) {
             console.log(error)
@@ -43,8 +43,7 @@ export class ProductManager {
 
     async getProductById(id) {
         try {
-            const product = await productsModel.findById(id)
-            return product
+            return await productsModel.findById(id)        
         } catch (error) {
             console.log(error)
         }
@@ -53,9 +52,8 @@ export class ProductManager {
     async updateProduct(pid, fieldToUpdate) {
         try {
             const filter = { _id: pid };
-            let doc = await productsModel.findOneAndUpdate(filter, fieldToUpdate,{new:true});
-            return doc
-            
+            return await productsModel.findOneAndUpdate(filter, fieldToUpdate,{new:true});
+                        
         } catch (error) {
             console.log("Error: ", error)
         }
@@ -74,8 +72,8 @@ export class ProductManager {
     }
 
     async deleteAll(){
-        const deleted = await productsModel.deleteMany();
-        return deleted
+        return await productsModel.deleteMany();
+        
     }
 
 

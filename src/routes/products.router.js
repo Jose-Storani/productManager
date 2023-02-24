@@ -23,18 +23,19 @@ router.get("/", async (req, res) => {
 
 //Obtener producto unico por ID pasada por params
 router.get("/:id", async (req, res) => {
-    const products = await productManager.getProducts()
-    const { id } = req.params;
-    //si uso fileSystem, tengo que hacer parseInt al id, con MONGO, el id es un string
-    const product = products.find(p => p.id === id);
-    if (product) {
-        res.json(product)
+    try {
+        const { id } = req.params;
+        const product = await productManager.getProductById(id)
+        //si uso fileSystem, tengo que hacer parseInt al id, con MONGO, el id es un string
+        if (product) {
+            res.json(product)
+        }
+        else {
+            res.json({ mensage: "Producto no encontrado" })
+        }
+    } catch (error) {
+        console.log(error)
     }
-    else {
-        res.json({ mensage: "Producto no encontrado" })
-    }
-
-
 
 })
 
@@ -80,13 +81,11 @@ router.delete("/:pid", async (req, res) => {
         const { pid } = req.params;
         // let productoBuscado = await productManager.getProductsById(parseInt(pid));    
         const deletedProduct = await productManager.deleteById(pid);
-        res.status(200).json({"producto eliminado con exito: ": deletedProduct })
+        res.status(200).json({ "producto eliminado con exito: ": deletedProduct })
 
     } catch (error) {
-
+        console.log(error)
     }
-
-
 
 })
 
