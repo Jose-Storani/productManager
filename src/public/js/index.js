@@ -67,6 +67,10 @@ formAddProduct.addEventListener("submit", (e) => {
         productsList.innerHTML = listToRender
     })
 
+    formElements.forEach((e)=>{
+        e.value = "";
+    })
+
 })
 
 

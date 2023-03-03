@@ -3,7 +3,7 @@ import { productsModel } from "../models/products.model.js";
 export class ProductManager {
     async getProducts() {
         try {
-            return await productsModel.find({});
+            return await productsModel.find({}).lean();
             
         }
         catch (error) {
@@ -41,6 +41,26 @@ export class ProductManager {
         }
     }
 
+    async aggregationFunc(ctg, srt) {
+        try {
+            if(!ctg) {
+                return {message:"Producto no encontrado"}
+            } else {
+                const ctgy = await productsModel.aggregate([
+                    {   
+                        $match: {category: {$eq: `${ctg}`}, price: {$exists:true}}
+                    },
+                    {
+                        $sort: {price: srt}
+                    }
+                ])
+                return ctgy;
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     async getProductById(id) {
         try {
             return await productsModel.findById(id)        
@@ -60,6 +80,8 @@ export class ProductManager {
 
 
     }
+
+
 
     async deleteById(pid) {
         try {

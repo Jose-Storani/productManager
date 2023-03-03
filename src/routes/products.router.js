@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { productos } from "../app.js";
 import { productManager } from "../app.js";
 import { productsModel } from "../dao/models/products.model.js";
 const router = Router();
@@ -9,15 +8,33 @@ const router = Router();
 
 //Obtener todos los productos o el limite especificado por query
 router.get("/", async (req, res) => {
-    const products = await productManager.getProducts()
-    const { limit } = req.query
-    if (limit) {
-        let productsLimit = products.slice(0, limit);
-        res.json(productsLimit)
-    }
-    else {
-        res.json(products);
-    }
+    let {limit=10, page=1,sort,query} =req.query;
+  
+    //paso por query el valor de la categoria, como hacer para que acepte cualquier filtro?
+    const products = await productsModel.paginate({query},{limit,page,sort:{price:sort}});
+    const status = products.docs ? "success" : "error";
+    const prevLink = products.hasPrevPage ? `http://localhost:8080/api/products?page=${products.prevPage}` : null;
+    const nextLink = products.hasNextPage ? `http://localhost:8080/api/products?page=${products.nextPage}` : null;
+    
+    res.json({results:{
+        status,
+        payload: products.docs,
+        totalPages: products.totalPages,
+        prevPage: products.prevPage,
+        nextPage: products.nextPage,
+        page: products.page,
+        hasPrevPage: products.hasPrevPage,
+        hasNextPage: products.hasNextPage,
+        prevLink,
+        nextLink
+    }})
+})
+
+router.get("/aggregation/:category", async(req,res) => {
+    const {category} = req.params;
+    const {sort = 1} = req.query;
+    const productsFiltered = await productManager.aggregationFunc(category, parseInt(sort));
+    res.json({productsFiltered});
 })
 
 

@@ -6,4 +6,8 @@ const messageSchema = new mongoose.Schema({
 
 })
 
-export const MessagesModel = mongoose.model("Messages",messageSchema)
+
+
+export const MessagesModel = mongoose.model("Messages",messageSchema);
+const doc = new MessagesModel()
+console.log(doc._id instanceof mongoose.Types.ObjectId)

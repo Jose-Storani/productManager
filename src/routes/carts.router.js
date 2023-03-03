@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { cartManager } from "../app.js";
-import { carts } from "../app.js";
-import { cartsModel } from "../dao/models/cart.model.js";
+
 const router = Router();
 
+//!RUTA: API/CARTS
 
 //todos los carritos
 router.get("/", async (req, res) => {
+    const carts = await cartManager.getCarts();
     res.json(carts)
 })
 
@@ -33,27 +34,23 @@ router.post("/", async (req, res) => {
 })
 
 router.post("/:cid/product/:pid", async (req, res) => {
-    const { cid, pid } = req.params;
-    const respuesta = await cartManager.addToCart(cid,pid);
+    try {
+        const { cid, pid } = req.params;
+        
+         const respuesta = await cartManager.addToCart(cid,pid);
     if(!respuesta){
         res.json({ mensage: "Carrito no encontrado" })
     }
     else{
         res.json(respuesta)
     }
+    } catch (error) {
+        console.log(error)
+    }
+    
+   
 
-    //    const respuesta =  await cartManager.addToCart(parseInt(cid),parseInt(pid));
-    //    if(respuesta === 400){
-    //     res.status(400).send("ID de carrito no encontrado");
-    //    }
-    //    else{
-    //     res.status(200).json({message: "Producto agregado con exito", respuesta})
-    //    }
-
-
-
-
-
+   
 
 })
 
@@ -70,6 +67,19 @@ router.delete("/", async (req, res) => {
     } catch (error) {
         console.log(error)
     }
+})
+
+router.delete("/:cid", async (req, res) => {
+    try {
+        const { cid } = req.params;
+         
+        const deletedCart = await cartManager.deleteCartById(cid);
+        res.status(200).json({ "carrito eliminado con exito: ": deletedCart })
+
+    } catch (error) {
+        console.log(error)
+    }
+
 })
 
 export default router

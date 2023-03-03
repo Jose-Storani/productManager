@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { productos } from "../app.js";
+import { productManager } from "../app.js";
 
 const router = Router();
 
-router.get("/", (req,res)=>{  
+router.get("/", async (req,res)=>{  
+    const productos = await productManager.getProducts();
     res.render("home",{productos})
    
 })
