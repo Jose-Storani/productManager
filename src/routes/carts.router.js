@@ -36,7 +36,6 @@ router.post("/", async (req, res) => {
 router.post("/:cid/product/:pid", async (req, res) => {
     try {
         const { cid, pid } = req.params;
-        
          const respuesta = await cartManager.addToCart(cid,pid);
     if(!respuesta){
         res.json({ mensage: "Carrito no encontrado" })
@@ -56,8 +55,11 @@ router.post("/:cid/product/:pid", async (req, res) => {
 
 
 
-router.put("/", (req, res) => {
-
+router.put("/:cid/products/:pid", async (req, res) => {
+    const {quantity} = req.body;
+    const {cid, pid} = req.params;
+    const updatedProduct = await cartManager.updateQuantityByQuery(cid,pid,quantity);
+    res.json(updatedProduct)
 })
 
 router.delete("/", async (req, res) => {
@@ -81,5 +83,17 @@ router.delete("/:cid", async (req, res) => {
     }
 
 })
+
+router.delete("/:cid/product/:pid", async (req,res)=>{
+    const {cid,pid} = req.params
+
+    const productDeletedFromCart = await cartManager.deleteProductCart(cid,pid);
+    if(productDeletedFromCart){
+        res.json({"producto eliminado con exito": productDeletedFromCart})
+    }
+    else{
+        res.json({"error": "producto no encontrado"})
+    }    
+} )
 
 export default router
