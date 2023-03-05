@@ -10,8 +10,17 @@ const router = Router();
 router.get("/", async (req, res) => {
     let {limit=10, page=1,sort,query} =req.query;
   
-    //paso por query el valor de la categoria, como hacer para que acepte cualquier filtro?
-    const products = await productsModel.paginate({query},{limit,page,sort:{price:sort}});
+    //paso por query el valor de la categoria, como hacer para que sea dinamico lo que filtre y no solo por categoria, por ej, stock o categoria
+    
+    query ? query = {category:query} : null
+    
+    const options = {
+        limit,
+        page,        
+    }
+    sort ? options.sort = {price:sort} : options
+
+    const products = await productsModel.paginate(query,options);
     const status = products.docs ? "success" : "error";
     const prevLink = products.hasPrevPage ? `http://localhost:8080/api/products?page=${products.prevPage}` : null;
     const nextLink = products.hasNextPage ? `http://localhost:8080/api/products?page=${products.nextPage}` : null;
