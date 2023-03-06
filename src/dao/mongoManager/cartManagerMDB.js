@@ -13,7 +13,7 @@ export class CartManager {
 
     async getCartbyId(cId) {
         try {
-            return await cartsModel.find({ _id: cId })
+            return await cartsModel.find({ _id: cId }).lean()
         } catch (error) {
             console.log(error);
         }

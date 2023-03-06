@@ -5,6 +5,7 @@ const router = Router();
 
 router.get("/", async (req,res)=>{  
     const productos = await productManager.getProducts();
+    console.log(productos)
     res.render("home",{productos})
    
    
@@ -22,6 +23,7 @@ router.get("/chat",(req,res)=> {
 router.get("/products", async(req,res)=>{
     res.render("products")
 })
+
 
 
 

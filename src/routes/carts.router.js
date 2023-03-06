@@ -18,7 +18,11 @@ router.get("/:cId", async (req, res) => {
         const { cId } = req.params;
         const cart = await cartManager.getCartbyId(cId);
         if (cart) {
-            res.json(cart)
+            const cartProducts = cart[0].products
+            console.log(cart[0].products)
+            res.render("cart",{cartProducts})
+            // res.json(cart)
+            
         }
         else {
             res.json({ mensage: "Carrito no encontrado" })
