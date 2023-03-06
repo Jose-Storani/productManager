@@ -97,6 +97,15 @@ export class CartManager {
         }
     }
 
+    async updateCartProductsByArray(cid,productsArray){
+        try {
+            const updateCartProducts = await cartsModel.findOneAndReplace({_id:cid},{products:productsArray},{new:true});
+            return updateCartProducts
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     async deleteAllCarts() {
         const deletedCarts = await cartsModel.deleteMany();
         return deletedCarts;

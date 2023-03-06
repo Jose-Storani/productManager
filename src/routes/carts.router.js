@@ -36,31 +36,47 @@ router.post("/", async (req, res) => {
 router.post("/:cid/product/:pid", async (req, res) => {
     try {
         const { cid, pid } = req.params;
-         const respuesta = await cartManager.addToCart(cid,pid);
-    if(!respuesta){
-        res.json({ mensage: "Carrito no encontrado" })
-    }
-    else{
-        res.json(respuesta)
-    }
+        const respuesta = await cartManager.addToCart(cid, pid);
+        if (!respuesta) {
+            res.json({ mensage: "Carrito no encontrado" })
+        }
+        else {
+            res.json(respuesta)
+        }
     } catch (error) {
         console.log(error)
     }
-    
-   
 
-   
+
+
+
 
 })
 
+router.put("/:cid", async (req, res) => {
+    try {
+        const { cid } = req.params;
+        const { products } = req.body;
+        const productsUpdated = await cartManager.updateCartProductsByArray(cid, products);
+        if (updateCartProductsByArray) {
+            res.json(productsUpdated)
+        }
+        else {
+            res.json({ mensaje: "carrito no encontrado para actualizar" })
+        }
 
+    } catch (error) {
+        console.log(error)
+    }
+
+})
 
 router.put("/:cid/products/:pid", async (req, res) => {
-    const {quantity} = req.body;
-    const {cid, pid} = req.params;
-    const updatedProduct = await cartManager.updateQuantityByQuery(cid,pid,quantity);
+    const { quantity } = req.body;
+    const { cid, pid } = req.params;
+    const updatedProduct = await cartManager.updateQuantityByQuery(cid, pid, quantity);
     res.json(updatedProduct)
-})
+});
 
 router.delete("/", async (req, res) => {
     try {
@@ -74,7 +90,7 @@ router.delete("/", async (req, res) => {
 router.delete("/:cid", async (req, res) => {
     try {
         const { cid } = req.params;
-         
+
         const deletedCart = await cartManager.deleteCartById(cid);
         res.status(200).json({ "carrito eliminado con exito: ": deletedCart })
 
@@ -84,16 +100,16 @@ router.delete("/:cid", async (req, res) => {
 
 })
 
-router.delete("/:cid/product/:pid", async (req,res)=>{
-    const {cid,pid} = req.params
+router.delete("/:cid/product/:pid", async (req, res) => {
+    const { cid, pid } = req.params
 
-    const productDeletedFromCart = await cartManager.deleteProductCart(cid,pid);
-    if(productDeletedFromCart){
-        res.json({"producto eliminado con exito": productDeletedFromCart})
+    const productDeletedFromCart = await cartManager.deleteProductCart(cid, pid);
+    if (productDeletedFromCart) {
+        res.json({ "producto eliminado con exito": productDeletedFromCart })
     }
-    else{
-        res.json({"error": "producto no encontrado"})
-    }    
-} )
+    else {
+        res.json({ "error": "producto no encontrado" })
+    }
+})
 
 export default router
