@@ -70,9 +70,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                 button.addEventListener("click", async () => {                    
                     //agregar producto al carrito con fetch
                     const productAdded = await fetch(`/api/carts/${cartId}/product/${productId}`,{method:"POST"});
+
                     
                 });
             });
         })
         .catch((error) => console.log(error));
+
+
+        
+let cartLink = document.getElementById("linkToCart");
+cartLink.setAttribute("href",`/api/carts/${cartId}`);
 });
