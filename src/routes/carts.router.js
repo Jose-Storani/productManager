@@ -19,7 +19,6 @@ router.get("/:cId", async (req, res) => {
         const cart = await cartManager.getCartbyId(cId);
         if (cart) {
             const cartProducts = cart[0].products
-            console.log(cart[0].products)
             res.render("cart",{cartProducts})
             // res.json(cart)
             
@@ -62,7 +61,7 @@ router.put("/:cid", async (req, res) => {
         const { cid } = req.params;
         const { products } = req.body;
         const productsUpdated = await cartManager.updateCartProductsByArray(cid, products);
-        if (updateCartProductsByArray) {
+        if (productsUpdated) {
             res.json(productsUpdated)
         }
         else {

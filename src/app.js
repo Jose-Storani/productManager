@@ -3,7 +3,11 @@ import express from "express"
 import { __dirname } from "./utilities.js";
 import handlebars from "express-handlebars"
 import { Server } from "socket.io";
+import session from "express-session";
+import MongoStore from "connect-mongo";
+
 import "./dao/dbConfig.js"
+
 
 //CON FILE SYSTEM:
 // import { ProductManager } from "./dao/fileManager/productManager.js";
@@ -13,13 +17,15 @@ import "./dao/dbConfig.js"
 import { CartManager } from "./dao/mongoManager/cartManagerMDB.js";
 import { ProductManager } from "./dao/mongoManager/productManagerMDB.js";
 import { MessagesManager } from "./dao/mongoManager/messagesManager.js";
-
+import { UserManager } from "./dao/mongoManager/userManagerMDB.js";
 
 //exporto la variable que contiene la clase instanciada para tener acceso a los diferentes metodos de la clase.
 
 export let productManager = new ProductManager;
 export let cartManager = new CartManager;
 export let messagesManager = new MessagesManager
+export let userManager = new UserManager
+
 
 
 //express
@@ -27,6 +33,23 @@ const app = express()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"))
+
+//session store
+
+app.use(session({
+    secret:"secretCoder",
+    resave:false,
+    saveUninitialized:true,
+    cookie:{maxAge:50000},
+   //la propiedad cookie, nos permite darle customizacion a las cookies, como maxage 
+    store:new MongoStore({
+        mongoUrl: "mongodb+srv://JoseStorani:Hammerfall3076@ecommercemanager.kdrfgjg.mongodb.net/sessionProductManager?retryWrites=true&w=majority",
+
+        //tiempo de sesion activa : 2 minutos
+    ttl:120000
+        
+    })
+}))
 
 
 //handlebars
@@ -39,11 +62,15 @@ app.set("view engine", "handlebars")
 import productRoute from "./routes/products.router.js"
 import cartsRoute from "./routes/carts.router.js"
 import viewsRoute from "./routes/views.router.js"
+import sessionsRouter from "./routes/sessions.router.js"
+import usersRouter from "./routes/users.router.js"
 
 
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartsRoute);
-app.use("/", viewsRoute)
+app.use("/", viewsRoute);
+app.use("/api/sessions", sessionsRouter)
+app.use("api/users", usersRouter);
 
 
 

@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const cartCreated = await fetch("/api/carts", { method: "POST" });
                     const cartData = await cartCreated.json();
                     const cartId = cartData._id
-                    console.log(cartId)
+                    // console.log(cartId)
 
  //cuando carga el documento, renderizo la tabla con los productos traidos de la BD usando metodo get con fetch      
     const options = {
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     fetch("/api/products", options)
         .then((res) => res.json())
         .then((response) => {
-            console.log(response.results.payload);
+            // console.log(response.results.payload);
             const products = response.results.payload;
             const table = document.querySelector("#productsTable");
             const productsTableBody = table.querySelector("tbody");
@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 button.addEventListener("click", async () => {                    
                     //agregar producto al carrito con fetch
                     const productAdded = await fetch(`/api/carts/${cartId}/product/${productId}`,{method:"POST"});
+                    alert("Producto añadido al carrito")
 
                     
                 });
