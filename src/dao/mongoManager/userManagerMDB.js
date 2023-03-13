@@ -33,7 +33,7 @@ export class UserManager{
             else{
                 if(correctUser.length !==0){
                     correctUser[0].rol = "Usuario"
-                    return correctUser
+                    return correctUser[0]
                 }
                 else{
                     return null
