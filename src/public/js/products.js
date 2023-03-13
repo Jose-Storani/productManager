@@ -83,3 +83,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 let cartLink = document.getElementById("linkToCart");
 cartLink.setAttribute("href",`/api/carts/${cartId}`);
 });
+
+let logOutButton = document.getElementById("logOut");
+logOutButton.addEventListener("click", async(e)=>{
+    e.preventDefault();
+    const logOut = await fetch("/api/sessions/logout");
+    const logOutJson = await logOut.json();
+    console.log(logOutJson);
+
+    window.location.href = "/"
+    
+
+})

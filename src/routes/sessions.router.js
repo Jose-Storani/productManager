@@ -7,13 +7,29 @@ router.get("/", async (req,res)=>{
     res.json(req.session)
 })
 
+router.get("/logout",async (req,res)=>{
+    try {
+        req.session.destroy((err) => {
+            if(err){
+                res.send("LogOut Error");
+            }
+            else{
+                res.status(400).json({status:true})
+            }            
+        })
+        
+    } catch (error) {
+        console.log(error)
+    }    
+})
+
 router.post("/login",async (req,res) =>{
     const {email,password} = req.body;
     const correctUser = await userManager.findUser(email,password);
     if(correctUser !== null){
         req.session.userInfo = correctUser;
         req.session.email = email;
-        res.redirect("/perfil");
+        res.redirect("/products");
     }
     else{
         res.render("loginError")

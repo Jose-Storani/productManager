@@ -21,13 +21,25 @@ export class UserManager{
     async findUser(email,password){
         try {
             const correctUser = await usersModel.find({email:email,password:password}).lean();
-            
-            if(correctUser.length !==0){
-                return correctUser
+            if(email === "adminCoder@coder.com" && password ==="adminCod3r123"){
+                const adminUser = {
+                    first_name: "AdminCoder",
+                    email: email,
+                    password: password,
+                    rol: "Admin"
+                }
+                return adminUser
             }
             else{
-                return null
+                if(correctUser.length !==0){
+                    correctUser[0].rol = "Usuario"
+                    return correctUser
+                }
+                else{
+                    return null
+                }
             }
+            
         } catch (error) {
             console.log(error)
         }
