@@ -3,6 +3,10 @@ import { userManager } from "../app.js";
 
 const router = Router();
 
+router.get("/", async (req,res)=>{
+    res.json(req.session)
+})
+
 router.post("/login",async (req,res) =>{
     const {email,password} = req.body;
     const correctUser = await userManager.findUser(email,password);
