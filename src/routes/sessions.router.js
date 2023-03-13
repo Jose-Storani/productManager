@@ -5,12 +5,14 @@ const router = Router();
 
 router.post("/login",async (req,res) =>{
     const {email,password} = req.body;
-    
     const correctUser = await userManager.findUser(email,password);
     if(correctUser !== null){
         req.session.userInfo = correctUser;
         req.session.email = email;
         res.redirect("/perfil");
+    }
+    else{
+        res.render("loginError")
     }
     
 
@@ -25,7 +27,7 @@ router.post("/registro",async(req,res)=>{
         const newUser = await userManager.createUser(newUserInfo);
         
         if(!newUser){
-            res.send("error Login")
+            res.render("registroFailed")
         }
         else{
 

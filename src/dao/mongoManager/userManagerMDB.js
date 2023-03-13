@@ -20,7 +20,7 @@ export class UserManager{
 
     async findUser(email,password){
         try {
-            const correctUser = await usersModel.find({email:email,password:password});
+            const correctUser = await usersModel.find({email:email,password:password}).lean();
             
             if(correctUser.length !==0){
                 return correctUser

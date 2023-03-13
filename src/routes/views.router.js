@@ -5,9 +5,6 @@ import { userValidation } from "../../middlewares/userValidation.js";
 const router = Router();
 
 router.get("/", async (req,res)=>{  
-    // const productos = await productManager.getProducts();
-    // console.log(productos)
-    // res.render("home",{productos})
     res.render("login")
    
    
@@ -30,10 +27,8 @@ router.get("/registro",async (req,res)=>{
     res.render("registro")
 })
 
-router.get("/perfil",userValidation,async(req,res)=>{
-    const userInfo = req.session.userInfo[0];
-    console.log(userInfo)
-    res.render("perfil",userInfo);
+router.get("/perfil",userValidation,async(req,res)=>{    
+    res.render("perfil",req.session.userInfo[0]);
 
     
 })
