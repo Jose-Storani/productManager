@@ -33,6 +33,7 @@ const productsSchema = new mongoose.Schema({
     },
     category:{
         type: String,
+        enum:["electronics","music"],
         required:true
     },
     thumbnail:{

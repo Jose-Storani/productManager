@@ -5,6 +5,10 @@ import handlebars from "express-handlebars"
 import { Server } from "socket.io";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import passport from "passport"
+
+import "./passport/passportStrategies.js";
+
 
 import "./dao/dbConfig.js"
 
@@ -40,22 +44,31 @@ app.use(session({
     secret:"secretCoder",
     resave:false,
     saveUninitialized:true,
-    cookie:{maxAge:50000},
+    // cookie:{maxAge:10000},
    //la propiedad cookie, nos permite darle customizacion a las cookies, como maxage 
     store:new MongoStore({
         mongoUrl: "mongodb+srv://JoseStorani:Hammerfall3076@ecommercemanager.kdrfgjg.mongodb.net/sessionProductManager?retryWrites=true&w=majority",
 
-        //tiempo de sesion activa : 2 minutos
+        //tiempo de sesion activa : 2 minutos, no funciona... probé con 10 segundos, tampoco.
     ttl:120000
         
     })
 }))
+//passport
+//inicializar passport
+app.use(passport.initialize());
 
+//passport guarda la informacion de session.
+app.use(passport.session());
 
 //handlebars
 app.engine("handlebars", handlebars.engine())
 app.set("views", __dirname + "/views")
 app.set("view engine", "handlebars")
+
+
+
+
 
 
 //rutas
@@ -69,8 +82,8 @@ import usersRouter from "./routes/users.router.js"
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartsRoute);
 app.use("/", viewsRoute);
-app.use("/api/sessions", sessionsRouter)
-app.use("api/users", usersRouter);
+app.use("/api/sessions", sessionsRouter);
+app.use("/api/users", usersRouter);
 
 
 
