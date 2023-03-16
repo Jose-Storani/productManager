@@ -18,11 +18,16 @@ const userSchema = new mongoose.Schema({
     },
     age:{
         type:String,
-        required:true
+        required:true,
+        default:0
     },
     password:{
         type:String,
         required:true
+    },
+    rol:{
+        type:String,
+        default:"Usuario"
     }
 
 });

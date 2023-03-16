@@ -24,31 +24,45 @@ router.get("/logout",async (req,res)=>{
     }    
 })
 
-router.post("/login",async (req,res) =>{
-    const {email,password} = req.body;
-    const correctUser = await userManager.findUser(email,password);
-    if(correctUser !== null){
-        req.session.userInfo = correctUser;
-        req.session.email = email;
-        res.redirect("/products");
-    }
-    else{
-        res.render("loginError")
-    }
+// router.post("/login",async (req,res) =>{
+//     const {email,password} = req.body;
+//     const correctUser = await userManager.findUser(email,password);
+//     if(correctUser !== null){
+//         req.session.userInfo = correctUser;
+//         req.session.email = email;
+//         res.redirect("/products");
+//     }
+//     else{
+//         res.render("loginError")
+//     }
     
 
 
-}
-);
+// }
+// );
+
+//login con passport
+
+router.post("/login",
+passport.authenticate("login",{
+    failureRedirect:"/loginError",
+    passReqToCallBack:true
+}), async (req,res)=>{
+    req.session.userInfo = req.user;
+    req.session.email = req.body.email;
+    res.redirect("/products")
+    
+})
 
 
-
+//registro con passport
 router.post("/registro",
 passport.authenticate("registro",{
     failureRedirect: "/registroFailed",
     successRedirect: "/registroSuccess",    
     passReqToCallBack: true
 }));
+
 
 
 //sin passport

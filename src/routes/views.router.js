@@ -30,8 +30,11 @@ router.get("/registroSuccess",async(req,res)=>{
 });
 
 router.get("/registroFailed", async(req,res)=>{
-    res.render("/registroFailed");
+    res.render("registroFailed");
 })
 
+router.get("/loginError", async (req,res)=>{
+    res.render("loginError")
+})
 
 export default router

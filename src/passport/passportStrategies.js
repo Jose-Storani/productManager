@@ -3,12 +3,14 @@ import { usersModel } from "../dao/models/users.model.js";
 import { Strategy as LocalStrategy } from "passport-local";
 import { hashPassword } from "../utilities.js";
 import { Strategy as GitHubStrategy } from "passport-github2";
+import { comparePasswords } from "../utilities.js";
 
 passport.use("registro",new LocalStrategy({
     usernameField : "email",
     passwordField: "password",
     passReqToCallback: true
 },async(req,email,password,done)=>{
+    console.log(email, password)
     const user = await usersModel.findOne({email});
     if(user){
         return done(null,false)
@@ -18,6 +20,40 @@ passport.use("registro",new LocalStrategy({
     const newUserBD = await usersModel.create(newUser);
     done(null,newUserBD);
 
+}));
+
+passport.use("login", new LocalStrategy({
+    usernameField:"email",
+    passwordField:"password",
+    passReqToCallback:true
+}, async (req,email,password,done) =>{
+    try {
+        const correctUser = await usersModel.findOne({email});
+            if(email === "adminCoder@coder.com" && password ==="adminCod3r123"){
+                correctUser.rol = "Admin";
+                correctUser.save();
+                return done(null,correctUser);
+            }
+            else{
+                if(correctUser){
+                    const isPassword = comparePasswords(password,correctUser.password);
+                    if(isPassword){
+                       
+                       
+                        return done(null,correctUser)
+                    }
+                    else{ 
+                        return done(null,false)
+                    }
+                    }
+                   
+                else{
+                    return done(null,false)
+                }
+            }
+    } catch (error) {
+        console.log(error)
+    }
 }))
 
 //github strategy
@@ -26,17 +62,31 @@ passport.use("github", new GitHubStrategy({
     clientID: "Iv1.28bfb8804fcc8a8c",
     clientSecret: "d8e8699989f922f4148c03186f30b6c1ef4dbf8e",
     callbackURL: "http://localhost:8080/api/users/github"
-}, (accessToken,refreshToken,profile,done) => {
-    console.log(profile);
-    done(null,true)
+}, async(accessToken,refreshToken,profile,done) => {
+    const user = await usersModel.findOne({email:profile._json.email});
+    if(!user){
+        const newUser = {
+            first_name:profile._json.name.split(" ")[0],
+            last_name:profile._json.name.split(" ")[1] || " ",
+            email:profile._json.email,
+            password:" ",          
+        }
+        const userBD = await usersModel.create(newUser);
+        done(null,userBD)
+    }else{
+        done(null,user)
+    }
+    
 }))
 
 passport.serializeUser((user,done)=>{
+    
     done(null,user._id);
 });
 
 passport.deserializeUser( async(id,done)=>{
-    const user = await usersModel.findById(id);
+    const user = await usersModel.findById({_id:id});
+   
     done(null, user)
 });
 

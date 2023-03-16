@@ -5,7 +5,7 @@ import { comparePasswords } from "../../utilities.js";
 export class UserManager{
     async createUser(userInfo){
         try {
-            console.log(userInfo)
+            // console.log(userInfo)
             const {email,password} = userInfo;
             const existUser = await usersModel.find({email});
             console.log(existUser)
@@ -48,7 +48,7 @@ export class UserManager{
                         return correctUser[0]
                     }
                     else{ 
-                        return "contraseña incorrecta"
+                        return null
                     }
                     }
                    
