@@ -5,8 +5,8 @@ import { userValidation } from "../../middlewares/userValidation.js";
 const router = Router();
 
 router.get("/", async (req,res)=>{  
-    console.log(req.cookies)
-    res.render("login");   
+    console.log(req.session.email)
+    res.render("login",{isAuthenticated: req.session.email});   
 })
 
 router.get("/realtimeproducts", (req,res)=>{
