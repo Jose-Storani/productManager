@@ -41,8 +41,9 @@ export class UserManager{
                 return adminUser
             }
             else{
-                if(correctUser.length !==0){
-                    const isPassword = comparePasswords(password,correctUser[0].password);
+                if(correctUser.length){
+                    const isPassword = await comparePasswords(password,correctUser[0].password);
+                    console.log(isPassword)
                     if(isPassword){
                         correctUser[0].rol = "Usuario"
                         return correctUser[0]

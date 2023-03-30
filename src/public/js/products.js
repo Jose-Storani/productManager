@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         method: "GET",
         headers: {
             "Content-type": "application/json; charset=UTF-8",
+            
         },
     };
     fetch("/api/products", options)

@@ -5,6 +5,8 @@ import passport from "passport"
 const router = Router();
 
 router.get("/", async (req,res)=>{
+    // console.log({Login:req.user})
+    // console.log(req.session)
     res.json(req.session)
 })
 
@@ -24,22 +26,7 @@ router.get("/logout",async (req,res)=>{
     }    
 })
 
-// router.post("/login",async (req,res) =>{
-//     const {email,password} = req.body;
-//     const correctUser = await userManager.findUser(email,password);
-//     if(correctUser !== null){
-//         req.session.userInfo = correctUser;
-//         req.session.email = email;
-//         res.redirect("/products");
-//     }
-//     else{
-//         res.render("loginError")
-//     }
-    
 
-
-// }
-// );
 
 //login con passport
 

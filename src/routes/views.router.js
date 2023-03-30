@@ -5,6 +5,7 @@ import { userValidation } from "../../middlewares/userValidation.js";
 const router = Router();
 
 router.get("/", async (req,res)=>{  
+    console.log(req.cookies)
     res.render("login");   
 })
 
@@ -35,6 +36,10 @@ router.get("/registroFailed", async(req,res)=>{
 
 router.get("/loginError", async (req,res)=>{
     res.render("loginError")
-})
+});
+
+router.get("/jwtfront",(req,res)=>{
+    res.render("jwt")
+});
 
 export default router

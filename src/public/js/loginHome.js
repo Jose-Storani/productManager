@@ -17,11 +17,6 @@ document.addEventListener("DOMContentLoaded", async()=>{
 }
 )
 
-// setInterval( async ()=>{
-//     const session = await fetch("/api/sessions");
-//     const sessionJson = await session.json();
-//     console.log(sessionJson)
-// }, 1000)
 
 
     
