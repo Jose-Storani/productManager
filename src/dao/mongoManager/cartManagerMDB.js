@@ -4,7 +4,6 @@ export class CartManager {
     async getCarts() {
         try {
             const carts = await cartsModel.find({}).lean();
-            console.log(carts)
             return carts;
         } catch (error) {
             console.log("Error: ", error);
@@ -13,7 +12,7 @@ export class CartManager {
 
     async getCartbyId(cId) {
         try {
-            return await cartsModel.find({ _id: cId }).lean()
+            return await cartsModel.find({_id:cId}).lean()
         } catch (error) {
             console.log(error);
         }
@@ -32,13 +31,14 @@ export class CartManager {
     async addToCart(cid, pid) {
         try {
             const cart = await cartsModel.findById(cid);
-            
+            console.log("primer log",cart)
             if (!cart) {
                 return cart;
             }
             else{
-                if (cart.products.length !== 0) {
+                if (cart.products.length) {
                     const productIndex = cart.products.findIndex((e) => e.productId == pid);
+                    console.log(productIndex)
                    
                     if (productIndex !== -1) {
                         let updateQ = await cartsModel.updateOne(
@@ -76,6 +76,7 @@ export class CartManager {
                                 },
                             }
                         );
+                        
                         return pushProduct;
                     }
                 }

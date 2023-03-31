@@ -73,9 +73,21 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //handlebars
-app.engine("handlebars", handlebars.engine())
+
 app.set("views", __dirname + "/views")
 app.set("view engine", "handlebars")
+
+const hbs = handlebars.create({
+    helpers: {
+        partial: function (name) {
+          return name;
+        }
+      }
+})
+
+
+app.engine("handlebars", hbs.engine)
+
 
 
 
@@ -99,9 +111,9 @@ app.use("/api/sessions", sessionsRouter);
 app.use("/api/users", usersRouter);
 app.use("/jwt", jwtRouter)
 
-// app.use((req, res) => {
-//     res.status(404).render('invalidUrl');
-//   });
+app.use((req, res) => {
+    res.status(404).render('invalidUrl');
+  });
 
 
 //SERVER + SOCKET

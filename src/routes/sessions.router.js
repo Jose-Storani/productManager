@@ -5,8 +5,6 @@ import passport from "passport"
 const router = Router();
 
 router.get("/", async (req,res)=>{
-    // console.log({Login:req.user})
-    // console.log(req.session)
     res.json(req.session)
 })
 
@@ -37,6 +35,7 @@ passport.authenticate("login",{
 }), async (req,res)=>{
     req.session.userInfo = req.user;
     req.session.email = req.body.email;
+    // res.json({data: req.session.userInfo})
     res.redirect("/products")
     
 })

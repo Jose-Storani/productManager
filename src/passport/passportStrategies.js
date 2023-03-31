@@ -17,7 +17,6 @@ passport.use("registro", new LocalStrategy({
     passwordField: "password",
     passReqToCallback: true
 }, async (req, email, password, done) => {
-    console.log(email, password)
     const user = await usersModel.findOne({ email });
     if (user) {
         return done(null, false)

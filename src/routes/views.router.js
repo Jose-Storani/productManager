@@ -5,7 +5,6 @@ import { userValidation } from "../../middlewares/userValidation.js";
 const router = Router();
 
 router.get("/", async (req,res)=>{  
-    console.log(req.session.email)
     res.render("login",{isAuthenticated: req.session.email});   
 })
 
@@ -19,7 +18,13 @@ router.get("/chat",(req,res)=> {
 });
 
 router.get("/products",userValidation, async(req,res)=>{
-    res.render("products",req.session.userInfo);
+    if(req.session.userInfo.rol == "Admin"){
+        res.render("products",{userData:req.session.userInfo,partialData:{rol:req.session.userInfo.rol}});
+    }
+    else{
+        res.render("products",{userData:req.session.userInfo});
+    }
+    
 })
 
 router.get("/registro",async (req,res)=>{

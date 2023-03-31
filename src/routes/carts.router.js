@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { cartManager } from "../app.js";
-
+import { cartVerification } from "../../middlewares/cartVerification.middleware.js";
 const router = Router();
 
 //!RUTA: API/CARTS
@@ -16,11 +16,10 @@ router.get("/", async (req, res) => {
 router.get("/:cId", async (req, res) => {
     try {
         const { cId } = req.params;
-        const cart = await cartManager.getCartbyId(cId);
+        const cart = await cartManager.getCartbyId(cId);        
         if (cart) {
-            const cartProducts = cart[0].products
+            const cartProducts = cart[0].products;
             res.render("cart",{cartProducts})
-            // res.json(cart)
             
         }
         else {
@@ -31,13 +30,16 @@ router.get("/:cId", async (req, res) => {
     }
 })
 
-router.post("/", async (req, res) => {
-    res.status(200).json(await cartManager.createACart());
+router.post("/",cartVerification, async (req, res) => {
+    const cartId = req.session.userInfo.associatedCart._id
+    res.status(200).json({cartId
+    })
 
 })
 
 router.post("/:cid/product/:pid", async (req, res) => {
     try {
+        
         const { cid, pid } = req.params;
         const respuesta = await cartManager.addToCart(cid, pid);
         if (!respuesta) {
