@@ -1,6 +1,6 @@
-import { productsModel } from "../models/products.model.js";
+import { productsModel } from "../mongoDB/models/products.model.js";
 
-export class ProductManager {
+export default class ProductManager {
     async getProducts() {
         try {
             return await productsModel.find({}).lean();

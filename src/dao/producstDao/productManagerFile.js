@@ -1,7 +1,7 @@
 import fs from "fs"
 import { __dirname } from "../../utilities.js";
 
-export class ProductManager {
+export default class ProductManager {
     constructor() {
         this.pathProduct = __dirname + "/files/products.json";
 

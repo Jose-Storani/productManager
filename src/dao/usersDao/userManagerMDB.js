@@ -1,11 +1,10 @@
-import { usersModel } from "../models/users.model.js";
+import { usersModel } from "../mongoDB/models/users.model.js";
 import { hashPassword } from "../../utilities.js";
 import { comparePasswords } from "../../utilities.js";
 
-export class UserManager{
+export default class UserManager{
     async createUser(userInfo){
         try {
-            // console.log(userInfo)
             const {email,password} = userInfo;
             const existUser = await usersModel.find({email});
             console.log(existUser)

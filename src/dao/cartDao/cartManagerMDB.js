@@ -1,6 +1,6 @@
-import { cartsModel } from "../models/cart.model.js";
+import { cartsModel } from "../mongoDB/models/cart.model.js";
 
-export class CartManager {
+export default class CartManager {
     async getCarts() {
         try {
             const carts = await cartsModel.find({}).lean();
@@ -12,7 +12,11 @@ export class CartManager {
 
     async getCartbyId(cId) {
         try {
-            return await cartsModel.find({_id:cId}).lean()
+            console.log("le llega esto de Id", cId
+            );
+            console.log("lo hace dos veces")
+            const cartFounded =  await cartsModel.find({_id:cId}).lean()
+            return cartFounded
         } catch (error) {
             console.log(error);
         }
@@ -30,15 +34,14 @@ export class CartManager {
     //cid = cartId , pid = productId
     async addToCart(cid, pid) {
         try {
-            const cart = await cartsModel.findById(cid);
-            console.log("primer log",cart)
+            const cart = await cartsModel.findById(cid);           
             if (!cart) {
                 return cart;
             }
             else{
                 if (cart.products.length) {
                     const productIndex = cart.products.findIndex((e) => e.productId == pid);
-                    console.log(productIndex)
+                    
                    
                     if (productIndex !== -1) {
                         let updateQ = await cartsModel.updateOne(

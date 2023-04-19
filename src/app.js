@@ -7,13 +7,14 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport"
 import cookieParser from "cookie-parser";
-import { handleInvalidUrl } from "../middlewares/invalidUrl.middleware.js";
+import config from "./config.js";
+
 
 
 import "./passport/passportStrategies.js";
 
 
-import "./dao/dbConfig.js"
+import "./dao/mongoDB/dbConfig.js"
 
 
 //CON FILE SYSTEM:
@@ -21,10 +22,10 @@ import "./dao/dbConfig.js"
 // import { CartManager } from "./dao/fileManager/cartManager.js";
 
 //CON MONGO DB
-import { CartManager } from "./dao/mongoManager/cartManagerMDB.js";
-import { ProductManager } from "./dao/mongoManager/productManagerMDB.js";
-import { MessagesManager } from "./dao/mongoManager/messagesManager.js";
-import { UserManager } from "./dao/mongoManager/userManagerMDB.js";
+import CartManager from "./dao/cartDao/cartManagerMDB.js";
+import  ProductManager  from "./dao/producstDao/productManagerMDB.js";
+import  {MessagesManager}  from "./dao/messagesDao/messagesManager.js";
+import  UserManager  from "./dao/usersDao/userManagerMDB.js";
 
 //exporto la variable que contiene la clase instanciada para tener acceso a los diferentes metodos de la clase.
 
@@ -49,20 +50,23 @@ app.use(express.static(__dirname + "/public"))
 
 //session store
 
-app.use(session({
-    secret:"secretCoder",
-    resave:false,
-    saveUninitialized:true,
-    // cookie:{maxAge:10000},
-   //la propiedad cookie, nos permite darle customizacion a las cookies, como maxage 
-    store:new MongoStore({
-        mongoUrl: "mongodb+srv://JoseStorani:Hammerfall3076@ecommercemanager.kdrfgjg.mongodb.net/sessionProductManager?retryWrites=true&w=majority",
+//session store
+//chequeo si existe en .env la variable de session con mongo
+const mongoSessionUrl = config?.mongoSessionUrl;
 
-        //tiempo de sesion activa : 2 minutos, no funciona... probé con 10 segundos, tampoco.
-    ttl:120000
-        
+const sessionOptions = {
+    secret: "secretCoder",
+    resave: false,
+    saveUninitialized: true
+}
+
+if (mongoSessionUrl) {
+    sessionOptions.store = new MongoStore({
+        mongoUrl: mongoSessionUrl
     })
-}))
+}
+
+app.use(session(sessionOptions));
 
 
 //passport
@@ -101,7 +105,7 @@ import cartsRoute from "./routes/carts.router.js"
 import viewsRoute from "./routes/views.router.js"
 import sessionsRouter from "./routes/sessions.router.js"
 import usersRouter from "./routes/users.router.js"
-import jwtRouter from "./routes/jwt.router.js"
+
 
 
 app.use("/api/products", productRoute);
@@ -109,7 +113,7 @@ app.use("/api/carts", cartsRoute);
 app.use("/", viewsRoute);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/users", usersRouter);
-app.use("/jwt", jwtRouter)
+
 
 app.use((req, res) => {
     res.status(404).render('invalidUrl');

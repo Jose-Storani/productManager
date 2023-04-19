@@ -1,5 +1,5 @@
 
-import { usersModel } from "../dao/models/users.model.js";
+import { usersModel } from "../dao/mongoDB/models/users.model.js";
 
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
