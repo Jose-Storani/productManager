@@ -7,7 +7,6 @@ const cartsSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Products"
             },
-
             quantity: Number,
             
         }

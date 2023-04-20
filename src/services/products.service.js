@@ -6,8 +6,13 @@ export const getProducts =async ()=>{
 }
 
 export const addProduct = async (obj) =>{
-    const response = await productsDao.addProduct(obj);
-    return response;
+    try {
+        const response = await productsDao.addProduct(obj);
+        return response;
+    } catch (error) {
+        console.log("Error:",error)
+    }
+   
 }
 
 export const aggregation =async (categ,sort) => {
@@ -16,7 +21,8 @@ export const aggregation =async (categ,sort) => {
 }
 
 export const getProductById = async(id) =>{
-    const product = await productsDao.getProductById(id)
+    const product = await productsDao.getProductById(id);
+    return product
 };
 
 export const updateProduct = async (pid,fieldToUpdate) =>{
@@ -32,4 +38,9 @@ export const deleteById = async(pid) => {
 export const deleteAll = async() => {
     const deleted = await productsDao.deleteAll();
     return deleted
+}
+
+export const paginateProduct = async(query,options) =>{
+    const products = await productsDao.paginateProduct(query,options)
+    return products
 }

@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { productManager } from "../app.js";
 import { userValidation } from "../../middlewares/userValidation.js";
 
 const router = Router();

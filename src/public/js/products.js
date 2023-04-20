@@ -1,6 +1,7 @@
-
+    console.log("ME RENDERIZO")
 
     document.addEventListener("DOMContentLoaded",async () =>{
+        console.log("ME RENDERIZO CUANDO SE RENDERIZA")
         //creo carrito al cargar la pagina solo SI el usuario no tiene uno ya asignado a su propiedad associatedCart
     const cartCreation = await fetch("/api/carts", {
         method: "POST",

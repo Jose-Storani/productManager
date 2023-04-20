@@ -22,15 +22,15 @@ import "./dao/mongoDB/dbConfig.js"
 // import { CartManager } from "./dao/fileManager/cartManager.js";
 
 //CON MONGO DB
-import CartManager from "./dao/cartDao/cartManagerMDB.js";
-import  ProductManager  from "./dao/producstDao/productManagerMDB.js";
+// import CartManager from "./dao/cartDao/cartManagerMDB.js";
+// import  ProductManager  from "./dao/producstDao/productManagerMDB.js";
 import  {MessagesManager}  from "./dao/messagesDao/messagesManager.js";
 import  UserManager  from "./dao/usersDao/userManagerMDB.js";
 
 //exporto la variable que contiene la clase instanciada para tener acceso a los diferentes metodos de la clase.
 
-export let productManager = new ProductManager;
-export let cartManager = new CartManager;
+// export let productManager = new ProductManager;
+// export let cartManager = new CartManager;
 export let messagesManager = new MessagesManager
 export let userManager = new UserManager
 

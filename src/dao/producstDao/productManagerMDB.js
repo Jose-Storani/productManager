@@ -22,17 +22,7 @@ export default class ProductManager {
                 return 402
             }
             else {
-                // let objProduct = {
-                //     title,
-                //     description,
-                //     code,
-                //     price,
-                //     status,
-                //     stock,
-                //     category,
-                //     thumbnail,
-                //     id: 
-                // }
+               
                 return await productsModel.create(obj);
                 
             }
@@ -96,6 +86,14 @@ export default class ProductManager {
     async deleteAll(){
         return await productsModel.deleteMany();
         
+    }
+
+
+    //paginate
+
+    async paginateProduct(query,options){
+        const products = await productsModel.paginate(query,options);
+        return products
     }
 
 

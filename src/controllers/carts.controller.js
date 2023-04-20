@@ -10,9 +10,10 @@ export const cartById = async(req,res) =>{
         const {cid} = req.params;
         const cart = await getCartbyId(cid);
         if(cart){
-            const cartProducts = cart[0].products;
+            const cartProducts = cart.products;
+            res.json({respuesta:cartProducts})
             
-            res.render("cart",{cartProducts})
+            // res.render("cart",{cartProducts})
         }
         else{
             res.json({mensaje: "Carrito no encontrado"});
@@ -23,12 +24,11 @@ export const cartById = async(req,res) =>{
 }
 
 export const createCart = async (req,res) =>{
-    // const cart = await createACart();
-    // res.json({carritoCreado : cart});
-
-    const cartId = req.session.userInfo.associatedCart._id
-    res.status(200).json({cartId
-    })
+    const cart = await createACart();
+    res.json({carritoCreado : cart});
+    // const cartId = req.session.userInfo.associatedCart._id
+    // res.status(200).json({cartId
+    // })
 }
 
 export const addProducToCart = async(req,res) => {
@@ -46,6 +46,7 @@ export const addProducToCart = async(req,res) => {
         console.log(error)
     }
 }
+
 
 export const addArrayToCart = async (req,res) => {
     try {

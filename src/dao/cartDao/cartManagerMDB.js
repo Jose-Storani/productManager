@@ -14,7 +14,6 @@ export default class CartManager {
         try {
             console.log("le llega esto de Id", cId
             );
-            console.log("lo hace dos veces")
             const cartFounded =  await cartsModel.find({_id:cId}).lean()
             return cartFounded
         } catch (error) {
@@ -31,7 +30,7 @@ export default class CartManager {
         }
     }
 
-    //cid = cartId , pid = productId
+    
     async addToCart(cid, pid) {
         try {
             const cart = await cartsModel.findById(cid);           

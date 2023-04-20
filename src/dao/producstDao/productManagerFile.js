@@ -65,7 +65,7 @@ export default class ProductManager {
 
     async getProductsById(id) {
         let productsFile = await this.getProducts()
-        let productById = productsFile.find((product) => product.id === id) ?? 400;
+        let productById = productsFile.find((product) => product.id === parseInt(id)) ?? 400;
         return productById;
 
     }
