@@ -7,18 +7,22 @@ export default class UserManager{
         try {
             const {email,password} = userInfo;
             const existUser = await usersModel.find({email});
-            console.log(existUser)
-            
-            if(existUser.length !==0){
+            if(existUser.length){
                 return null
             }
             else{
-                const hashNewPassword = await hashPassword(password);
-                const newUser = {
-                    ...userInfo,
-                    password:hashNewPassword
+                if(userInfo.password === " "){
+                    return await usersModel.create(userInfo);
                 }
-                return await usersModel.create(newUser);
+                else{
+                    const hashNewPassword = await hashPassword(password);
+                    const newUser = {
+                        ...userInfo,
+                        password:hashNewPassword
+                    }
+                    return await usersModel.create(newUser);
+                }
+                
                 
             }
         } catch (error) {
@@ -29,7 +33,7 @@ export default class UserManager{
     async findUser(email,password){
         try {
 
-            const correctUser = await usersModel.find({email:email}).lean();
+            const correctUser = await usersModel.find({email}).lean();
             if(email === "adminCoder@coder.com" && password ==="adminCod3r123"){
                 const adminUser = {
                     first_name: "AdminCoder",
@@ -42,7 +46,6 @@ export default class UserManager{
             else{
                 if(correctUser.length){
                     const isPassword = await comparePasswords(password,correctUser[0].password);
-                    console.log(isPassword)
                     if(isPassword){
                         correctUser[0].rol = "Usuario"
                         return correctUser[0]
@@ -60,5 +63,15 @@ export default class UserManager{
         } catch (error) {
             console.log(error)
         }
+    }
+
+    async findOneUser(email){
+        try {
+            const response = await usersModel.findOne({email});
+            return response
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 }

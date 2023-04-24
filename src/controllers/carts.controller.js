@@ -10,6 +10,7 @@ export const cartById = async(req,res) =>{
         const {cid} = req.params;
         const cart = await getCartbyId(cid);
         if(cart){
+            
             const cartProducts = cart.products;
             res.json({respuesta:cartProducts})
             

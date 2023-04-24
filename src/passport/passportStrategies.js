@@ -5,6 +5,7 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import { ExtractJwt, Strategy as jwtStrategy } from "passport-jwt";
+import { createNewUser } from "../services/users.service.js";
 
 import { hashPassword } from "../utilities.js";
 import { comparePasswords } from "../utilities.js";
@@ -17,14 +18,18 @@ passport.use("registro", new LocalStrategy({
     passwordField: "password",
     passReqToCallback: true
 }, async (req, email, password, done) => {
-    const user = await usersModel.findOne({ email });
-    if (user) {
+    try {
+        console.log(req.body);
+        const user = await createNewUser(req.body);
+    if (!user) {
+        console.log("Usuario existente")
         return done(null, false)
     };
-    const hashNewPassword = await hashPassword(password);
-    const newUser = { ...req.body, password: hashNewPassword };
-    const newUserBD = await usersModel.create(newUser);
-    done(null, newUserBD);
+    done(null, user);
+    } catch (error) {
+        return done("ERROR AL OBTENER EL USUARIO:", error)
+    }
+    
 
 }));
 
@@ -70,16 +75,16 @@ passport.use("github", new GitHubStrategy({
     callbackURL: "http://localhost:8080/api/users/github"
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        const user = await usersModel.findOne({ email: profile._json.email });
-        if (!user) {
-            const newUser = {
-                first_name: profile._json.name.split(" ")[0],
-                last_name: profile._json.name.split(" ")[1] || " ",
-                email: profile._json.email,
-                password: " ",
-            }
-            const userBD = await usersModel.create(newUser);
-            done(null, userBD)
+        console.log(profile._json)
+        const newUserGitHub = {
+            first_name: profile._json.name.split(" ")[0],
+            last_name: profile._json.name.split(" ")[1] || " ",
+            email: profile._json.email,
+            password: " ",
+        }
+        const user = await createNewUser(newUserGitHub);
+        if (!user) {            
+            done(null, user)
         } else {
             done(null, user)
         }
@@ -102,18 +107,18 @@ passport.use("github", new GitHubStrategy({
 // )
 
 
-const cookieExtractor = (req) => {
-    const token = req.cookies.token
-    return token
-}
+// const cookieExtractor = (req) => {
+//     const token = req.cookies.token
+//     return token
+// }
 
-//jwt cookies
-passport.use("jwtCookies", new jwtStrategy({
-    jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
-    secretOrKey: "secretJWT"
-}, async (jwt_payload, done) => {
-    done(null, jwt_payload)
-}))
+// //jwt cookies
+// passport.use("jwtCookies", new jwtStrategy({
+//     jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+//     secretOrKey: "secretJWT"
+// }, async (jwt_payload, done) => {
+//     done(null, jwt_payload)
+// }))
 
 
 

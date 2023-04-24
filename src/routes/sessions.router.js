@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { userManager } from "../app.js";
 import passport from "passport"
 
 const router = Router();
@@ -41,35 +40,5 @@ passport.authenticate("login",{
 })
 
 
-//registro con passport
-router.post("/registro",
-passport.authenticate("registro",{
-    failureRedirect: "/registroFailed",
-    successRedirect: "/registroSuccess",    
-    passReqToCallBack: true
-}));
-
-
-
-//sin passport
-// router.post("/registro",async(req,res)=>{
-
-//     try {
-//         const newUserInfo = req.body;
-//         const newUser = await userManager.createUser(newUserInfo);
-        
-//         if(!newUser){
-//             res.render("registroFailed")
-//         }
-//         else{
-
-//             res.render("registroSuccess")
-//         }
-//     } catch (error) {
-//         console.log(error)
-//     }
-    
-
-// })
 
 export default router

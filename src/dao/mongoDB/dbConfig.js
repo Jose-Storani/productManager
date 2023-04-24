@@ -1,14 +1,12 @@
 import mongoose from "mongoose";
+import config from "../../config.js";
 
 //para conectarme a una BD desde una app, uso este metodo.
 
 //string necesario para conectar desde atlas
 
-const URI= "mongodb+srv://JoseStorani:Hammerfall3076@ecommercemanager.kdrfgjg.mongodb.net/ecommerce?retryWrites=true&w=majority"
+const URI= config.mongoURI
 
-
-
-//despues de la barra, hay que poner el nombre de la collecion (si existe, accede a ella, si no, la crea)
 
 mongoose.connect(URI,(error)=>{
     if(error){
