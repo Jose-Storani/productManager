@@ -1,6 +1,5 @@
 export const userLogin = async (req,res)=>{
     req.session.userInfo = req.user;
-    console.log(req.session.userInfo);
     res.redirect("/products")
     
 }

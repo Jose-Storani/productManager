@@ -1,9 +1,10 @@
 import { Router } from "express";
 import passport from "passport"
+import { findUser } from "../controllers/users.controller.js";
 
 const router = Router();
 
-
+router.get("/",findUser)
 
 router.get("/registroGithub",passport.authenticate("github",{
     scope:["user:email"]

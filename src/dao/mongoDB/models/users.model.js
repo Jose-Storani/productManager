@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
 
 });
 
-userSchema.pre("findOne",function(next){
+userSchema.pre("find",function(next){
     this.populate("associatedCart");
     next()
 })

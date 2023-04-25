@@ -49,7 +49,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             
             addToCart.forEach((button) => {
                 const productId = button.id
-                button.addEventListener("click", async () => {
+                button.addEventListener("click", async (e) => {
+                    e.preventDefault()
                     //agregar producto al carrito con fetch
                     await fetch(`/api/carts/${cartId}/product/${productId}`, { method: "POST" });
                     alert("Producto añadido al carrito")
@@ -57,9 +58,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 });
             });
-        })
+        }).catch((error) => console.log(error));
+
+        let cartLink = document.getElementById("linkToCart");
+        cartLink.setAttribute("href", `/api/carts/${cartId}`);
 })
-.catch((error) => console.log(error));
+
+
+
+
 
 
 
