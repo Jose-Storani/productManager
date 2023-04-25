@@ -1,7 +1,6 @@
 import { Router } from "express";
 import passport from "passport"
-import {userLogin} from "../../middlewares/userLogin.middleware.js";
-import { userLogOut } from "../../middlewares/userLogin.middleware.js";
+import {userLogin,userLogOut} from "../../middlewares/userLogin.middleware.js";
 
 const router = Router();
 

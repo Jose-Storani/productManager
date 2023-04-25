@@ -10,6 +10,7 @@ export default class UserManager {
             if (existUser.length) {
                 return null;
             } else {
+                //si se registra con GH, asigno password un string vacío.
                 if (userInfo.password === " ") {
                     return await usersModel.create(userInfo);
                 } else {
@@ -55,9 +56,9 @@ export default class UserManager {
         }
     }
 
-    async findOneUser(email) {
+    async updateUser(email,updateId) {
         try {
-            const response = await usersModel.findOne({ email });
+            const response = await usersModel.findOneAndUpdate({ email},{associatedCart: updateId},{new:true});
             return response;
         } catch (error) {
             console.log(error);

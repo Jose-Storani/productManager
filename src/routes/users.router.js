@@ -11,10 +11,9 @@ router.get("/registroGithub",passport.authenticate("github",{
 
 router.get("/github", passport.authenticate("github"),(req,res)=>{
     //es recomendable que despues del registro por terceros, se redireccione al perfil
-    // console.log({server:req.user})
-    console.log(req.user)
+    // console.log({server:req.user})   
     req.session.email = req.user.email
-    res.send("Logueado con GH")
+    
     // res.redirect("/products")
 });
 

@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { userValidation } from "../../middlewares/userValidation.js";
+import { profileRender } from "../controllers/users.controller.js";
 
 const router = Router();
 
 router.get("/", async (req,res)=>{  
-    res.render("login",{isAuthenticated: req.session.email});   
+    res.render("login",{isAuthenticated: req.session.userInfo?.email});   
 })
 
 router.get("/realtimeproducts", (req,res)=>{
@@ -16,15 +17,7 @@ router.get("/chat",(req,res)=> {
     res.render("chat",{})
 });
 
-router.get("/products",userValidation, async(req,res)=>{
-    if(req.session.userInfo.rol == "Admin"){
-        res.render("products",{userData:req.session.userInfo,partialData:{rol:req.session.userInfo.rol}});
-    }
-    else{
-        res.render("products",{userData:req.session.userInfo});
-    }
-    
-})
+router.get("/products",userValidation,profileRender )
 
 router.get("/registro",async (req,res)=>{
     res.render("registro")

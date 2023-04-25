@@ -19,3 +19,14 @@ export const findUser = async (req, res) => {
         console.log(error);
     }
 };
+
+
+export const profileRender = async(req,res)=>{
+    if(req.session.userInfo.rol === "Administrador"){
+        res.render("products",{userData:req.session.userInfo,adminData:req.session.userInfo.rol});
+    }
+    else{
+        res.render("products",{userData:req.session.userInfo});
+    }
+    
+}

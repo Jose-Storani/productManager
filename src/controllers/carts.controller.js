@@ -25,11 +25,9 @@ export const cartById = async(req,res) =>{
 }
 
 export const createCart = async (req,res) =>{
-    const cart = await createACart();
-    res.json({carritoCreado : cart});
-    // const cartId = req.session.userInfo.associatedCart._id
-    // res.status(200).json({cartId
-    // })
+    const cartId = req.session.userInfo.associatedCart
+    res.status(200).json({cartId
+    })
 }
 
 export const addProducToCart = async(req,res) => {

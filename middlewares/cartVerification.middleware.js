@@ -1,14 +1,13 @@
-import { cartDao } from "../src/dao/factory.js";
-import { usersModel } from "../src/dao/mongoDB/models/users.model.js";
 
+import { updateOne } from "../src/services/users.service.js";
+import { createACart } from "../src/services/cart.service.js";
 
 export async function cartVerification(req,res,next){
     const {email} = req.session.userInfo;
-    req.session.userInfo.dataNueva = "Soy nuevo look at me"
  if(!req.session.userInfo.hasOwnProperty("associatedCart")){
-    const cartCreated = await cartDao.createACart();
-    console.log(cartCreated._id)
-    const user = await usersModel.findOneAndUpdate({email},{associatedCart: cartCreated.id},{new:true});
+   const cartCreated = await createACart();
+    const user = await updateOne(email,cartCreated.id);
+    req.session.userInfo = user
    
  }   
     next()

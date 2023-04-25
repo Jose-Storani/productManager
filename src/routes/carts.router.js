@@ -12,7 +12,7 @@ router.get("/",getAllCarts)
 
 router.get("/:cid", cartById)
 
-router.post("/",createCart)
+router.post("/",cartVerification,createCart)
 
 router.post("/:cid/product/:pid", addProducToCart)
 

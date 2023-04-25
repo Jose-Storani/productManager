@@ -20,9 +20,9 @@ export const checkUser = async (email,password) =>{
     }
 }
 
-export const findOne = async (email) =>{
+export const updateOne = async (email,updateId) =>{
     try {
-        const response = await usersDao.findOneUser(email);
+        const response = await usersDao.updateUser(email,updateId);
         return response
     } catch (error) {
         console.log(error)

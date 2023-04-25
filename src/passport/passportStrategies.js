@@ -19,7 +19,7 @@ passport.use(
         },
         async (req, email, password, done) => {
             try {
-                console.log(req.body);
+                
                 const user = await createNewUser(req.body);
                 if (!user) {
                     console.log("Usuario existente");
@@ -43,7 +43,7 @@ passport.use(
         },
         async (req, email, password, done) => {
             try {
-                console.log(email,password)
+                
                 const correctUser = await checkUser(email,password)
                 if(correctUser){
                     return done (null,correctUser);

@@ -29,6 +29,9 @@ export const getAllProducts = async(req,res)=>{
         nextLink
     }})
 
+    console.log(products)
+    
+
 
 }
 
