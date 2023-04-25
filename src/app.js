@@ -11,6 +11,7 @@ import config from "./config.js";
 
 
 
+
 import "./passport/passportStrategies.js";
 
 
@@ -105,6 +106,8 @@ import cartsRoute from "./routes/carts.router.js"
 import viewsRoute from "./routes/views.router.js"
 import sessionsRouter from "./routes/sessions.router.js"
 import usersRouter from "./routes/users.router.js"
+import mailerRoute from "./routes/mailer.router.js"
+import mensajesRouter from "./routes/twilio.router.js"
 
 
 
@@ -113,6 +116,8 @@ app.use("/api/carts", cartsRoute);
 app.use("/", viewsRoute);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/mail",mailerRoute)
+app.use("/api/mensajes",mensajesRouter)
 
 
 app.use((req, res) => {

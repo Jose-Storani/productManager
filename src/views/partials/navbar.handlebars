@@ -4,13 +4,15 @@
     
       <div class="navbar-nav">
         <a class="nav-link" aria-current="page" href="/products">Productos</a>
+        {{#unless adminData}}
         <a class="nav-link" id="linkToCart" aria-current="page" href="#">Carrito</a>
         <a class="nav-link" href="#">Chat</a>
-        <a  class="nav-link" href="/api/sessions/logout">Log Out</a>
+        {{/unless}}
 
         {{#if adminData}}
-         <a class="nav-link" href="/realtimeproducts">Agregar Productos</a>
+         <a class="nav-link" href="/realtimeproducts">Modificar Productos</a>
           {{/if}}
+        <a  class="nav-link" href="/api/sessions/logout">Log Out</a>
     </div>
   </div>
 </nav>
