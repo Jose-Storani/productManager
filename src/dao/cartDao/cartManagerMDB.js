@@ -100,10 +100,6 @@ export default class CartManager {
 
     async updateCartProductsByArray(cid,arrayToUpdate){
         try {
-            let arrayTest= [{
-                productId:"644713dc53a7ea768d5c6de6",
-                quantity:10
-            }]
             const updateCartProducts = await cartsModel.findOneAndReplace({_id:cid},{products:arrayToUpdate},{returnDocument:"after"});
             return updateCartProducts
         } catch (error) {

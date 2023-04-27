@@ -30,7 +30,6 @@ router.post("/:cid/purchase", async (req, res, next) => {
             updateProduct(product.productId, { stock: product.productId.stock - product.quantity });
             newPurchaseCart.push(product);
             purchaserCart.products.splice(productIndex, 1);
-            console.log("entro aca:", purchaserCart)
 
         }
     })
@@ -42,9 +41,6 @@ router.post("/:cid/purchase", async (req, res, next) => {
             quantity: product.quantity
         }
     })
-    console.log("despues:", arrayToUpdate)
-
-
 
     req.newPurchaseCart = newPurchaseCart;
     await updateCartProductsByArray(cid, arrayToUpdate);
