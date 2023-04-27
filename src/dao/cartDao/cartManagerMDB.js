@@ -12,8 +12,6 @@ export default class CartManager {
 
     async getCartbyId(cId) {
         try {
-            console.log("le llega esto de Id", cId
-            );
             const cartFounded =  await cartsModel.find({_id:cId}).lean()
             return cartFounded
         } catch (error) {
@@ -100,9 +98,13 @@ export default class CartManager {
         }
     }
 
-    async updateCartProductsByArray(cid,productsArray){
+    async updateCartProductsByArray(cid,arrayToUpdate){
         try {
-            const updateCartProducts = await cartsModel.findOneAndReplace({_id:cid},{products:productsArray},{new:true});
+            let arrayTest= [{
+                productId:"644713dc53a7ea768d5c6de6",
+                quantity:10
+            }]
+            const updateCartProducts = await cartsModel.findOneAndReplace({_id:cid},{products:arrayToUpdate},{returnDocument:"after"});
             return updateCartProducts
         } catch (error) {
             console.log(error)

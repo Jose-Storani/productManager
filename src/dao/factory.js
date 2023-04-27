@@ -4,12 +4,14 @@ import CartManagerFile from "./cartDao/cartManagerFile.js";
 import ProductManagerMongo from "./producstDao/productManagerMDB.js";
 import ProductManagerFile from "./producstDao/productManagerFile.js";
 import UserManagerMongo from "./usersDao/userManagerMDB.js";
+import TicketManager from "./ticketDao/ticketManagerMDB.js";
 
 
 
 let cartDao;
 let productsDao;
 let usersDao;
+let ticketsDao;
 
 switch(config.persistencia){
     case "MONGO":
@@ -17,6 +19,7 @@ switch(config.persistencia){
         cartDao = new CartManagerMongo();
         productsDao = new ProductManagerMongo();
         usersDao = new UserManagerMongo();
+        ticketsDao = new TicketManager();
 
         break;
 
@@ -29,4 +32,4 @@ switch(config.persistencia){
         break
 }
 
-export {cartDao,productsDao,usersDao};
+export {cartDao,productsDao,usersDao,ticketsDao};

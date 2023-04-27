@@ -6,8 +6,12 @@ export const getCarts =async () => {
 }
 
 export const getCartbyId = async(cId) =>{
-    const cartFounded = await cartDao.getCartbyId(cId);
-    return cartFounded
+    const response = await cartDao.getCartbyId(cId);
+    if(response){
+        const cartFounded = response[0];
+        return cartFounded
+    }
+    return response
 }
 
 export const createACart = async () => {
