@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { userValidation } from "../../middlewares/userValidation.js";
+import { adminValidation, userValidation } from "../middlewares/userValidation.js";
 import { profileRender } from "../controllers/users.controller.js";
 
 const router = Router();
@@ -8,7 +8,7 @@ router.get("/", async (req,res)=>{
     res.render("login",{isAuthenticated: req.session.userInfo?.email});   
 })
 
-router.get("/realtimeproducts", (req,res)=>{
+router.get("/realtimeproducts",adminValidation, (req,res)=>{
     res.render("realTimeProducts")
 
 })

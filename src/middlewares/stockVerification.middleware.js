@@ -1,5 +1,5 @@
-import { getCartbyId,updateCartProductsByArray } from "../src/services/cart.service.js";
-import { updateProduct } from "../src/services/products.service.js";
+import { getCartbyId,updateCartProductsByArray } from "../services/cart.service.js";
+import { updateProduct } from "../services/products.service.js";
 
 export const stockVerification = async (req, res, next) => {
     const { cid } = req.params

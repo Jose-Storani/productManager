@@ -1,6 +1,8 @@
 import { usersModel } from "../mongoDB/models/users.model.js";
 import { hashPassword } from "../../utilities.js";
 import { comparePasswords } from "../../utilities.js";
+import config from "../../config.js";
+
 
 export default class UserManager {
     async createUser(userInfo) {
@@ -17,7 +19,7 @@ export default class UserManager {
                     const hashNewPassword = await hashPassword(password);
 
                     const newUser =
-                        email === "coderAdmin@gmail.com"
+                        config.admins
                             ? {
                                 ...userInfo,
                                 password: hashNewPassword,

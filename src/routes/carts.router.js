@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { cartVerification } from "../../middlewares/cartVerification.middleware.js";
+import { cartVerification } from "../middlewares/cartVerification.middleware.js";
 import { cartById, createCart, getAllCarts, addProducToCart, addArrayToCart, updateByQuery, deleteCById, deleteProductFromCart, deleteAll } from "../controllers/carts.controller.js";
 import { createATicket, getTicket } from "../services/ticket.service.js";
-import { cartDao } from "../dao/factory.js";
-import { stockVerification } from "../../middlewares/stockVerification.middleware.js";
+
+import { stockVerification } from "../middlewares/stockVerification.middleware.js";
 import { purchaseGenerator } from "../controllers/tickets.controller.js";
 const router = Router();
 

@@ -76,7 +76,7 @@ Recibe por params el cartId, devuelve el carrito buscado, o una respuesta de "No
 POST
 
 /
-No recibe parametros, chequea la existencia del carrito asociado al usuario que hizo login, si no existe, se le asigna uno, caso contrario, lo crea. Luego, guarda el id del carrito en sessions y lo devuelve.
+No recibe parametros, chequea la existencia del carrito asociado al usuario que hizo login, si no existe, se le asigna uno, caso contrario, lo crea. Luego, guarda el id del carrito en sessions y lo devuelve. En este proyecto, está siendo llamado cuando carga la vista "products".
 
 
 /:cid/product/:pid

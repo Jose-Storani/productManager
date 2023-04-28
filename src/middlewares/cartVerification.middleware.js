@@ -1,6 +1,6 @@
 
-import { updateOne } from "../src/services/users.service.js";
-import { createACart } from "../src/services/cart.service.js";
+import { updateOne } from "../services/users.service.js";
+import { createACart } from "../services/cart.service.js";
 
 export async function cartVerification(req,res,next){
     const {email} = req.session.userInfo;
