@@ -4,6 +4,7 @@ import bcrypt from "bcrypt"
 
 
 export const __dirname = dirname(fileURLToPath(import.meta.url));
+console.log(__dirname)
 
 
 

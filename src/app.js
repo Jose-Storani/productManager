@@ -1,6 +1,6 @@
 
 import express from "express"
-import { __dirname } from "./utilities.js";
+import { __dirname } from "./utilities.js"
 import handlebars from "express-handlebars"
 import { Server } from "socket.io";
 import session from "express-session";
@@ -108,6 +108,7 @@ import sessionsRouter from "./routes/sessions.router.js"
 import usersRouter from "./routes/users.router.js"
 import mailerRoute from "./routes/mailer.router.js"
 import mensajesRouter from "./routes/twilio.router.js"
+import testUsers from "./routes/mocks.router.js"
 
 
 
@@ -118,6 +119,7 @@ app.use("/api/sessions", sessionsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/mail",mailerRoute)
 app.use("/api/mensajes",mensajesRouter)
+app.use("/", testUsers)
 
 
 app.use((req, res) => {

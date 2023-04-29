@@ -6,8 +6,8 @@ import { Strategy as GitHubStrategy } from "passport-github2";
 import { ExtractJwt, Strategy as jwtStrategy } from "passport-jwt";
 import { createNewUser, checkUser } from "../services/users.service.js";
 
-import { hashPassword } from "../utilities.js";
-import { comparePasswords } from "../utilities.js";
+
+
 
 passport.use(
     "registro",
@@ -71,6 +71,7 @@ passport.use(
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
+                console.log(profile._json)
                 const newUserGitHub = {
                     first_name: profile._json.name.split(" ")[0],
                     last_name: profile._json.name.split(" ")[1] || " ",
@@ -80,12 +81,16 @@ passport.use(
 
                 //llamo directamente al servicio, no al controlador
                 const user = await createNewUser(newUserGitHub);
+                
                 if (!user) {
+                    console.log("primeraInstancia: ", user)
                     done(null, user);
                 } else {
+                    console.log("segunda instancia")
                     done(null, user);
                 }
             } catch (error) {
+                console.log("tiró error")
                 return done, error;
             }
         }
@@ -116,6 +121,7 @@ passport.use(
 // }))
 
 passport.serializeUser((user, done) => {
+    console.log("Serializando", user._id)
     done(null, user._id);
 });
 

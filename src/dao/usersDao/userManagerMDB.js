@@ -1,6 +1,5 @@
 import { usersModel } from "../mongoDB/models/users.model.js";
-import { hashPassword } from "../../utilities.js";
-import { comparePasswords } from "../../utilities.js";
+import { hashPassword, comparePasswords } from "../../utilities.js";
 import config from "../../config.js";
 
 
@@ -9,17 +8,17 @@ export default class UserManager {
         try {
             const { email, password } = userInfo;
             const existUser = await usersModel.find({ email });
-            if (existUser.length) {
+            if (existUser.length && password !== " ") {
                 return null;
             } else {
                 //si se registra con GH, asigno password un string vacío.
-                if (userInfo.password === " ") {
-                    return await usersModel.create(userInfo);
+                if (existUser.length && userInfo.password === " ") {
+                    return existUser[0]
                 } else {
-                    const hashNewPassword = await hashPassword(password);
+                    const hashNewPassword = password !==" " ?await hashPassword(password): password
 
                     const newUser =
-                        config.admins
+                        email === config.admins.coder || email === config.admins.creator || email ===config.admins.other
                             ? {
                                 ...userInfo,
                                 password: hashNewPassword,
@@ -29,6 +28,9 @@ export default class UserManager {
                                 ...userInfo,
                                 password: hashNewPassword,
                             };
+
+
+                    console.log(newUser)
                     return await usersModel.create(newUser);
                 }
             }
@@ -39,7 +41,7 @@ export default class UserManager {
 
     async findUser(email, password) {
         try {
-            const correctUser = await usersModel.find({email}).lean();
+            const correctUser = await usersModel.find({ email }).lean();
             if (correctUser.length) {
                 const isPassword = await comparePasswords(
                     password,
@@ -58,9 +60,9 @@ export default class UserManager {
         }
     }
 
-    async updateUser(email,updateId) {
+    async updateUser(email, updateId) {
         try {
-            const response = await usersModel.findOneAndUpdate({ email},{associatedCart: updateId},{new:true});
+            const response = await usersModel.findOneAndUpdate({ email }, { associatedCart: updateId }, { new: true });
             return response;
         } catch (error) {
             console.log(error);

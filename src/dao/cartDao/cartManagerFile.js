@@ -1,5 +1,5 @@
 import fs from "fs"
-import { __dirname } from "../../utilities.js";
+import { __dirname } from "../../utilities.js"
 
 export default class CartManager {
     constructor() {

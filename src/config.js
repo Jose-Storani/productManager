@@ -13,7 +13,8 @@ export default {
     twilioSid: process.env.TWILIO_SID,
     twilioAuthToken:process.env.TWILIO_AUTH_TOKEN,
     admins: {coder: process.env.CODER_ADMIN,
-        creator:process.env.CREATOR_ADMIN
+        creator:process.env.CREATOR_ADMIN,
+        other: process.env.OTHER_ADMIN
     }
 }
 

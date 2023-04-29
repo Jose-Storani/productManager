@@ -57,6 +57,14 @@ Para correrlo de manera local usar: (puerto 8080)
 -Falta agregar boton de eliminar producto del carrito, la funcionalidad existe en el back, pero no en el front.
 
 
+-Modificar variables de entorno "ADMINS", con el mail que quieran registrarse para ser Administradores del sitio.
+
+
+
+
+## Testing Mocks
+Hacer llamado al endpoint "/usersTest" con el metodo Post, generará un usuario random y se registrará en la BD.
+
 
 
 ## Endpoints
