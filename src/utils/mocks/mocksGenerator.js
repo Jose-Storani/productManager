@@ -25,11 +25,15 @@ export function productGenerator(){
     return product
 }
 
-const products = [];
-    for(let i=0; i<5; i++){
+
+
+export function generateXProducts(x){
+    const products = [];
+    for(let i=0; i<x; i++){
         const product = productGenerator();
         products.push(product);
     }
-
+    return products
+}
 
 

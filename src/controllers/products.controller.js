@@ -1,48 +1,50 @@
-import { getProducts,addProduct,aggregation,getProductById,updateProduct,deleteById,deleteAll,paginateProduct } from "../services/products.service.js";
+import { getProducts, addProduct, aggregation, getProductById, updateProduct, deleteById, deleteAll, paginateProduct } from "../services/products.service.js";
 
-export const getAllProducts = async(req,res)=>{
-    let {limit = 10, page = 1, sort,query} = req.query;
+export const getAllProducts = async (req, res) => {
+    let { limit = 10, page = 1, sort, query } = req.query;
 
-    query ? query = {category:query} : null
+    query ? query = { category: query } : null
 
     const options = {
         limit,
         page
     }
-    sort ? options.sort = {price:sort} : options
+    sort ? options.sort = { price: sort } : options
 
-    const products = await paginateProduct(query,options);
+    const products = await paginateProduct(query, options);
     const status = products.docs ? "success" : "error";
     const prevLink = products.hasPrevPage ? `http://localhost:8080/api/products?page=${products.prevPage}` : null;
     const nextLink = products.hasNextPage ? `http://localhost:8080/api/products?page=${products.nextPage}` : null;
-    
-    res.json({results:{
-        status,
-        payload: products.docs,
-        totalPages: products.totalPages,
-        prevPage: products.prevPage,
-        nextPage: products.nextPage,
-        page: products.page,
-        hasPrevPage: products.hasPrevPage,
-        hasNextPage: products.hasNextPage,
-        prevLink,
-        nextLink
-    }})
+
+    res.json({
+        results: {
+            status,
+            payload: products.docs,
+            totalPages: products.totalPages,
+            prevPage: products.prevPage,
+            nextPage: products.nextPage,
+            page: products.page,
+            hasPrevPage: products.hasPrevPage,
+            hasNextPage: products.hasNextPage,
+            prevLink,
+            nextLink
+        }
+    })
 
     console.log(products)
-    
+
 
 
 }
 
-export const aggregationFunction = async(req,res) =>{
-    const {category} = req.params;
-    const {sort = 1} = req.query;
+export const aggregationFunction = async (req, res) => {
+    const { category } = req.params;
+    const { sort = 1 } = req.query;
     const productsFiltered = await aggregation(category, parseInt(sort));
-    res.json({productsFiltered});
+    res.json({ productsFiltered });
 }
 
-export const productById = async(req,res)=>{
+export const productById = async (req, res) => {
     try {
         const { id } = req.params;
         const product = await getProductById(id)
@@ -57,29 +59,27 @@ export const productById = async(req,res)=>{
     }
 }
 
-export const addOneProduct = async(req,res) =>{
+export const addOneProduct = async (req, res) => {
     try {
         const objProduct = req.body
-    const newProduct = await addProduct(objProduct);
+        const newProduct = await addProduct(objProduct);
 
-    if (newProduct === 401) {
-        res.status(400).json({ error: "Debe ingresar todos los campos requeridos" })
-    }
-    else if (newProduct === 402) {
-        res.status(400).json({ error: "El codigo no puede ser igual a uno existente" })
-    }
-    else {
-        res.status(200).json({ mensaje: "producto agregado con exito", newProduct });
-        console.log(`Producto agregado con exito: ${newProduct}`)
-    }
+        if (newProduct === 401) {
+            return res.status(400).json({ error: "Debe ingresar todos los campos requeridos" })
+        }
+        if (newProduct === 402) {
+            return res.status(400).json({ error: "El codigo no puede ser igual a uno existente" })
+        }
+        return res.status(200).json({ mensaje: "producto agregado con exito", newProduct });
+
     } catch (error) {
         console.log("ERROR", error)
     }
-    
+
 }
 
 
-export const modifyProduct = async(req,res)=>{
+export const modifyProduct = async (req, res) => {
     try {
         const { pid } = req.params
         const update = req.body
@@ -92,10 +92,10 @@ export const modifyProduct = async(req,res)=>{
 };
 
 
-export const deleteOne = async(req,res) =>{
+export const deleteOne = async (req, res) => {
     try {
         const { pid } = req.params;
-         
+
         const deletedProduct = await deleteById(pid);
         res.status(200).json({ "producto eliminado con exito: ": deletedProduct })
 

@@ -8,6 +8,7 @@ import MongoStore from "connect-mongo";
 import passport from "passport"
 import cookieParser from "cookie-parser";
 import config from "./config.js";
+import { errorsMiddleware } from "./middlewares/errors.middleware.js";
 
 
 
@@ -18,27 +19,19 @@ import "./passport/passportStrategies.js";
 import "./dao/mongoDB/dbConfig.js"
 
 
-//CON FILE SYSTEM:
-// import { ProductManager } from "./dao/fileManager/productManager.js";
-// import { CartManager } from "./dao/fileManager/cartManager.js";
 
-//CON MONGO DB
-// import CartManager from "./dao/cartDao/cartManagerMDB.js";
-// import  ProductManager  from "./dao/producstDao/productManagerMDB.js";
+
+
 import  {MessagesManager}  from "./dao/messagesDao/messagesManager.js";
-import  UserManager  from "./dao/usersDao/userManagerMDB.js";
 
-//exporto la variable que contiene la clase instanciada para tener acceso a los diferentes metodos de la clase.
-
-// export let productManager = new ProductManager;
-// export let cartManager = new CartManager;
 export let messagesManager = new MessagesManager
-export let userManager = new UserManager
+
 
 
 
 //express 
 const app = express()
+app.use(compression({brotli:{enabled:true,zlib:{}}}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -108,7 +101,8 @@ import sessionsRouter from "./routes/sessions.router.js"
 import usersRouter from "./routes/users.router.js"
 import mailerRoute from "./routes/mailer.router.js"
 import mensajesRouter from "./routes/twilio.router.js"
-import testUsers from "./routes/mocks.router.js"
+import mocking from "./routes/mocks.router.js"
+import compression from "express-compression";
 
 
 
@@ -119,13 +113,14 @@ app.use("/api/sessions", sessionsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/mail",mailerRoute)
 app.use("/api/mensajes",mensajesRouter)
-app.use("/", testUsers)
+app.use("/", mocking)
 
 
 app.use((req, res) => {
     res.status(404).render('invalidUrl');
-  });
+});
 
+app.use(errorsMiddleware)
 
 //SERVER + SOCKET
 const PORT = process.env.PORT || 8080

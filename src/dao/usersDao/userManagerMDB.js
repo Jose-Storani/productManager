@@ -1,5 +1,7 @@
 import { usersModel } from "../mongoDB/models/users.model.js";
 import { hashPassword, comparePasswords } from "../../utilities.js";
+import CustomError from "../../utils/errors/customError.js"
+import { errorsName,errorsCause,errorsMessage,errorsCode } from "../../utils/errors/errors.dictionary.js";
 import config from "../../config.js";
 
 
@@ -18,7 +20,7 @@ export default class UserManager {
                     const hashNewPassword = password !==" " ?await hashPassword(password): password
 
                     const newUser =
-                        email === config.admins.coder || email === config.admins.creator || email ===config.admins.other
+                        email === config.admins?.coder || email === config.admins?.creator || email ===config.admins?.other
                             ? {
                                 ...userInfo,
                                 password: hashNewPassword,
@@ -29,13 +31,17 @@ export default class UserManager {
                                 password: hashNewPassword,
                             };
 
-
-                    console.log(newUser)
                     return await usersModel.create(newUser);
                 }
             }
         } catch (error) {
-            console.log(error);
+            CustomError.createError({
+                name: errorsName.DATA_INCOMPLETE,
+                cause: errorsCause.DATA_INCOMPLETE,
+                message: errorsMessage.DATA_INCOMPLETE,
+                code: errorsCode.DATA_INCOMPLETE,
+            })
+            
         }
     }
 

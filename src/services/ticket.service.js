@@ -17,9 +17,6 @@ export const createATicket = async(ticketData) =>{
 
     const dateTimeString = `${day}/${month} ${hour}:${minute}`;
 
-    
-
-
     let newTicket = {
         ticketCode,
         purchase_dateTime: dateTimeString,
