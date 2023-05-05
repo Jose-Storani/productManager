@@ -1,6 +1,5 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
-
     //creo carrito al cargar la pagina solo SI el usuario no tiene uno ya asignado a su propiedad associatedCart
     const cartCreation = await fetch("/api/carts", {
         method: "POST",
@@ -11,17 +10,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
     const responseJson = await cartCreation.json();
     const cartId = responseJson.cartId;
-
-
+    
     //cuando carga el documento, renderizo la tabla con los productos traidos de la BD usando metodo get con fetch      
-    const options = {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json; charset=UTF-8",
-
-        },
-    };
-    fetch("/api/products", options)
+    fetch("/api/products")
         .then((res) => res.json())
         .then((response) => {
             const products = response.results.payload;
@@ -34,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 // Se establece el contenido de la card
                 cardDiv.innerHTML = `
-  <img src="..." class="card-img-top" alt="...">
+  <img src="${product.thumbnail}" class="card-img-top" alt="${product.title}">
   <div class="card-body" style="text-align: center;">
     <h5 class="card-title">${product.title}</h5>
     <p class="card-text">${product.description}</p>
@@ -43,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 `;
 
 
-            // Agrego al div existente todo lo creado
+                // Agrego al div existente todo lo creado
                 let myDiv = document.getElementById("card-render");
                 myDiv.appendChild(cardDiv);
             })
@@ -55,34 +46,34 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             //traigo los botones creados, para despues agregarle una funcion
             let addToCart = document.querySelectorAll(".addToCart");
-
+            
             addToCart.forEach((button) => {
                 const productId = button.id
-                button.addEventListener("click", async () => {
+                button.addEventListener("click", async (e) => {
+                    e.preventDefault()
                     //agregar producto al carrito con fetch
-                    const productAdded = await fetch(`/api/carts/${cartId}/product/${productId}`, { method: "POST" });
+                    await fetch(`/api/carts/${cartId}/product/${productId}`, { method: "POST" });
                     alert("Producto añadido al carrito")
 
 
                 });
             });
-        })
-        .catch((error) => console.log(error));
+        }).catch((error) => console.log(error));
 
-
-
-    let cartLink = document.getElementById("linkToCart");
-    cartLink.setAttribute("href", `/api/carts/${cartId}`);
-
+        let cartLink = document.getElementById("linkToCart");
+        cartLink.setAttribute("href", `/api/carts/${cartId}`);
 })
-    ;
 
 
-let logOutButton = document.getElementById("logOut");
-logOutButton.addEventListener("click", async (e) => {
-    e.preventDefault();
-    const logOut = await fetch("/api/sessions/logout");
-    const logOutJson = await logOut.json();
-    console.log(logOutJson);
-    window.location.href = "/"
-})
+
+
+
+
+
+
+
+
+
+
+
+

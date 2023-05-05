@@ -1,11 +1,22 @@
-<h2>Crear usuario</h2>
 
-<form action="/api/sessions/registro" method="POST">
-    Nombre:<input type="text" name="first_name" id="first_name" required>
-    Apellido:<input type="text" name="last_name" id="last_name" required>
-    Email:<input type="email" name="email" id="email" required>
-    Edad:<input type="number" name="age" id="age" required>
-    Contraseña:<input type="password" name="password" id="password" required>
-    <input type="submit" value="Registrar">
+
+<form class="form-registro" action="/api/users/registro" method="POST">
+<h3>Crear usuario</h3>
+<label for="nombre">Nombre</label>
+<input type="text" name="first_name" id="first_name" required>
+
+<label for="apellido">Apellido</label>
+<input type="text" name="last_name" id="last_name" required>
+
+<label for="email">Email</label>    
+<input type="email" name="email" id="email" required>
+    
+<label for="edad">Edad</label>    
+    <input type="number" name="age" id="age" required>
+    
+    <label for="contraseña">Contraseña</label>
+    <input type="password" name="password" id="password" required>
+    
+    <input class="submitButton" type="submit" value="Registrar">
 </form>
 

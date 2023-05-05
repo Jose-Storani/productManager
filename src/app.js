@@ -1,42 +1,37 @@
 
 import express from "express"
-import { __dirname } from "./utilities.js";
+import { __dirname } from "./utilities.js"
 import handlebars from "express-handlebars"
 import { Server } from "socket.io";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport"
 import cookieParser from "cookie-parser";
-import { handleInvalidUrl } from "../middlewares/invalidUrl.middleware.js";
+import config from "./config.js";
+import { errorsMiddleware } from "./middlewares/errors.middleware.js";
+
+
 
 
 import "./passport/passportStrategies.js";
 
 
-import "./dao/dbConfig.js"
+import "./dao/mongoDB/dbConfig.js"
 
 
-//CON FILE SYSTEM:
-// import { ProductManager } from "./dao/fileManager/productManager.js";
-// import { CartManager } from "./dao/fileManager/cartManager.js";
 
-//CON MONGO DB
-import { CartManager } from "./dao/mongoManager/cartManagerMDB.js";
-import { ProductManager } from "./dao/mongoManager/productManagerMDB.js";
-import { MessagesManager } from "./dao/mongoManager/messagesManager.js";
-import { UserManager } from "./dao/mongoManager/userManagerMDB.js";
 
-//exporto la variable que contiene la clase instanciada para tener acceso a los diferentes metodos de la clase.
 
-export let productManager = new ProductManager;
-export let cartManager = new CartManager;
+import  {MessagesManager}  from "./dao/messagesDao/messagesManager.js";
+
 export let messagesManager = new MessagesManager
-export let userManager = new UserManager
+
 
 
 
 //express 
 const app = express()
+app.use(compression({brotli:{enabled:true,zlib:{}}}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -49,20 +44,23 @@ app.use(express.static(__dirname + "/public"))
 
 //session store
 
-app.use(session({
-    secret:"secretCoder",
-    resave:false,
-    saveUninitialized:true,
-    // cookie:{maxAge:10000},
-   //la propiedad cookie, nos permite darle customizacion a las cookies, como maxage 
-    store:new MongoStore({
-        mongoUrl: "mongodb+srv://JoseStorani:Hammerfall3076@ecommercemanager.kdrfgjg.mongodb.net/sessionProductManager?retryWrites=true&w=majority",
+//session store
+//chequeo si existe en .env la variable de session con mongo
+const mongoSessionUrl = config?.mongoSessionUrl;
 
-        //tiempo de sesion activa : 2 minutos, no funciona... probé con 10 segundos, tampoco.
-    ttl:120000
-        
+const sessionOptions = {
+    secret: "secretCoder",
+    resave: false,
+    saveUninitialized: true
+}
+
+if (mongoSessionUrl) {
+    sessionOptions.store = new MongoStore({
+        mongoUrl: mongoSessionUrl
     })
-}))
+}
+
+app.use(session(sessionOptions));
 
 
 //passport
@@ -101,7 +99,11 @@ import cartsRoute from "./routes/carts.router.js"
 import viewsRoute from "./routes/views.router.js"
 import sessionsRouter from "./routes/sessions.router.js"
 import usersRouter from "./routes/users.router.js"
-import jwtRouter from "./routes/jwt.router.js"
+import mailerRoute from "./routes/mailer.router.js"
+import mensajesRouter from "./routes/twilio.router.js"
+import mocking from "./routes/mocks.router.js"
+import compression from "express-compression";
+
 
 
 app.use("/api/products", productRoute);
@@ -109,11 +111,15 @@ app.use("/api/carts", cartsRoute);
 app.use("/", viewsRoute);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/users", usersRouter);
-app.use("/jwt", jwtRouter)
+app.use("/api/mail",mailerRoute)
+app.use("/api/mensajes",mensajesRouter)
+app.use("/mocks", mocking)
+
 
 app.use((req, res) => {
     res.status(404).render('invalidUrl');
-  });
+});
+
 
 
 //SERVER + SOCKET
@@ -169,7 +175,7 @@ socketServer.on("connection", async (socket) => {
 
 })
 
-
+app.use(errorsMiddleware)
 
 
 
