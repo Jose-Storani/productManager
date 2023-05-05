@@ -1,3 +1,6 @@
+import { type } from "os";
+import CustomError from "../../utils/errors/customError.js";
+import { errors } from "../../utils/errors/errors.dictionary.js";
 import { cartsModel } from "../mongoDB/models/cart.model.js";
 
 export default class CartManager {
@@ -7,6 +10,9 @@ export default class CartManager {
     }
 
     async getCartbyId(cId) {
+        if(typeof cId !== "string"){
+            CustomError(errors.BadRequest)
+        }
         const cartFounded = await cartsModel.find({ _id: cId }).lean();
         return cartFounded;
     }
@@ -17,9 +23,12 @@ export default class CartManager {
     }
 
     async addToCart(cid, pid) {
+        if(typeof cid !== "string" || typeof pid !== "string"){
+            CustomError(errors.BadRequest)
+        }
         const cart = await cartsModel.findById(cid);
         if (!cart) {
-            return cart;
+            CustomError(errors.NotFound);
         } else {
             if (cart.products.length) {
                 const productIndex = cart.products.findIndex((e) => e.productId == pid);
@@ -65,6 +74,9 @@ export default class CartManager {
     }
 
     async updateQuantityByQuery(cid, pid, quantity) {
+        if(typeof cid !== "string" || typeof pid !== "string" || typeof quantity !== "number"){
+            CustomError(errors.BadRequest)
+        }
         const filter = { _id: cid, "products.productId": pid };
         const update = { $set: { "products.$.quantity": quantity } };
         const updatedCartProduct = await cartsModel.findOneAndUpdate(
@@ -76,6 +88,9 @@ export default class CartManager {
     }
 
     async updateCartProductsByArray(cid, arrayToUpdate) {
+        if(typeof cid !== "string" || !Array.isArray(arrayToUpdate)){
+            CustomError(errors.BadRequest)
+        }
         const updateCartProducts = await cartsModel.findOneAndReplace(
             { _id: cid },
             { products: arrayToUpdate },
@@ -90,6 +105,9 @@ export default class CartManager {
     }
 
     async deleteCartById(cid) {
+        if(typeof cid !== "string"){
+            CustomError(errors.BadRequest)
+        }
         const filter = { _id: cid };
         const update = { products: [] };
         const deletedCart = await cartsModel.findOneAndUpdate(filter, update, {
@@ -99,23 +117,24 @@ export default class CartManager {
     }
 
     async deleteProductCart(cid, pid) {
-        const idCart = await cartsModel.findById(cid);
-
-        if (idCart !== undefined) {
-            //triple comparacion no funciona, tal vez por el params ser string y otro un objectID
-            const productToDeleteIndex = idCart.products.findIndex(
+        if(typeof cid !== "string" || typeof pid !== "string"){
+            CustomError(errors.BadRequest)
+        }
+        const Cart = await cartsModel.findById(cid);
+        if (!Cart) {
+            CustomError(errors.NotFound);
+        }
+            const productToDeleteIndex = Cart.products.findIndex(
                 (e) => e.productId == pid
             );
 
             if (productToDeleteIndex !== -1) {
-                idCart.products.splice(productToDeleteIndex, 1);
-                const updatedCart = await idCart.save();
+                Cart.products.splice(productToDeleteIndex, 1);
+                const updatedCart = await Cart.save();
                 return updatedCart;
             } else {
-                return undefined;
+                return null;
             }
-        } else {
-            return idCart;
-        }
+        
     }
 }

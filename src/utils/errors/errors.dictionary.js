@@ -1,21 +1,3 @@
-// export const errorsName = {
-//     DATA_INCOMPLETE : "Error",
-//     DATA_NO_FOUND: "Cannot found data"
-// }
-
-// export const errorsMessage={
-//     DATA_INCOMPLETE : "Request failed. Valid properties required",
-//     DATA_NO_FOUND: ""
-
-// }
-
-// export const errorsCause = {
-//     DATA_INCOMPLETE : "Properties missing"
-// }
-
-// export const errorsCode = {
-//     DATA_INCOMPLETE: 412
-// }
 
 export const errors = {
     BadRequest: {
