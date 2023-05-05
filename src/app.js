@@ -113,14 +113,14 @@ app.use("/api/sessions", sessionsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/mail",mailerRoute)
 app.use("/api/mensajes",mensajesRouter)
-app.use("/", mocking)
+app.use("/mocks", mocking)
 
 
 app.use((req, res) => {
     res.status(404).render('invalidUrl');
 });
 
-app.use(errorsMiddleware)
+
 
 //SERVER + SOCKET
 const PORT = process.env.PORT || 8080
@@ -175,7 +175,7 @@ socketServer.on("connection", async (socket) => {
 
 })
 
-
+app.use(errorsMiddleware)
 
 
 

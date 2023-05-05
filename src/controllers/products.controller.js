@@ -1,7 +1,8 @@
 import { getProducts, addProduct, aggregation, getProductById, updateProduct, deleteById, deleteAll, paginateProduct } from "../services/products.service.js";
 
-export const getAllProducts = async (req, res) => {
-    let { limit = 10, page = 1, sort, query } = req.query;
+export const getAllProducts = async (req, res,next) => {
+    try {
+        let { limit = 10, page = 1, sort, query } = req.query;
 
     query ? query = { category: query } : null
 
@@ -31,20 +32,25 @@ export const getAllProducts = async (req, res) => {
         }
     })
 
-    console.log(products)
-
-
-
+    } catch (error) {
+        next(error)
+    }
 }
 
-export const aggregationFunction = async (req, res) => {
-    const { category } = req.params;
+export const aggregationFunction = async (req, res,next) => {
+    try {
+        const { category } = req.params;
     const { sort = 1 } = req.query;
     const productsFiltered = await aggregation(category, parseInt(sort));
     res.json({ productsFiltered });
 }
+     catch (error) {
+        next(error)
+    }
+}
+    
 
-export const productById = async (req, res) => {
+export const productById = async (req, res,next) => {
     try {
         const { id } = req.params;
         const product = await getProductById(id)
@@ -55,11 +61,11 @@ export const productById = async (req, res) => {
             res.json({ mensage: "Producto no encontrado" })
         }
     } catch (error) {
-        console.log(error)
+        next(error)
     }
 }
 
-export const addOneProduct = async (req, res) => {
+export const addOneProduct = async (req, res,next) => {
     try {
         const objProduct = req.body
         const newProduct = await addProduct(objProduct);
@@ -73,13 +79,13 @@ export const addOneProduct = async (req, res) => {
         return res.status(200).json({ mensaje: "producto agregado con exito", newProduct });
 
     } catch (error) {
-        console.log("ERROR", error)
+        next(error)
     }
 
 }
 
 
-export const modifyProduct = async (req, res) => {
+export const modifyProduct = async (req, res,next) => {
     try {
         const { pid } = req.params
         const update = req.body
@@ -87,12 +93,12 @@ export const modifyProduct = async (req, res) => {
         res.json(responseUpdated)
 
     } catch (error) {
-        console.log("Error: ", error)
+        next(error)
     }
 };
 
 
-export const deleteOne = async (req, res) => {
+export const deleteOne = async (req, res,next) => {
     try {
         const { pid } = req.params;
 
@@ -100,11 +106,11 @@ export const deleteOne = async (req, res) => {
         res.status(200).json({ "producto eliminado con exito: ": deletedProduct })
 
     } catch (error) {
-        console.log(error)
+        next(error)
     }
 }
 
-export const deleteAllProducts = async (req, res) => {
+export const deleteAllProducts = async (req, res,next) => {
     try {
         const response = await deleteAll();
         res.status(200).json({
@@ -113,6 +119,6 @@ export const deleteAllProducts = async (req, res) => {
         })
     }
     catch (error) {
-        console.log(error)
+        next(error)
     }
 }

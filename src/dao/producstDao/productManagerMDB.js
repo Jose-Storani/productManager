@@ -1,16 +1,12 @@
 import { productsModel } from "../mongoDB/models/products.model.js";
 
 export default class ProductManager {
-	async getProducts() {
-		try {
-			return await productsModel.find({}).lean();
-		} catch (error) {
-			console.log("Error: ", error);
-		}
+	async getProducts() {		
+			return await productsModel.find({}).lean();		
 	}
 
 	async addProduct(obj) {
-		try {
+		
 			const {title,
 				description,
 				code,
@@ -23,20 +19,20 @@ export default class ProductManager {
 			const products = await this.getProducts();
 
 			if (!title || !description || !code || !price || !stock || !category) {
+				//deberia generar un error
 				return 401;
 			}
 
 			if (products.some((product) => product.code === code)) {
+				//deberia generar un error
 				return 402;
 			}
 			return await productsModel.create(obj);
-		} catch (error) {
-			console.log(error);
-		}
+		
 	}
 
 	async aggregationFunc(ctg, srt) {
-		try {
+		
 			if (!ctg) {
 				return { message: "Producto no encontrado" };
 			} else {
@@ -49,39 +45,26 @@ export default class ProductManager {
 					},
 				]);
 				return ctgy;
-			}
-		} catch (error) {
-			console.log(error);
-		}
+			
+		
 	}
-
+	}
 	async getProductById(id) {
-		try {
-			return await productsModel.findById(id);
-		} catch (error) {
-			console.log(error);
-		}
+			return await productsModel.findById(id);		
 	}
 
 	async updateProduct(pid, fieldToUpdate) {
-		try {
+		
 			const filter = { _id: pid };
 			return await productsModel.findOneAndUpdate(filter, fieldToUpdate, {
 				new: true,
 			});
-		} catch (error) {
-			console.log("Error: ", error);
-		}
 	}
 
-	async deleteById(pid) {
-		try {
+	async deleteById(pid) {		
 			const filter = { _id: pid };
 			const deletedProduct = await productsModel.findOneAndDelete(filter);
-			return deletedProduct;
-		} catch (error) {
-			console.log(error);
-		}
+			return deletedProduct;		
 	}
 
 	async deleteAll() {

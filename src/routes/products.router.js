@@ -1,11 +1,14 @@
 import { Router } from "express";
 import { getAllProducts,aggregationFunction,productById, addOneProduct, modifyProduct, deleteOne, deleteAllProducts } from "../controllers/products.controller.js";
 const router = Router();
+import CustomError from "../utils/errors/customError.js";
 
 
 
 
 //Obtener todos los productos o el limite especificado por query
+
+
 router.get("/", getAllProducts)
 
 router.get("/aggregation/:category", aggregationFunction)

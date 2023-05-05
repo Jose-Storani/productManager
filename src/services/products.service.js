@@ -5,14 +5,10 @@ export const getProducts =async ()=>{
     return products
 }
 
-export const addProduct = async (obj) =>{
-    try {
+export const addProduct = async (obj) =>{   
         const response = await productsDao.addProduct(obj);
         return response;
-    } catch (error) {
-        console.log("Error:",error)
-    }
-   
+
 }
 
 export const aggregation =async (categ,sort) => {

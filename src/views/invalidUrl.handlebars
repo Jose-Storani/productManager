@@ -1,7 +1,7 @@
 <div id="notfound">
 		<div class="notfound">
 			<div class="notfound-404">
-				{{#if adminCredentials}}
+				{{!-- {{#if adminCredentials}}
 				<h1>401</h1>
 				<h2>Unauthorized</h2>
 				<h5>Se necesitan credenciales de Administrador</h5>
@@ -9,6 +9,11 @@
 				{{else}}
 				<h1>404</h1>
 				<h2>Page not found</h2>
+				{{/if}} --}}
+				{{#if error}}
+				<h1>{{error.code}}</h1>
+				<h2>{{error.name}}</h2>
+				<h5>{{error.message}}</h5>
 				{{/if}}
 			</div>
 			<a href="/">Home</a>

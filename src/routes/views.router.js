@@ -2,6 +2,7 @@ import { Router } from "express";
 import { adminValidation, userValidation } from "../middlewares/userValidation.js";
 import { profileRender } from "../controllers/users.controller.js";
 
+
 const router = Router();
 
 router.get("/", async (req,res)=>{  
@@ -13,25 +14,27 @@ router.get("/realtimeproducts",adminValidation, (req,res)=>{
 
 })
 
+
+
 router.get("/chat",(req,res)=> {
     res.render("chat",{})
 });
 
 router.get("/products",userValidation,profileRender )
 
-router.get("/registro",async (req,res)=>{
+router.get("/registro",(req,res)=>{
     res.render("registro")
 })
 
-router.get("/registroSuccess",async(req,res)=>{
+router.get("/registroSuccess",(req,res)=>{
     res.render("registroSuccess");
 });
 
-router.get("/registroFailed", async(req,res)=>{
+router.get("/registroFailed", (req,res)=>{
     res.render("registroFailed");
 })
 
-router.get("/loginError", async (req,res)=>{
+router.get("/loginError", (req,res)=>{
     res.render("loginError")
 });
 

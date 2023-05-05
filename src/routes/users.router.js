@@ -1,7 +1,7 @@
 import { Router } from "express";
 import passport from "passport"
-import { findUser } from "../controllers/users.controller.js";
-import { createNewUser } from "../services/users.service.js";
+import { createUser, findUser } from "../controllers/users.controller.js";
+
 
 const router = Router();
 
@@ -18,22 +18,19 @@ router.get("/github", passport.authenticate("github"),async(req,res)=>{
     res.redirect("/products")
 });
 
-//registro con passport
-// router.post("/registro",
-// passport.authenticate("registro",{
-//     failureRedirect: "/registroFailed",
-//     successRedirect: "/registroSuccess",    
-//     passReqToCallBack: true
-// }));
+// registro con passport
+router.post("/registro",
+passport.authenticate("registro",{
+    failureRedirect: "/registroFailed",
+    successRedirect: "/registroSuccess",    
+    passReqToCallBack: true
+}));
 
-router.post("/registro", async(req,res)=>{
-    try {
-        const newUser = await createNewUser(req.body)
-        res.send(newUser)
-    } catch (error) {
-        console.log("este fue el error", error)
-    }
-})
+
+router.post("/registroPrueba", createUser)
+
+
+
 
 
 export default router
