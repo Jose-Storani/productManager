@@ -228,11 +228,18 @@ table {
 
   /* SPINNER */
 
+  .center{
+display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  
+  }
   .custom-loader {
+
     margin-top: 100px;
     width: 100px;
     height: 100px;
-    display: grid;
     border:8px solid #0000;
     border-radius: 50%;
     border-color:#E4E4ED #0000;

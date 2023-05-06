@@ -2,6 +2,15 @@ const productsList = document.getElementById("card-render");
 const pagination = document.getElementById("pagination");
 const nextButton = document.getElementById("next-btn");
 const prevButton = document.getElementById("prev-btn");
+const spinner = document.querySelector(".center");
+
+function showSpinner(){
+    spinner.style.display = "flex";
+}
+
+function hideSpinner(){
+    spinner.style.display= "none"
+}
 
 
 
@@ -10,6 +19,8 @@ const prevButton = document.getElementById("prev-btn");
 
 
 async function renderProductsList(pageNumber = 1){
+    
+    showSpinner();
     const response = await fetch(`/api/products?page=${pageNumber}`);
     const responseJSON= await response.json();
     const results = responseJSON.results
@@ -31,9 +42,13 @@ async function renderProductsList(pageNumber = 1){
 </div>`;
     });
 
-    
+    hideSpinner()
     productsList.innerHTML = cardHTML
+
     pagination.style.display = "flex"
+
+    hideSpinner()
+   
 }
 
 let currentPage = 1
@@ -46,11 +61,13 @@ document.addEventListener("DOMContentLoaded",async()=>{
 })
 
 nextButton.addEventListener("click",()=>{
+    productsList.innerHTML = ""
     currentPage++
     renderProductsList(currentPage)
 })
 
 prevButton.addEventListener("click",()=>{
+    productsList.innerHTML = ""
     currentPage--
     renderProductsList(currentPage)
 })
