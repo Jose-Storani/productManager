@@ -33,6 +33,7 @@ export default class UserManager {
                         : {
                             ...userInfo,
                             password: hashNewPassword,
+                            
                         };
 
                 return await usersModel.create(newUser);

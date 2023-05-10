@@ -1,6 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
-import { generateXProducts } from "../utils/mocks/mocksGenerator.js";
+import { generateXProducts,userGenerator } from "../utils/mocks/mocksGenerator.js";
+
 
 
 const router = Router();

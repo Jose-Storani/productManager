@@ -23,10 +23,10 @@ export const cartById = async (req, res, next) => {
     try {
         const { cid } = req.params;
         const cart = await getCartbyId(cid);
-        if (cart) {
-            // const cartProducts = cart.products;
-            // res.render("cart",{cartProducts})
-            res.json(cart);
+        if (cart.length) {
+            const cartProducts = cart.products;
+            res.render("cart",{cartProducts})
+            
         } else {
             res.json({ mensaje: "Carrito no encontrado" });
         }
@@ -39,7 +39,7 @@ export const createCart = async (req, res, next) => {
     try {
         const cartId = req.session.userInfo.associatedCart;
         res.status(200).json({
-            cartId,
+            cartId
         });
     } catch (error) {
         next(error);
@@ -50,11 +50,7 @@ export const addProducToCart = async (req, res, next) => {
     try {
         const { cid, pid } = req.params;
         const respuesta = await addToCart(cid, pid);
-        if (!respuesta) {
-            res.json({ mensage: "Carrito no encontrado" });
-        } else {
-            res.json(respuesta);
-        }
+        res.json(respuesta)
     } catch (error) {
         next(error);
     }

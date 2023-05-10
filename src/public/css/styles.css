@@ -8,6 +8,24 @@ body{
   background-color: #f7f7f7;
 }
 
+#pagination{
+  display: none
+}
+
+.pagination-btn {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
 /* LOGIN CSS */
 
 .background{
@@ -210,11 +228,18 @@ table {
 
   /* SPINNER */
 
+  .center{
+display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  
+  }
   .custom-loader {
+
     margin-top: 100px;
     width: 100px;
     height: 100px;
-    display: grid;
     border:8px solid #0000;
     border-radius: 50%;
     border-color:#E4E4ED #0000;

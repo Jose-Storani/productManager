@@ -15,6 +15,7 @@ export default {
     admins: {coder: process.env.CODER_ADMIN,
         creator:process.env.CREATOR_ADMIN,
         other: process.env.OTHER_ADMIN
-    }
+    },
+    environment : process.env.ENVIRONMENT
 }
 

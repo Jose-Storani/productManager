@@ -1,4 +1,7 @@
 import { productsModel } from "../mongoDB/models/products.model.js";
+import { errors } from "../../utils/errors/errors.dictionary.js";
+
+import CustomError from "../../utils/errors/customError.js";
 
 export default class ProductManager {
 	async getProducts() {		
@@ -19,13 +22,12 @@ export default class ProductManager {
 			const products = await this.getProducts();
 
 			if (!title || !description || !code || !price || !stock || !category) {
-				//deberia generar un error
-				return 401;
+				CustomError.createError(errors.BadRequest)
 			}
 
 			if (products.some((product) => product.code === code)) {
 				//deberia generar un error
-				return 402;
+				CustomError.createError(errors.BadRequest)
 			}
 			return await productsModel.create(obj);
 		
