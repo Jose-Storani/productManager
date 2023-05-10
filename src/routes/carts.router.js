@@ -2,7 +2,7 @@ import { Router } from "express";
 import { cartVerification } from "../middlewares/cartVerification.middleware.js";
 import { cartById, createCart, getAllCarts, addProducToCart, addArrayToCart, updateByQuery, deleteCById, deleteProductFromCart, deleteAll } from "../controllers/carts.controller.js";
 import { createATicket, getTicket } from "../services/ticket.service.js";
-
+import { addLogger } from "../utils/log/logger.js";
 import { stockVerification } from "../middlewares/stockVerification.middleware.js";
 import { purchaseGenerator } from "../controllers/tickets.controller.js";
 const router = Router();
@@ -10,7 +10,7 @@ const router = Router();
 //!RUTA: API/CARTS
 
 //todos los carritos
-router.get("/", getAllCarts)
+router.get("/",addLogger, getAllCarts)
 
 router.get("/tickets", async (req, res) => {
     const tickets = await getTicket();

@@ -26,6 +26,17 @@ async function renderProductsList(pageNumber = 1){
     const results = responseJSON.results
     const products = results.payload
     const totalPages = results.totalPages;
+    console.log(totalPages)
+
+    if(pageNumber === totalPages){
+        nextButton.style.display = "none"
+        return
+    }
+
+    if(pageNumber<1){
+        prevButton.style.display = "none";
+        return
+    }
 
     let cardHTML = "";
     products.forEach((product) => {

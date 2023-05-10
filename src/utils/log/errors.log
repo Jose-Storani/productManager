@@ -1,0 +1,19 @@
+{"level":"warn","message":""}
+{"level":"warn","message":"GET en /"}
+{"level":"peligroso","message":"GET en /"}
+{"level":"peligroso","message":"GET en /"}
+peligroso: GET en /
+peligroso: GET en /
+peligroso: GET en /
+[2023-05-10T18:20:34.142Z] peligroso GET en /
+[2023-05-10T19:55:00.075Z] info probando logger
+[2023-05-10T19:55:28.038Z] error probando logger
+[2023-05-10T20:02:47.271Z] foo probando logger
+undefined
+undefined
+foo: probando logger
+foo: probando logger
+[34mfoo[39m: probando logger
+[34merror[39m: probando logger
+[34merror[39m: probando logger
+[33merror[39m: probando logger
