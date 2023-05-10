@@ -9,6 +9,7 @@ import passport from "passport"
 import cookieParser from "cookie-parser";
 import config from "./config.js";
 import { errorsMiddleware } from "./middlewares/errors.middleware.js";
+import compression from "express-compression";
 
 
 
@@ -102,7 +103,7 @@ import usersRouter from "./routes/users.router.js"
 import mailerRoute from "./routes/mailer.router.js"
 import mensajesRouter from "./routes/twilio.router.js"
 import mocking from "./routes/mocks.router.js"
-import compression from "express-compression";
+import loggerTest from "./routes/loggerTest.router.js"
 
 
 
@@ -114,6 +115,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/mail",mailerRoute)
 app.use("/api/mensajes",mensajesRouter)
 app.use("/mocks", mocking)
+app.use("/loggerTest", loggerTest)
 
 
 app.use((req, res) => {

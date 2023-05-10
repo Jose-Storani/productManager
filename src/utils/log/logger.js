@@ -7,7 +7,9 @@ const ENV = config.environment;
 const transports =
     ENV === dictionary.devEnvironment
         ? [new winston.transports.Console({ level: "debug" })]
-        : [
+        :
+        //si es produccion, este es el logger: 
+        [
             new winston.transports.Console({ level: "info" }),
             new winston.transports.File({
                 filename: __dirname + "/utils/log/errors.log",
@@ -30,18 +32,18 @@ const customLevels = {
         warning: "magenta",
         info: "blue",
         http: "green",
-        debug: "cyan",
+        debug: "grey",
     },
 };
 
 
-const logger = winston.createLogger({
+export const logger = winston.createLogger({
     levels: customLevels.levels,
     format: format.combine(
         format.colorize({ colors: customLevels.colors }),
         format.simple(),
-        format.timestamp()
-        // format.printf(info => `[${info.timestamp}] ${info.level} ${info.message}`)
+        format.timestamp(),
+        format.printf(info => `[${info.timestamp}] ${info.level} ${info.message}`)
     ),
     transports: transports,
 });
