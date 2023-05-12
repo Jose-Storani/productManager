@@ -8,6 +8,24 @@ body{
   background-color: #f7f7f7;
 }
 
+#pagination{
+  display: none
+}
+
+.pagination-btn {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
 /* LOGIN CSS */
 
 .background{
@@ -42,6 +60,7 @@ body{
   right: -30px;
   bottom: -80px;
 }
+
 form{
   height: 520px;
   width: 400px;
@@ -62,6 +81,7 @@ form *{
   letter-spacing: 0.5px;
   outline: none;
   border: none;
+  
 }
 form h3{
   font-size: 32px;
@@ -91,14 +111,27 @@ input{
   color: #e5e5e5;
 }
 
+.form-registro{
+  height: 650px;
+}
+
+.form-registro input{
+  height: 40px;
+}
+
+.form-registro label{
+  margin-top: 20px;
+}
 
 
-.loginButton{
-  margin-top: 50px;
+
+
+.submitButton{
+  margin-top: 30px;
     width: 100%;
     background-color: #f1f1f1;
     color: #080710;
-    padding: 15px 0;
+    padding: 0px 0;
     font-size: 18px;
     font-weight: 600;
     border-radius: 5px;
@@ -195,11 +228,18 @@ table {
 
   /* SPINNER */
 
+  .center{
+display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  
+  }
   .custom-loader {
+
     margin-top: 100px;
     width: 100px;
     height: 100px;
-    display: grid;
     border:8px solid #0000;
     border-radius: 50%;
     border-color:#E4E4ED #0000;
@@ -258,6 +298,7 @@ table {
     width: 100%;
     line-height: 1.4;
     text-align: center;
+    
   }
   
   .notfound .notfound-404 {
@@ -297,6 +338,21 @@ table {
     font-weight: 700;
     color: #fff;
     text-transform: uppercase;
+    text-shadow: 0px 2px 0px #8400ff;
+    letter-spacing: 13px;
+    margin: 0;
+  }
+
+  .notfound .notfound-404 h5{
+    font-family: 'Montserrat', sans-serif;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 150%;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    text-transform: lowercase;
     text-shadow: 0px 2px 0px #8400ff;
     letter-spacing: 13px;
     margin: 0;

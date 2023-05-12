@@ -56,3 +56,4 @@ Para correrlo de manera local usar: (puerto 8080)
 
 -Falta agregar boton de eliminar producto del carrito, la funcionalidad existe en el back, pero no en el front.
 
+

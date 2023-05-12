@@ -1,25 +1,24 @@
-{{> navbar partialData=partialData}}
+{{> navbar adminData=adminData}}
 <div class="welcomeImage">
   <div class="welcomeText">
     <h3>Buenos dias {{userData.first_name}} {{userData.last_name}}</h3>
     <p>Tu rol es de: {{userData.rol}}</p>
-
-    {{!-- {{if }} --}}
   </div>
 </div>
 
-
-
-
-
-
-
-
-
+  <div id="pagination">
+      <button class="pagination-btn" id="prev-btn">&lt; Anterior</button>
+      <button class="pagination-btn" id="next-btn">Siguiente &gt;</button>
+    </div>
 
   <div id="card-render" style="display:flex;flex-wrap: wrap; justify-content: space-around;  row-gap: 20px;">
+    
+  </div>
+  
+  <div class="center">
     <div class="custom-loader"></div>
   </div>
+  
   
 
 

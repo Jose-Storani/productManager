@@ -1,120 +1,43 @@
 import { Router } from "express";
-import { cartManager } from "../app.js";
-import { cartVerification } from "../../middlewares/cartVerification.middleware.js";
+import { cartVerification } from "../middlewares/cartVerification.middleware.js";
+import { cartById, createCart, getAllCarts, addProducToCart, addArrayToCart, updateByQuery, deleteCById, deleteProductFromCart, deleteAll } from "../controllers/carts.controller.js";
+import { createATicket, getTicket } from "../services/ticket.service.js";
+import { addLogger } from "../utils/log/logger.js";
+import { stockVerification } from "../middlewares/stockVerification.middleware.js";
+import { purchaseGenerator } from "../controllers/tickets.controller.js";
 const router = Router();
 
 //!RUTA: API/CARTS
 
 //todos los carritos
-router.get("/", async (req, res) => {
-    const carts = await cartManager.getCarts();
-    res.json(carts)
+router.get("/",addLogger, getAllCarts)
+
+router.get("/tickets", async (req, res) => {
+    const tickets = await getTicket();
+    res.json({ tickets })
 })
 
 //carrito por ID pasado por params
 
-router.get("/:cId", async (req, res) => {
-    try {
-        const { cId } = req.params;
-        const cart = await cartManager.getCartbyId(cId);        
-        if (cart) {
-            const cartProducts = cart[0].products;
-            res.render("cart",{cartProducts})
-            
-        }
-        else {
-            res.json({ mensage: "Carrito no encontrado" })
-        }
-    } catch (error) {
-        console.log(error)
-    }
-})
+router.get("/:cid", cartById)
 
-router.post("/",cartVerification, async (req, res) => {
-    const cartId = req.session.userInfo.associatedCart._id
-    res.status(200).json({cartId
-    })
+//generacion de tickets con detalle de compra previa verificación de stock. Producto que no hay stock, queda en el carrito del usuario 
+router.post("/:cid/purchase", stockVerification, purchaseGenerator)
 
-})
+router.post("/", cartVerification, createCart)
 
-router.post("/:cid/product/:pid", async (req, res) => {
-    try {
-        
-        const { cid, pid } = req.params;
-        const respuesta = await cartManager.addToCart(cid, pid);
-        if (!respuesta) {
-            res.json({ mensage: "Carrito no encontrado" })
-        }
-        else {
-            res.json(respuesta)
-        }
-    } catch (error) {
-        console.log(error)
-    }
+router.post("/:cid/product/:pid", addProducToCart)
+
+router.put("/:cid", addArrayToCart)
+
+router.put("/:cid/products/:pid", updateByQuery);
+
+router.delete("/", deleteAll)
+
+router.delete("/:cid", deleteCById)
+
+router.delete("/:cid/product/:pid", deleteProductFromCart);
 
 
-
-
-
-})
-
-router.put("/:cid", async (req, res) => {
-    try {
-        const { cid } = req.params;
-        const { products } = req.body;
-        const productsUpdated = await cartManager.updateCartProductsByArray(cid, products);
-        if (productsUpdated) {
-            res.json(productsUpdated)
-        }
-        else {
-            res.json({ mensaje: "carrito no encontrado para actualizar" })
-        }
-
-    } catch (error) {
-        console.log(error)
-    }
-
-})
-
-router.put("/:cid/products/:pid", async (req, res) => {
-    const { quantity } = req.body;
-    const { cid, pid } = req.params;
-    const updatedProduct = await cartManager.updateQuantityByQuery(cid, pid, quantity);
-    res.json(updatedProduct)
-});
-
-router.delete("/", async (req, res) => {
-    try {
-        const response = await cartManager.deleteAllCarts();
-        res.json({ mensaje: "Carritos eliminados con exito", cantidad: response })
-    } catch (error) {
-        console.log(error)
-    }
-})
-
-router.delete("/:cid", async (req, res) => {
-    try {
-        const { cid } = req.params;
-
-        const deletedCart = await cartManager.deleteCartById(cid);
-        res.status(200).json({ "carrito eliminado con exito: ": deletedCart })
-
-    } catch (error) {
-        console.log(error)
-    }
-
-})
-
-router.delete("/:cid/product/:pid", async (req, res) => {
-    const { cid, pid } = req.params
-
-    const productDeletedFromCart = await cartManager.deleteProductCart(cid, pid);
-    if (productDeletedFromCart) {
-        res.json({ "producto eliminado con exito": productDeletedFromCart })
-    }
-    else {
-        res.json({ "error": "producto no encontrado" })
-    }
-})
 
 export default router
