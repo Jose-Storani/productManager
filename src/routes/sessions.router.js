@@ -28,7 +28,7 @@ router.post("/login", (req, res, next) => {
 
         if (!user) {
             // Usuario o contraseña incorrectos
-            console.log("LLEGO ACÁ")
+            // console.log("LLEGO ACÁ")
             return res.status(401).json({ error: info.message });
         }
 
