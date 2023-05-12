@@ -11,13 +11,15 @@
 </div>
 
 {{else}}
-<form class="login" action="/api/sessions/login" method="POST">
+<form class="login">
     <h3>Login</h3>
     <label for="email">Email</label>
-    <input type="email" name="email" id="email" placeholder="email" required>
+    <input type="email" name="email" id="email" placeholder="email@servidor.com" required>
 
     <label for="password">Password</label>
     <input type="password" name="password" id="password" placeholder="password" required>
+
+<p style="display: none;"> usuario o contraseña inválido </p>
 
     <input class="submitButton" type="submit" value="Login">
 
@@ -29,6 +31,9 @@
 </form>
 
 {{/if}}
+
+<script src="/js/login.js"></script>
+
 
 
 

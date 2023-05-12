@@ -36,8 +36,9 @@ export const profileRender = async (req, res, next) => {
 
 export const userLogin = async (req,res,next)=>{
     try {
+        console.log(req.user)
         req.session.userInfo = req.user;
-    res.redirect("/products")
+    res.status(200).redirect("/registro")
     } catch (error) {
         next(error)
     }

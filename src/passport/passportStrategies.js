@@ -5,6 +5,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import { ExtractJwt, Strategy as jwtStrategy } from "passport-jwt";
 import { createNewUser, checkUser } from "../services/users.service.js";
+import { logger } from "../utils/log/logger.js";
 
 
 
@@ -22,9 +23,10 @@ passport.use(
                 
                 const user = await createNewUser(req.body);
                 if (!user) {
-                    console.log("Usuario existente");
+                    logger.warning("Usuario existente")
                     return done(null, false);
                 }
+                logger.info(`usuario creado: ${user}`)
                 done(null, user);
             } catch (error) {
                 return done("ERROR AL OBTENER EL USUARIO:", error);
@@ -39,17 +41,19 @@ passport.use(
         {
             usernameField: "email",
             passwordField: "password",
-            passReqToCallback: true,
+            
         },
-        async (req, email, password, done) => {
+        async ( email, password, done) => {
             try {
                 
                 const correctUser = await checkUser(email,password)
                 if(correctUser){
+                    logger.info(`usuario logeado: ${correctUser}`)
                     return done (null,correctUser);
                 }
                 else{
-                    return done(null,false)
+                   
+                    return done(null,false,{message:"Contraseña o usuario invalido"})
                 }
                 
             } catch (error) {
