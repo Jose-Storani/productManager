@@ -1,14 +1,7 @@
 import {Router} from "express"
-import { logger } from "../utils/log/logger.js"
+import { loggerController } from "../controllers/logger.controller.js"
 const router = Router()
 
-router.get("/",(req,res)=>{
-logger.fatal("Error fatal")
-logger.error("error normal")
-logger.warning("advertencia")
-logger.info("informacion")
-logger.http("red Info")
-logger.debug("debugging")
-})
+router.get("/",loggerController)
 
 export default router

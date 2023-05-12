@@ -27,7 +27,6 @@ passport.authenticate("registro",{
 }));
 
 
-router.post("/registroPrueba", createUser)
 
 
 

@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Jose-Storani/productManager#readme",
   "dependencies": {
+    "artillery-plugin-metrics-by-endpoint": "^1.0.2",
     "bcrypt": "^5.1.0",
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",

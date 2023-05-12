@@ -9,10 +9,8 @@ import passport from "passport"
 import cookieParser from "cookie-parser";
 import config from "./config.js";
 import { errorsMiddleware } from "./middlewares/errors.middleware.js";
+
 import compression from "express-compression";
-
-
-
 
 import "./passport/passportStrategies.js";
 
@@ -104,6 +102,7 @@ import mailerRoute from "./routes/mailer.router.js"
 import mensajesRouter from "./routes/twilio.router.js"
 import mocking from "./routes/mocks.router.js"
 import loggerTest from "./routes/loggerTest.router.js"
+import artilleryTest from "./routes/artilleryTest.router.js"
 
 
 
@@ -116,6 +115,7 @@ app.use("/api/mail",mailerRoute)
 app.use("/api/mensajes",mensajesRouter)
 app.use("/mocks", mocking)
 app.use("/loggerTest", loggerTest)
+app.use("/artilleryTest", artilleryTest )
 
 
 app.use((req, res) => {
