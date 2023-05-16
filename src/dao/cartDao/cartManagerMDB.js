@@ -2,8 +2,12 @@ import { type } from "os";
 import CustomError from "../../utils/errors/customError.js";
 import { errors } from "../../utils/errors/errors.dictionary.js";
 import { cartsModel } from "../mongoDB/models/cart.model.js";
+import CommonMethods from "../commonMethods.js"
 
-export default class CartManager {
+export default class CartManager extends CommonMethods{
+    constructor(model){
+        super(model)
+    }
     async getCarts() {
         const carts = await cartsModel.find({}).lean();
         return carts;
