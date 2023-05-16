@@ -1,7 +1,7 @@
 import { productsDao } from "../dao/factory.js";
 
 export const getProducts =async ()=>{
-    const products = await productsDao.getProducts();
+    const products = await productsDao.getAll();
     return products
 }
 
@@ -17,7 +17,7 @@ export const aggregation =async (categ,sort) => {
 }
 
 export const getProductById = async(id) =>{
-    const product = await productsDao.getProductById(id);
+    const product = await productsDao.getById(id);
     return product
 };
 

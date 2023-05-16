@@ -1,12 +1,13 @@
 import { productsModel } from "../mongoDB/models/products.model.js";
 import { errors } from "../../utils/errors/errors.dictionary.js";
-
+import CommonMethods from "../commonMethods.js";
 import CustomError from "../../utils/errors/customError.js";
 
-export default class ProductManager {
-	async getProducts() {		
-			return await productsModel.find({}).lean();		
+export default class ProductManager extends CommonMethods {
+	constructor(model){
+		super(model)
 	}
+
 
 	async addProduct(obj) {
 		
@@ -51,9 +52,7 @@ export default class ProductManager {
 		
 	}
 	}
-	async getProductById(id) {
-			return await productsModel.findById(id);		
-	}
+	
 
 	async updateProduct(pid, fieldToUpdate) {
 		
@@ -61,16 +60,6 @@ export default class ProductManager {
 			return await productsModel.findOneAndUpdate(filter, fieldToUpdate, {
 				new: true,
 			});
-	}
-
-	async deleteById(pid) {		
-			const filter = { _id: pid };
-			const deletedProduct = await productsModel.findOneAndDelete(filter);
-			return deletedProduct;		
-	}
-
-	async deleteAll() {
-		return await productsModel.deleteMany();
 	}
 
 	//paginate

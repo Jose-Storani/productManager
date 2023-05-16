@@ -1,4 +1,4 @@
-import { type } from "os";
+
 import CustomError from "../../utils/errors/customError.js";
 import { errors } from "../../utils/errors/errors.dictionary.js";
 import { cartsModel } from "../mongoDB/models/cart.model.js";
@@ -8,23 +8,8 @@ export default class CartManager extends CommonMethods{
     constructor(model){
         super(model)
     }
-    async getCarts() {
-        const carts = await cartsModel.find({}).lean();
-        return carts;
-    }
 
-    async getCartbyId(cId) {
-        if(typeof cId !== "string"){
-            CustomError(errors.BadRequest)
-        }
-        const cartFounded = await cartsModel.find({ _id: cId }).lean();
-        return cartFounded;
-    }
-
-    async createACart() {
-        const newCart = await cartsModel.create({});
-        return newCart;
-    }
+    
 
     async addToCart(cid, pid) {
         if(typeof cid !== "string" || typeof pid !== "string"){
@@ -103,10 +88,7 @@ export default class CartManager extends CommonMethods{
         return updateCartProducts;
     }
 
-    async deleteAllCarts() {
-        const deletedCarts = await cartsModel.deleteMany();
-        return deletedCarts;
-    }
+    
 
     async deleteCartById(cid) {
         if(typeof cid !== "string"){
@@ -121,6 +103,7 @@ export default class CartManager extends CommonMethods{
     }
 
     async deleteProductCart(cid, pid) {
+        
         if(typeof cid !== "string" || typeof pid !== "string"){
             CustomError(errors.BadRequest)
         }

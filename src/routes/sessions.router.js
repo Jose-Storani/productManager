@@ -20,26 +20,5 @@ router.get("/logout", userLogOut)
 //     passReqToCallBack:true
 // }), userLogin)
 
-router.post("/login", (req, res, next) => {
-    passport.authenticate("login", (err, user, info) => {
-        if (err) {
-            return next(err);
-        }
-
-        if (!user) {
-            // Usuario o contraseña incorrectos
-            // console.log("LLEGO ACÁ")
-            return res.status(401).json({ error: info.message });
-        }
-
-        req.logIn(user, (err) => {
-            if (err) {
-                return next(err);
-            }
-
-            // Autenticación exitosa
-            return res.redirect("/dashboard");
-        });
-    })(req, res, next);
-});
+router.post("/login", userLogin);
 export default router

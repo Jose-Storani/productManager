@@ -1,12 +1,13 @@
 import { cartDao } from "../dao/factory.js";
 
 export const getCarts =async () => {
-    const carts = await cartDao.getCarts();
+    const carts = await cartDao.getAll();
     return carts
 }
 
 export const getCartbyId = async(cId) =>{
-    const response = await cartDao.getCartbyId(cId);
+
+    const response = await cartDao.getById(cId);
     if(response){
         const cartFounded = response[0];
         return cartFounded
@@ -15,7 +16,7 @@ export const getCartbyId = async(cId) =>{
 }
 
 export const createACart = async () => {
-    const newCart = await cartDao.createACart();
+    const newCart = await cartDao.create();
     return newCart
 }
 
@@ -35,12 +36,12 @@ export const updateCartProductsByArray = async(cid,productsArray) =>{
 };
 
 export const deleteAllCarts = async() =>{
-    const deletedCarts = await cartDao.deleteAllCarts();
+    const deletedCarts = await cartDao.deleteAll();
     return deletedCarts
 }
 
 export const deleteCartById = async (cid) =>{
-    const cartDeleted = await cartDao.deleteCartById(cid);
+    const cartDeleted = await cartDao.deleteById(cid);
     return cartDeleted
     
 }

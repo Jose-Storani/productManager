@@ -2,45 +2,39 @@ const productsList = document.getElementById("card-render");
 const pagination = document.getElementById("pagination");
 const nextButton = document.getElementById("next-btn");
 const prevButton = document.getElementById("prev-btn");
+const cartLink = document.getElementById("linkToCart");
 const spinner = document.querySelector(".center");
 
-function showSpinner(){
+let currentPage = 1;
+
+function showSpinner() {
     spinner.style.display = "flex";
 }
 
-function hideSpinner(){
-    spinner.style.display= "none"
+function hideSpinner() {
+    spinner.style.display = "none";
 }
-
-
 
 //funcion renderizadora de productos:
 
-
-
-async function renderProductsList(pageNumber = 1){
-    
+async function renderProductsList(pageNumber = 1) {
     showSpinner();
     const response = await fetch(`/api/products?page=${pageNumber}`);
-    const responseJSON= await response.json();
-    const results = responseJSON.results
-    const products = results.payload
+    const responseJSON = await response.json();
+    const results = responseJSON.results;
+    const products = results.payload;
     const totalPages = results.totalPages;
-    console.log(totalPages)
 
-    if(pageNumber === totalPages){
-        nextButton.style.display = "none"
-        return
-    }
+    pageNumber === totalPages ?
+        nextButton.style.display = "none" :
+        nextButton.style.display = "flex";
 
-    if(pageNumber<1){
-        prevButton.style.display = "none";
-        return
-    }
+    pageNumber < 1
+        ? (prevButton.style.display = "none")
+        : (prevButton.style.display = "flex");
 
     let cardHTML = "";
     products.forEach((product) => {
-        
         // Se establece el contenido de la card
         cardHTML += `
         <div class ="card" , style= "width:25rem">
@@ -48,40 +42,56 @@ async function renderProductsList(pageNumber = 1){
 <div class="card-body" style="text-align: center;">
 <h5 class="card-title">${product.title}</h5>
 <p class="card-text">${product.description}</p>
-<a href="#" class="btn btn-primary addToCart" id=${product._id}>Añadir al carrito</a>
+<button class="btn btn-primary addToCart" id=${product._id}>Añadir al carrito</button>
 </div>
 </div>`;
     });
 
-    hideSpinner()
-    productsList.innerHTML = cardHTML
+    productsList.innerHTML = cardHTML;
+    pagination.style.display = "flex";
+    const cartCreation = await fetch("/api/carts", {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                }
+            }
+            );
+            const responseJson = await cartCreation.json();
+            const cartId = responseJson.cartId;
 
-    pagination.style.display = "flex"
+            let addToCart = document.querySelectorAll(".addToCart")
+            addToCart.forEach((button)=>{
+                const productId = button.id
+                button.addEventListener("click",async ()=>{
+                    await fetch(`/api/carts/${cartId}/product/${productId}`, { method: "POST" });
+                    alert("Producto añadido al carrito")
+                })
+            })
 
-    hideSpinner()
-   
-}
+            
+cartLink.setAttribute("href", `/api/carts/${cartId}`);
 
-let currentPage = 1
 
-document.addEventListener("DOMContentLoaded",async()=>{
-    renderProductsList();
     
 
+    hideSpinner();
+}
 
-})
+document.addEventListener("DOMContentLoaded", async () => {
+    renderProductsList();
+});
 
-nextButton.addEventListener("click",()=>{
-    productsList.innerHTML = ""
-    currentPage++
-    renderProductsList(currentPage)
-})
+nextButton.addEventListener("click", () => {
+    productsList.innerHTML = "";
+    currentPage++;
+    renderProductsList(currentPage);
+});
 
-prevButton.addEventListener("click",()=>{
-    productsList.innerHTML = ""
-    currentPage--
-    renderProductsList(currentPage)
-})
+prevButton.addEventListener("click", () => {
+    productsList.innerHTML = "";
+    currentPage--;
+    renderProductsList(currentPage);
+});
 
 // document.addEventListener("DOMContentLoaded", async () => {
 //     //creo carrito al cargar la pagina solo SI el usuario no tiene uno ya asignado a su propiedad associatedCart
@@ -95,9 +105,7 @@ prevButton.addEventListener("click",()=>{
 //     const responseJson = await cartCreation.json();
 //     const cartId = responseJson.cartId;
 
-
-    
-//     //cuando carga el documento, renderizo la tabla con los productos traidos de la BD usando metodo get con fetch      
+//     //cuando carga el documento, renderizo la tabla con los productos traidos de la BD usando metodo get con fetch
 //     fetch("/api/products")
 //         .then((res) => res.json())
 //         .then((response) => {
@@ -123,7 +131,6 @@ prevButton.addEventListener("click",()=>{
 //   </div>
 // `;
 
-
 //                 // Agrego al div existente todo lo creado
 //                 let myDiv = document.getElementById("card-render");
 //                 myDiv.innerHTML = cardHTML;
@@ -140,15 +147,11 @@ prevButton.addEventListener("click",()=>{
 //             nextButton.addEventListener("click",async()=>{
 //                 renderProductsList(2);
 
-                
-
 //             })
-
-
 
 //             //traigo los botones creados, para despues agregarle una funcion
 //             let addToCart = document.querySelectorAll(".addToCart");
-            
+
 //             addToCart.forEach((button) => {
 //                 const productId = button.id
 //                 button.addEventListener("click", async (e) => {
@@ -157,25 +160,10 @@ prevButton.addEventListener("click",()=>{
 //                     await fetch(`/api/carts/${cartId}/product/${productId}`, { method: "POST" });
 //                     alert("Producto añadido al carrito")
 
-
 //                 });
 //             });
 //         }).catch((error) => console.log(error));
 
-        // let cartLink = document.getElementById("linkToCart");
-        // cartLink.setAttribute("href", `/api/carts/${cartId}`);
+// let cartLink = document.getElementById("linkToCart");
+// cartLink.setAttribute("href", `/api/carts/${cartId}`);
 // })
-
-
-
-
-
-
-
-
-
-
-
-
-
-

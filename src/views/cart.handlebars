@@ -1,5 +1,8 @@
 {{> navbar}}
-{{#if cartProducts.length}}
+{{#if cart}}
+<script>
+    const cartId = "{{cart._id}}";
+</script>
 <table>
       <thead>
         <tr>
@@ -7,10 +10,12 @@
           <th>Descripcion</th>         
           <th>Categoria</th>
           <th>Precio</th>
+          <th>Cantidad</th>
        </tr>
       </thead>
+      
       <tbody>
-        {{#each cartProducts}}
+        {{#each cart.products}}
     <tr>
         <td>
             {{productId.title}}
@@ -23,6 +28,13 @@
         </td>
         <td>
             {{productId.price}}
+        </td>
+        <td>
+            {{quantity}}
+
+        </td>
+        <td>
+            <button class="deleteProductButton" id={{productId._id}}>Eliminar</button>
         </td>
     </tr>
 
@@ -42,8 +54,5 @@
 
 
 
-
-
-
-<script src="/socket.io/socket.io.js"></script>
+<script src="/js/userCart.js"></script>
 

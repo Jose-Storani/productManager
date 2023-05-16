@@ -20,7 +20,7 @@ passport.use(
         },
         async (req, email, password, done) => {
             try {
-                
+
                 const user = await createNewUser(req.body);
                 if (!user) {
                     logger.warning("Usuario existente")
@@ -41,21 +41,21 @@ passport.use(
         {
             usernameField: "email",
             passwordField: "password",
-            
+
         },
-        async ( email, password, done) => {
+        async (email, password, done) => {
             try {
-                
-                const correctUser = await checkUser(email,password)
-                if(correctUser){
-                    logger.info(`usuario logeado: ${correctUser}`)
-                    return done (null,correctUser);
+
+                const correctUser = await checkUser(email, password)
+                if (correctUser) {
+                    logger.info(`usuario logeado: ${correctUser.email}`)
+                    return done(null, correctUser);
                 }
-                else{
-                   
-                    return done(null,false,{message:"Contraseña o usuario invalido"})
+                else {
+
+                    return done(null, false, { message: "Contraseña o usuario invalido" })
                 }
-                
+
             } catch (error) {
                 return done("ERROR AL OBTENER EL USUARIO:", error);
             }
@@ -85,7 +85,7 @@ passport.use(
 
                 //llamo directamente al servicio, no al controlador
                 const user = await createNewUser(newUserGitHub);
-                
+
                 if (!user) {
                     console.log("primeraInstancia: ", user)
                     done(null, user);

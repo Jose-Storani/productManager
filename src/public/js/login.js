@@ -1,9 +1,6 @@
 
 const loginForm = document.querySelector(".login");
-console.log(loginForm)
-console.log(loginForm[0])
-console.log(loginForm[1])
-
+if(loginForm){
 loginForm.addEventListener("submit", async (e)=>{
 e.preventDefault()
 let userData = {
@@ -20,5 +17,16 @@ const options = {
 
 fetch("/api/sessions/login",options)
 .then(response => response.json())
-.then(data => console.log(data))
+.then(data => {
+    if(data.hasOwnProperty("error")){
+        const parrafo = document.querySelector("form p")
+        parrafo.style.display = "flex"
+    }
+    else{
+        window.location.href = '/products';
+    }
+
+    
 })
+})
+}

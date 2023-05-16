@@ -4,6 +4,11 @@ export default class CommonMethods{
         this.model = model
     }
 
+    async create(){
+        const response = await this.model.create({});
+        return response
+    }
+
     async getAll(){
         const response = await this.model.find({}).lean()
         return response
@@ -13,7 +18,7 @@ export default class CommonMethods{
         if(typeof id !== "string"){
             CustomError(errors.BadRequest)
         }
-        const response = await this.model.find({ _id: id }).lean();
+        const response = await this.model.find({ _id: id }).lean()
         return response;
     }
 
@@ -26,8 +31,9 @@ export default class CommonMethods{
         if(typeof id !== "string"){
             CustomError(errors.BadRequest)
         }
-        const response = await this.model.deleteOne({_id:id})
+        const response = await this.model.findOneAndDelete({_id : id})
         return response;
 
     }
 }
+

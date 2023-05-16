@@ -48,8 +48,4 @@ export const logger = winston.createLogger({
     transports: transports,
 });
 
-export const addLogger = (req, res, next) => {
-    req.logger = logger;
-    req.logger.fatal("no se deberia guardar logger");
-    next();
-};
+
