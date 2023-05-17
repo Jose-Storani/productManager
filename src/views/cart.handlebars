@@ -8,17 +8,17 @@
     {{/each}}
 </script>
 <table>
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Descripcion</th>         
-          <th>Categoria</th>
-          <th>Precio</th>
-          <th>Cantidad</th>
-       </tr>
-      </thead>
-      
-      <tbody>
+        <thead>
+            <tr>
+            <th>Nombre</th>
+            <th>Descripcion</th>         
+            <th>Categoria</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+        </tr>
+        </thead>
+
+    <tbody>
         {{#each cart.products}}
     <tr>
         <td>
@@ -41,27 +41,21 @@
             <button class="deleteProductButton" id={{productId._id}}>Eliminar</button>
         </td>
     </tr>
-      </tbody>
+    </tbody>
 
-
- 
-
-{{!-- <h4 id="totalValue">TOTAL:$</h4>
-<button id="purchaseButton">Pagar</button> --}}
 
 {{/each}}
 
-<tr>   
-    <td style="text-align: center" colspan="2">
+<tr >   
+    <td style="text-align: center" colspan="6" >
         <h5>Total: $<span id="totalValue">{{totalValue}}</span></h5>
-    </td>
-          <td style="text-align: center" colspan="2">
             <button>PAGAR</button>
-          </td>
+    </td>
+       
         </tr>
         
 </table>
-      
+
 
 
 {{else}}
