@@ -2,6 +2,10 @@
 {{#if cart}}
 <script>
     const cartId = "{{cart._id}}";
+    let totalValue = 0
+    {{#each cart.products}}
+    totalValue+= {{quantity}} * {{productId.price}}
+    {{/each}}
 </script>
 <table>
       <thead>
@@ -37,11 +41,27 @@
             <button class="deleteProductButton" id={{productId._id}}>Eliminar</button>
         </td>
     </tr>
+      </tbody>
 
+
+ 
+
+{{!-- <h4 id="totalValue">TOTAL:$</h4>
+<button id="purchaseButton">Pagar</button> --}}
 
 {{/each}}
+
+<tr>   
+    <td style="text-align: center" colspan="2">
+        <h5>Total: $<span id="totalValue">{{totalValue}}</span></h5>
+    </td>
+          <td style="text-align: center" colspan="2">
+            <button>PAGAR</button>
+          </td>
+        </tr>
         
-      </tbody>
+</table>
+      
 
 
 {{else}}

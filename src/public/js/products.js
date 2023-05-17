@@ -19,6 +19,18 @@ function hideSpinner() {
 
 async function renderProductsList(pageNumber = 1) {
     showSpinner();
+    const cartCreation = await fetch("/api/carts", {
+        method: "POST",
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        }
+    }
+    );
+    const responseJson = await cartCreation.json();
+    const cartId = responseJson.cartId._id;
+    console.log(cartId)
+
+
     const response = await fetch(`/api/products?page=${pageNumber}`);
     const responseJSON = await response.json();
     const results = responseJSON.results;
@@ -56,15 +68,7 @@ async function renderProductsList(pageNumber = 1) {
 
     productsList.innerHTML = cardHTML;
     pagination.style.display = "flex";
-    const cartCreation = await fetch("/api/carts", {
-        method: "POST",
-        headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-        }
-    }
-    );
-    const responseJson = await cartCreation.json();
-    const cartId = responseJson.cartId;
+    
 
     let addToCart = document.querySelectorAll(".addToCart")
     const productQuantityArray = document.querySelectorAll("#productQuantity")
@@ -83,7 +87,6 @@ async function renderProductsList(pageNumber = 1) {
 
         button.addEventListener("click", async () => {
             const quantity = selectedQuantity
-            console.log(quantity)
 
             const options = {
                 method: "PUT",
