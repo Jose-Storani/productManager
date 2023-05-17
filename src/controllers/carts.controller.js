@@ -25,9 +25,6 @@ export const cartById = async (req, res, next) => {
         const cart = await getCartbyId(cid);
         if (cart) {
             //array de productos en el carrito correspondiente
-            
-            // res.json(cartProducts)
-            console.log(cart)
             res.render("cart",{cart})
           
             
@@ -79,6 +76,8 @@ export const updateByQuery = async (req, res,next) => {
     try {
         const { quantity } = req.body;
         const { cid, pid } = req.params;
+        console.log(quantity)
+        console.log(cid,pid)
         const updatedProduct = await updateQuantityByQuery(cid, pid, quantity);
         res.json(updatedProduct);
     } catch (error) {

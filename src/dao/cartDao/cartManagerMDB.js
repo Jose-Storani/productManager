@@ -66,13 +66,15 @@ export default class CartManager extends CommonMethods{
         if(typeof cid !== "string" || typeof pid !== "string" || typeof quantity !== "number"){
             CustomError(errors.BadRequest)
         }
+        await this.addToCart(cid,pid);
         const filter = { _id: cid, "products.productId": pid };
         const update = { $set: { "products.$.quantity": quantity } };
         const updatedCartProduct = await cartsModel.findOneAndUpdate(
             filter,
             update,
             { new: true }
-        );
+        ).lean();
+        console.log(updatedCartProduct)
         return updatedCartProduct;
     }
 

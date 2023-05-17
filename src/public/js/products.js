@@ -42,6 +42,13 @@ async function renderProductsList(pageNumber = 1) {
 <div class="card-body" style="text-align: center;">
 <h5 class="card-title">${product.title}</h5>
 <p class="card-text">${product.description}</p>
+<label for="cantidad">Cantidad:</label>
+<select id="productQuantity" name="cantidad">
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+</select>
 <button class="btn btn-primary addToCart" id=${product._id}>Añadir al carrito</button>
 </div>
 </div>`;
@@ -50,29 +57,52 @@ async function renderProductsList(pageNumber = 1) {
     productsList.innerHTML = cardHTML;
     pagination.style.display = "flex";
     const cartCreation = await fetch("/api/carts", {
-                method: "POST",
+        method: "POST",
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        }
+    }
+    );
+    const responseJson = await cartCreation.json();
+    const cartId = responseJson.cartId;
+
+    let addToCart = document.querySelectorAll(".addToCart")
+    const productQuantityArray = document.querySelectorAll("#productQuantity")
+
+
+
+
+    addToCart.forEach((button, index) => {
+        const productId = button.id
+        const selectElement = productQuantityArray[index];
+        let selectedQuantity = selectElement.value;
+
+        selectElement.addEventListener("change", () => {
+            selectedQuantity = selectElement.value
+        })
+
+        button.addEventListener("click", async () => {
+            const quantity = selectedQuantity
+            console.log(quantity)
+
+            const options = {
+                method: "PUT",
                 headers: {
-                    'Content-type': 'application/json; charset=UTF-8',
-                }
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ quantity: parseInt(quantity) })
             }
-            );
-            const responseJson = await cartCreation.json();
-            const cartId = responseJson.cartId;
 
-            let addToCart = document.querySelectorAll(".addToCart")
-            addToCart.forEach((button)=>{
-                const productId = button.id
-                button.addEventListener("click",async ()=>{
-                    await fetch(`/api/carts/${cartId}/product/${productId}`, { method: "POST" });
-                    alert("Producto añadido al carrito")
-                })
-            })
+            await fetch(`/api/carts/${cartId}/products/${productId}`, options)
+        })
 
-            
-cartLink.setAttribute("href", `/api/carts/${cartId}`);
+    })
 
 
-    
+    cartLink.setAttribute("href", `/api/carts/${cartId}`);
+
+
+
 
     hideSpinner();
 }
