@@ -5,7 +5,6 @@ const prevButton = document.getElementById("prev-btn");
 const cartLink = document.getElementById("linkToCart");
 const spinner = document.querySelector(".center");
 
-
 let currentPage = 1;
 
 function showSpinner() {
@@ -19,14 +18,14 @@ function hideSpinner() {
 //funcion renderizadora de productos:
 
 async function renderProductsList(pageNumber = 1) {
-    console.log(pageNumber)
     showSpinner();
     const cartCreation = await fetch("/api/carts", {
         method: "POST",
         headers: {
-            "Content-type": "application/json; charset=UTF-8",
-        },
-    });
+            'Content-type': 'application/json; charset=UTF-8',
+        }
+    }
+    );
     const responseJson = await cartCreation.json();
     const cartId = responseJson.cartId._id;
     
@@ -36,19 +35,14 @@ async function renderProductsList(pageNumber = 1) {
     const products = results.payload;
     const totalPages = results.totalPages;
 
-
-    //deshabilito los botones de siguiente y anterior dependiendo la cantidad de páginas de productos traída de la BD
-    pageNumber === totalPages
-        ? (nextButton.style.display = "none")
-        : (nextButton.style.display = "flex");
+    pageNumber === totalPages ?
+        nextButton.style.display = "none" :
+        nextButton.style.display = "flex";
 
     pageNumber == 1
         ? (prevButton.style.display = "none")
         : (prevButton.style.display = "flex");
 
-
-        let stockArray = []
-    //Render de cada card de producto
     let cardHTML = "";
     products.forEach((product) => {
         let hayStock = product.stock === 0;
@@ -74,76 +68,55 @@ async function renderProductsList(pageNumber = 1) {
 ${cartButton}
 </div>
 </div>`;
-
     });
 
     productsList.innerHTML = cardHTML;
     pagination.style.display = "flex";
-
-    const addButtonArray = document.querySelectorAll("#add");
-    const substractButtonArray = document.querySelectorAll("#substract");
-    const productQtyArray = document.querySelectorAll("#pQuantity");
-
     
-    addButtonArray.forEach((button,index)=>{
-        button.addEventListener("click",()=>{
-            let productQty = parseInt(productQtyArray[index].innerHTML);
-            if(parseInt(stockArray[index]) >= productQty){
-                button.removeAttribute("disabled")
-            }
-            else{
-                button.setAttribute("disabled","")
-            }
-            productQty++
-            productQtyArray[index].innerHTML = productQty
+
+    let addToCart = document.querySelectorAll(".addToCart")
+    const productQuantityArray = document.querySelectorAll("#productQuantity")
+
+
+
+
+    addToCart.forEach((button, index) => {
+        const productId = button.id
+        const selectElement = productQuantityArray[index];
+        let selectedQuantity = selectElement.value;
+
+        selectElement.addEventListener("change", () => {
+            selectedQuantity = selectElement.value
         })
-
-    })
-
-    substractButtonArray.forEach((button,index)=>{
-        button.addEventListener("click",()=>{
-            let productQty = parseInt(productQtyArray[index].innerHTML);
-
-            productQty--
-            productQtyArray[index].innerHTML = productQty
-        })
-
-    })
-
-
-    let addToCart = document.querySelectorAll(".addToCart");
-    const productQuantityArray = document.querySelectorAll("#pQuantity");
-
-    addToCart.forEach((button,index) => {
-        const productId = button.id;
 
         button.addEventListener("click", async () => {
-            const quantity = productQuantityArray[index].innerHTML;
-            console.log(quantity)
-            alert("Usted ingresó", quantity)
+            const quantity = selectedQuantity
 
             const options = {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ quantity: parseInt(quantity) }),
-            };
+                body: JSON.stringify({ quantity: parseInt(quantity) })
+            }
 
-            await fetch(`/api/carts/${cartId}/products/${productId}`, options);
-        });
-    });
+            await fetch(`/api/carts/${cartId}/products/${productId}`, options)
+        })
+
+    })
+
 
     cartLink.setAttribute("href", `/api/carts/${cartId}`);
+
+
+
 
     hideSpinner();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     renderProductsList();
 });
-
-
 
 nextButton.addEventListener("click", () => {
     productsList.innerHTML = "";
@@ -151,10 +124,8 @@ nextButton.addEventListener("click", () => {
     renderProductsList(currentPage);
 });
 
-
 prevButton.addEventListener("click", () => {
     productsList.innerHTML = "";
     currentPage--;
     renderProductsList(currentPage);
 });
-
