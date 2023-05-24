@@ -8,6 +8,19 @@ body{
   background-color: #f7f7f7;
 }
 
+.contenedor{
+  border: solid red 2px;
+  max-width: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin: auto;
+  
+}
+.contenedor p {
+  margin: auto;
+}
 #pagination{
   display: none
 }

@@ -4,11 +4,11 @@ import { updateProduct } from "../services/products.service.js";
 export const stockVerification = async (req, res, next) => {
     const { cid } = req.params
     const purchaserCart = await getCartbyId(cid);
-    let newPurchaseCart = [];
+    let finalPurchaseCart = [];
     purchaserCart.products.forEach( (product, productIndex) => {
         if (product.productId.stock >= product.quantity) {
             updateProduct(product.productId, { stock: product.productId.stock - product.quantity });
-            newPurchaseCart.push(product);
+            finalPurchaseCart.push(product);
             purchaserCart.products.splice(productIndex, 1);
 
         }
@@ -22,7 +22,7 @@ export const stockVerification = async (req, res, next) => {
         }
     })
 
-    req.newPurchaseCart = newPurchaseCart;
+    req.finalPurchaseCart = finalPurchaseCart;
     await updateCartProductsByArray(cid, arrayToUpdate);
     next();
 

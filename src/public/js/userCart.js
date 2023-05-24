@@ -16,3 +16,5 @@ document.addEventListener("DOMContentLoaded", () => {
 		total.textContent = totalValue.toFixed(2);
 	}
 });
+
+
