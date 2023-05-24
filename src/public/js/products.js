@@ -29,7 +29,7 @@ async function renderProductsList(pageNumber = 1) {
     });
     const responseJson = await cartCreation.json();
     const cartId = responseJson.cartId._id;
-
+    
     const response = await fetch(`/api/products?page=${pageNumber}`);
     const responseJSON = await response.json();
     const results = responseJSON.results;
@@ -42,7 +42,7 @@ async function renderProductsList(pageNumber = 1) {
         ? (nextButton.style.display = "none")
         : (nextButton.style.display = "flex");
 
-    pageNumber === 1
+    pageNumber == 1
         ? (prevButton.style.display = "none")
         : (prevButton.style.display = "flex");
 
@@ -51,24 +51,27 @@ async function renderProductsList(pageNumber = 1) {
     //Render de cada card de producto
     let cardHTML = "";
     products.forEach((product) => {
-        stockArray.push(product.stock)
+        let hayStock = product.stock === 0;
+        let cartButton = hayStock ? "": `<button class="btn btn-primary addToCart" id=${product._id}>Añadir al carrito</button>` 
+        let selectOptions = hayStock ?  `<option value="NO STOCK">SIN STOCK</option>` : `<option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>`
+        // Se establece el contenido de la card
         cardHTML += `
         <div class ="card" , style= "width:25rem">
 <img src="${product.thumbnail}" class="card-img-top" alt="${product.title}">
 <div class="card-body" style="text-align: center;">
 <h5 class="card-title">${product.title}</h5>
 <p class="card-text">${product.description}</p>
-<p class="productStock" id=${product.stock}> Stock: ${product.stock} </p>
+<div class="options" style="display:flex justify-content:center">
 <label for="cantidad">Cantidad:</label>
-<div class="contenedor">
-
-<button id="substract">
-    -
-</button>
-<p id="pQuantity">0</p>
-<button id="add"> +</button>
+<select id="productQuantity" name="cantidad">
+  ${selectOptions}
+</select>
 </div>
-<button class="btn btn-primary addToCart" id=${product._id}>Añadir al carrito</button>
+${cartButton}
 </div>
 </div>`;
 
@@ -154,7 +157,4 @@ prevButton.addEventListener("click", () => {
     currentPage--;
     renderProductsList(currentPage);
 });
-
-
-
 
