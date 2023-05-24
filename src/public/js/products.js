@@ -28,9 +28,7 @@ async function renderProductsList(pageNumber = 1) {
     );
     const responseJson = await cartCreation.json();
     const cartId = responseJson.cartId._id;
-    console.log(cartId)
-
-
+    
     const response = await fetch(`/api/products?page=${pageNumber}`);
     const responseJSON = await response.json();
     const results = responseJSON.results;
@@ -41,12 +39,19 @@ async function renderProductsList(pageNumber = 1) {
         nextButton.style.display = "none" :
         nextButton.style.display = "flex";
 
-    pageNumber < 1
+    pageNumber == 1
         ? (prevButton.style.display = "none")
         : (prevButton.style.display = "flex");
 
     let cardHTML = "";
     products.forEach((product) => {
+        let hayStock = product.stock === 0;
+        let cartButton = hayStock ? "": `<button class="btn btn-primary addToCart" id=${product._id}>Añadir al carrito</button>` 
+        let selectOptions = hayStock ?  `<option value="NO STOCK">SIN STOCK</option>` : `<option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>`
         // Se establece el contenido de la card
         cardHTML += `
         <div class ="card" , style= "width:25rem">
@@ -54,14 +59,13 @@ async function renderProductsList(pageNumber = 1) {
 <div class="card-body" style="text-align: center;">
 <h5 class="card-title">${product.title}</h5>
 <p class="card-text">${product.description}</p>
+<div class="options" style="display:flex justify-content:center">
 <label for="cantidad">Cantidad:</label>
 <select id="productQuantity" name="cantidad">
-  <option value="1">1</option>
-  <option value="2">2</option>
-  <option value="3">3</option>
-  <option value="4">4</option>
+  ${selectOptions}
 </select>
-<button class="btn btn-primary addToCart" id=${product._id}>Añadir al carrito</button>
+</div>
+${cartButton}
 </div>
 </div>`;
     });
@@ -126,77 +130,3 @@ prevButton.addEventListener("click", () => {
     renderProductsList(currentPage);
 });
 
-// document.addEventListener("DOMContentLoaded", async () => {
-//     //creo carrito al cargar la pagina solo SI el usuario no tiene uno ya asignado a su propiedad associatedCart
-//     const cartCreation = await fetch("/api/carts", {
-//         method: "POST",
-//         headers: {
-//             'Content-type': 'application/json; charset=UTF-8',
-//         }
-//     }
-//     );
-//     const responseJson = await cartCreation.json();
-//     const cartId = responseJson.cartId;
-
-//     //cuando carga el documento, renderizo la tabla con los productos traidos de la BD usando metodo get con fetch
-//     fetch("/api/products")
-//         .then((res) => res.json())
-//         .then((response) => {
-//             const results = response.results
-//             const products = results.payload;
-
-//             //por cada producto, creamos un item de la tabla junto con el boton agregar para el carrito
-//             products.forEach((product) => {
-//                 // let cardDiv = document.createElement("div");
-//                 // cardDiv.setAttribute("class", "card");
-//                 // cardDiv.setAttribute("style", "width: 25rem;");
-//                 let cardDiv = document.getElementById("cardDiv")
-
-//                 // Se establece el contenido de la card
-//                 let cardHTML= `
-//     <div class ="card" , style= "width:25rem">
-//   <img src="${product.thumbnail}" class="card-img-top" alt="${product.title}">
-//   <div class="card-body" style="text-align: center;">
-//     <h5 class="card-title">${product.title}</h5>
-//     <p class="card-text">${product.description}</p>
-//     <a href="#" class="btn btn-primary addToCart" id=${product._id}>Añadir al carrito</a>
-//   </div>
-//   </div>
-// `;
-
-//                 // Agrego al div existente todo lo creado
-//                 let myDiv = document.getElementById("card-render");
-//                 myDiv.innerHTML = cardHTML;
-//             })
-
-//             //REMOVE SPINNER
-//             let spinner = document.querySelector(".custom-loader");
-//             spinner.setAttribute("hidden", "hidden")
-
-//             //navegacion entre las páginas de productos
-//             let nextButton = document.getElementById("next-btn");
-//             console.log(nextButton)
-
-//             nextButton.addEventListener("click",async()=>{
-//                 renderProductsList(2);
-
-//             })
-
-//             //traigo los botones creados, para despues agregarle una funcion
-//             let addToCart = document.querySelectorAll(".addToCart");
-
-//             addToCart.forEach((button) => {
-//                 const productId = button.id
-//                 button.addEventListener("click", async (e) => {
-//                     e.preventDefault()
-//                     //agregar producto al carrito con fetch
-//                     await fetch(`/api/carts/${cartId}/product/${productId}`, { method: "POST" });
-//                     alert("Producto añadido al carrito")
-
-//                 });
-//             });
-//         }).catch((error) => console.log(error));
-
-// let cartLink = document.getElementById("linkToCart");
-// cartLink.setAttribute("href", `/api/carts/${cartId}`);
-// })
