@@ -1,7 +1,9 @@
 import { Router } from "express";
 import { getAllProducts,aggregationFunction,productById, addOneProduct, modifyProduct, deleteOne, deleteAllProducts } from "../controllers/products.controller.js";
+import { productService } from "../services/products.service.js";
+
 const router = Router();
-import CustomError from "../utils/errors/customError.js";
+
 
 
 
@@ -10,6 +12,12 @@ import CustomError from "../utils/errors/customError.js";
 
 
 router.get("/", getAllProducts)
+
+router.get("/prueba",async(req,res)=>{
+    const products =  await productService.getAllProducts()
+    console.log(products)
+    res.json(products)
+})
 
 router.get("/aggregation/:category", aggregationFunction)
 

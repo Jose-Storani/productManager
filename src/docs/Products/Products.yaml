@@ -1,0 +1,14 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtiene todos los productos.
+      tags:
+        - Productos
+      responses:
+        "200":
+          description: Los productos fueron obtenidos satisfactoriamente.
+        "400":
+          description: La petición realizada por el cliente era sintacticamente incorrecta o contenía parámetros inválidos.
+        "500":
+          description: Error inesperado interno del servidor.
+        

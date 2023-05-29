@@ -1,5 +1,17 @@
 import { productsDao } from "../dao/factory.js";
 
+class ProductsService{
+    constructor(productsDao){
+        this.productsDao = productsDao
+    }
+
+   getAllProducts(){
+        return this.productsDao.getAll();
+    }
+}
+
+export const productService = new ProductsService(productsDao)
+
 export const getProducts =async ()=>{
     const products = await productsDao.getAll();
     return products

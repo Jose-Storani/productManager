@@ -9,6 +9,8 @@ import passport from "passport"
 import cookieParser from "cookie-parser";
 import config from "./config.js";
 import { errorsMiddleware } from "./middlewares/errors.middleware.js";
+import swaggerUi from "swagger-ui-express"
+import { specs } from "./utils/swagger.js";
 
 import compression from "express-compression";
 
@@ -116,6 +118,7 @@ app.use("/api/mensajes",mensajesRouter)
 app.use("/mocks", mocking)
 app.use("/loggerTest", loggerTest)
 app.use("/artilleryTest", artilleryTest )
+app.use("/api/docs", swaggerUi.serve,swaggerUi.setup(specs))
 
 
 app.use((req, res) => {
