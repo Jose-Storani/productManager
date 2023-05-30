@@ -7,8 +7,222 @@ paths:
       responses:
         "200":
           description: Los productos fueron obtenidos satisfactoriamente.
-        "400":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: object
+                    properties:
+                      status: 
+                        type: string
+                      payload:
+                        type: array
+                        items:
+                          $ref: "#components/schemas/Product"
+        "404":
           description: La petición realizada por el cliente era sintacticamente incorrecta o contenía parámetros inválidos.
         "500":
           description: Error inesperado interno del servidor.
-        
+    post:
+      summary: Agregar un producto, el código debe ser único
+      tags:
+        - Agregar producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/addProduct"
+      responses:
+        "200":
+          description: "Producto agregado con éxito"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    description: Producto agregado con exito
+                  newProduct:
+                    type: object
+                    $ref: "#components/schemas/Product"
+        "400":
+          description: "Algunos de los valores ingresados es incorrecto"
+    delete:
+      summary: Elimina todos los productos de la BD
+      tags:
+        - Eliminar productos
+      responses:
+        "200":
+          description: "Devuelve un json con la cantidad de elementos eliminados"
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#components/schemas/deletedProducts"
+  /api/products/{pid}:
+    get:
+      summary: Obtiene un solo producto buscado por ID
+      tags:
+        - Buscar product por ID
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Id del producto que se desea solicitar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: "Producto encontrado"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Product"
+    put:
+      summary: Modifica un producto existente en la BD
+      tags:
+        - Modificar producto
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Id del producto que se desea modificar
+        schema:
+          $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/addProduct"
+      responses:
+        "200":
+          description: Producto modificado con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#components/schemas/Product"
+    delete:
+      summary: Elimina un producto de la BD buscado por ID
+      tags:
+        - Eliminar producto por ID
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Id del producto que se desea eliminar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Producto eliminado con exito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  "producto eliminado con exito":
+                    type: object
+                    $ref: "#components/schemas/Product"
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerada por MongoDB
+        title:
+          type: String
+          description: Nombre
+        description:
+          type: String
+          description: Descripción breve
+        code:
+          type: String
+          description: Código único
+        price:
+          type: Number
+          description: Precio
+        status:
+          type: String
+          description: Estado actual
+        stock:
+          type: String
+          description: Stock
+        category:
+          type: String
+          description: Categoría
+        thumbnail:
+          type: String
+          description: Imagen descriptiva
+      example:
+        _id: ObjectId("644713dc53a7ea768d5c6de6")
+        title: Memoria Ram DDR4
+        description: 3200 MHZ
+        code: "13465456"
+        price: 5000
+        status: "true"
+        stock: 5
+        category: Electronics
+        thumbnail: https://res.cloudinary.com/josestorani/image/upload/v1680205619/corsarram_aihvv1.jpg
+    deletedProducts:
+      type: object
+      properties:
+        mensaje: 
+          type: string
+          description: Productos eliminados con exito
+        cantidad:
+          type: number
+          description: cantidad de elementos eliminados
+      example:
+        mensaje: Productos eliminados con exito
+        cantidad: 12
+  requestBodies:
+    addProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Nombre
+        description:
+          type: String
+          description: Descripción breve
+        code:
+          type: String
+          description: Código único
+        price:
+          type: Number
+          description: Precio
+        status:
+          type: String
+          description: Estado actual
+        stock:
+          type: String
+          description: Stock
+        category:
+          type: String
+          description: Categoría
+        thumbnail:
+          type: String
+          description: Imagen descriptiva
+      example:
+        title: Memoria Ram DDR4
+        description: 3200 MHZ
+        code: "cambia este campo"
+        price: 5000
+        status: "true"
+        stock: 5
+        category: Electronics
+        thumbnail: https://res.cloudinary.com/josestorani/image/upload/v1680205619/corsarram_aihvv1.jpg
+
+
+
+  

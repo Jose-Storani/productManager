@@ -1,0 +1,38 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerada por mongo
+        first_name:
+          type: string
+          description: Nombre del usuario
+        last_name:
+          type: string
+          description: Apellido del usuario
+        email:
+          type: string
+          description: Email del usuario, este campo es único
+        age:
+          type: string
+          description: Edad del usuario, por default 0.
+        password:
+          type: string
+          description: Contraseña Hasheada del usuario
+        associatedCart:
+          type: ObjectId
+          description: Id del cart referenciado al usuario en particular
+        rol:
+          type: string,
+          description: Rol del usuario en la web. Por default User
+      example:
+        _id: ObjectId("644d4d76d61d543835d69bd0")
+        first_name: Jose
+        last_name: Storani
+        email: jdstorani91@gmail.com
+        age: "32"
+        password: $2b$10$uluK3RSKXvfFg4clmImGMeDXa5UJET4ZI8flyinAmoNeHa2Nfl1IG
+        associatedCart: ObjectId("645577694960897931daeaf0")
+        rol: Administrador

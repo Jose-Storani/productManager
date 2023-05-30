@@ -27,7 +27,6 @@ export default class ProductManager extends CommonMethods {
 			}
 
 			if (products.some((product) => product.code === code)) {
-				//deberia generar un error
 				CustomError.createError(errors.BadRequest)
 			}
 			return await productsModel.create(obj);
