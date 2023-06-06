@@ -74,7 +74,6 @@ export default class CartManager extends CommonMethods{
             update,
             { new: true }
         ).lean();
-        console.log(updatedCartProduct)
         return updatedCartProduct;
     }
 

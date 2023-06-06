@@ -3,8 +3,12 @@ import { hashPassword, comparePasswords } from "../../utilities.js";
 import CustomError from "../../utils/errors/customError.js";
 import { errors } from "../../utils/errors/errors.dictionary.js";
 import config from "../../config.js";
+import CommonMethods from "../commonMethods.js";
 
-export default class UserManager {
+export default class UserManager extends CommonMethods {
+	constructor(model){
+		super(model)
+}
     async createUser(userInfo) {
         const { first_name, last_name, email, password } = userInfo;
         if (!first_name || !last_name || !email || !password) {

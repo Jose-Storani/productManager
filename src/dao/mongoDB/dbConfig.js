@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 import config from "../../config.js";
 
-//para conectarme a una BD desde una app, uso este metodo.
-
-//string necesario para conectar desde atlas
-
 const URI= config.mongoURI
 
 

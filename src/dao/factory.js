@@ -8,6 +8,7 @@ import TicketManager from "./ticketDao/ticketManagerMDB.js";
 import { cartsModel } from "./mongoDB/models/cart.model.js";
 import { productsModel } from "./mongoDB/models/products.model.js";
 import { ticketModel } from "./mongoDB/models/ticket.model.js";
+import { usersModel } from "./mongoDB/models/users.model.js";
 
 
 
@@ -21,7 +22,7 @@ switch(config.persistencia){
         await import("./mongoDB/dbConfig.js");
         cartDao = new CartManagerMongo(cartsModel);
         productsDao = new ProductManagerMongo(productsModel);
-        usersDao = new UserManagerMongo();
+        usersDao = new UserManagerMongo(usersModel);
         ticketsDao = new TicketManager(ticketModel);
 
         break;

@@ -19,6 +19,7 @@ function hideSpinner() {
 
 async function renderProductsList(pageNumber = 1) {
     showSpinner();
+		
     const cartCreation = await fetch("/api/carts", {
         method: "POST",
         headers: {
@@ -28,6 +29,7 @@ async function renderProductsList(pageNumber = 1) {
     );
     const responseJson = await cartCreation.json();
     const cartId = responseJson.cartId._id;
+		console.log("id del carrito", cartId)
     
     const response = await fetch(`/api/products?page=${pageNumber}`);
     const responseJSON = await response.json();
