@@ -26,7 +26,7 @@ router.get("/", getAllCarts)
 router.get("/:cid", cartById)
 
 //generacion de tickets con detalle de compra previa verificación de stock. Producto que no hay stock, queda en el carrito del usuario 
-router.post("/:cid/purchase", stockVerification, purchaseGenerator)
+router.post("/:cid/purchase", stockVerification, purchaseGenerator )
 
 router.post("/", cartVerification, createCart)
 

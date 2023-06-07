@@ -11,8 +11,7 @@ router.get("/registroGithub",passport.authenticate("github",{
     scope:["user:email"]
 }))
 
-router.get("/github", passport.authenticate("github"),async(req,res)=>{
-    console.log({server:req.user})  
+router.get("/github", passport.authenticate("github"),async(req,res)=>{ 
     req.session.userInfo = req.user
     
     res.redirect("/products")

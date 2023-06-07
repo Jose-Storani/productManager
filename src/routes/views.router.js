@@ -42,4 +42,8 @@ router.get("/jwtfront",(req,res)=>{
     res.render("jwt")
 });
 
+router.get("/purchaseSuccessful",(req,res)=>{
+	res.render("purchaseSuccessful")
+})
+
 export default router

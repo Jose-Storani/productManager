@@ -11,6 +11,7 @@ export const getAllCarts = async (req, res, next) => {
 
 export const cartById = async (req, res, next) => {
 	try {
+		
 		const { cid } = req.params;
 		const cart = await cartDao.getById(cid);
 		if (cart) {

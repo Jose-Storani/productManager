@@ -1,3 +1,4 @@
+
 const deleteProductButton = document.querySelectorAll(".deleteProductButton");
 
 deleteProductButton.forEach((button) => {
@@ -16,5 +17,23 @@ document.addEventListener("DOMContentLoaded", () => {
 		total.textContent = totalValue.toFixed(2);
 	}
 });
+
+const value = totalValue.toFixed(2)
+const botonPago = document.getElementById("boton_pago");
+
+botonPago.addEventListener("click",async ()=>{
+await fetch(`/api/carts/${cartId}/purchase`,{
+	method: "POST",
+	headers: {
+		'Content-type': 'application/json; charset=UTF-8',
+},
+body: JSON.stringify({amount:value})
+})
+window.location.href = "/purchaseSuccessful"
+})
+
+
+
+
 
 

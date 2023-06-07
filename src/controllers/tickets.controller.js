@@ -6,15 +6,23 @@ import { ticketsDao } from "../dao/factory.js";
 
 export const purchaseGenerator = async (req, res, next) => {
   try {
-    const { amount, purchaser } = req.body;
-    const ticketData = { amount, purchaser };
-    const cartPurchaseData = req.newPurchaseCart;
+	
+    const { amount } = req.body;
+    const ticketData = { amount, purchaser: req.session.userInfo.email };
+		
+		
+    const cartPurchaseData = req.finalPurchaseCart;
+		
+		
     const ticketCreated = await createATicket(ticketData);
-    const userPurchase = {
-      ticketCreated,
-      cartPurchaseData,
-    };
-    res.json({ compraRealizada: userPurchase });
+		console.log(ticketCreated)
+    // const userPurchase = {
+    //   ticketCreated,
+    //   cartPurchaseData,
+    // };
+		// req.session.userInfo.purchaseData = userPurchase
+		// console.log(req.session.userInfo.purchaseData)
+    res.status(200).redirect("/purchaseSuccessful");
   } catch (error) {
     next(error);
   }
