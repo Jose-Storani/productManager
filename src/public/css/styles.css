@@ -54,7 +54,7 @@ body {
   bottom: -80px;
 }
 
-form {
+.login {
   height: 520px;
   width: 400px;
   background-color: rgba(0, 0, 0, 0.67);
@@ -68,14 +68,14 @@ form {
   box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
   padding: 50px 35px;
 }
-form * {
+.login *,.formProducts * {
   font-family: "Poppins", sans-serif;
   color: #ffffff;
   letter-spacing: 0.5px;
   outline: none;
   border: none;
 }
-form h3 {
+.login h3 {
   font-size: 32px;
   font-weight: 500;
   line-height: 42px;
@@ -103,7 +103,8 @@ input {
   color: #e5e5e5;
 }
 
-.form-registro {
+
+.form-registro  {
   height: 650px;
 }
 
@@ -115,6 +116,37 @@ input {
   margin-top: 20px;
 }
 
+.formProducts{
+	max-width: 75vw;
+	height: auto;
+	margin: auto;
+	margin-top: 20px;
+	padding: 20px 50px 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	background-color: rgba(0, 0, 0, 0.67);
+	border-radius: 10px;
+	border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+
+}
+
+.formProducts input{
+	max-width: 50vw
+}
+
+@media only screen and (max-width: 600px) {
+  .formProducts{
+		max-width: 100vw;
+	}
+
+	.formProducts input{
+		max-width: 75vw;
+	}
+}
 .submitButton {
   margin-top: 30px;
   width: 100%;

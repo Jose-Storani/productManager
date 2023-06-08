@@ -1,4 +1,4 @@
-const socketClient = io();
+// const socketClient = io();
 
 let formAddProduct = document.getElementById("formulario")
 let productsList = document.getElementById("productsList");
@@ -7,14 +7,14 @@ let productsList = document.getElementById("productsList");
 const formElements = [...document.getElementsByClassName("form")];
 
 //al conectarse al endpoint, display de los productos en la BD
-socketClient.on("productsList", (productsListArray) => {
-    let listToRender = "";
-    productsListArray.forEach(product => {
-        listToRender += `Producto: ${product.title} </br>
-        Precio: $${product.price} </br></br> `
-    });
-    productsList.innerHTML = listToRender
-});
+// socketClient.on("productsList", (productsListArray) => {
+//     let listToRender = "";
+//     productsListArray.forEach(product => {
+//         listToRender += `Producto: ${product.title} </br>
+//         Precio: $${product.price} </br></br> `
+//     });
+//     productsList.innerHTML = listToRender
+// });
 
 
 formAddProduct.addEventListener("submit", (e) => {
@@ -54,24 +54,24 @@ formAddProduct.addEventListener("submit", (e) => {
         .catch(err => {
             console.error("ERROR: ", err.message)
         });
-
+			})
     //manejo de data del servidor hacia el cliente y viceversa
-    socketClient.emit("dataForm", { title: producto.title, price: producto.price })
-    socketClient.on("productsList", (productsListArray) => {
-        let listToRender = "";
+//     socketClient.emit("dataForm", { title: producto.title, price: producto.price })
+//     socketClient.on("productsList", (productsListArray) => {
+//         let listToRender = "";
 
-        productsListArray.forEach(product => {
-            listToRender += `Producto: ${product.title} </br>
-            Precio: $${product.price} </br></br> `
-        });
-        productsList.innerHTML = listToRender
-    })
+//         productsListArray.forEach(product => {
+//             listToRender += `Producto: ${product.title} </br>
+//             Precio: $${product.price} </br></br> `
+//         });
+//         productsList.innerHTML = listToRender
+//     })
 
-    formElements.forEach((e)=>{
-        e.value = "";
-    })
+//     formElements.forEach((e)=>{
+//         e.value = "";
+//     })
 
-})
+// })
 
 
 

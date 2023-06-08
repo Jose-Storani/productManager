@@ -9,7 +9,7 @@ router.get("/", async (req,res)=>{
     res.render("login",{isAuthenticated: req.session.userInfo?.email});   
 })
 
-router.get("/realtimeproducts",adminValidation, (req,res)=>{
+router.get("/realtimeproducts", (req,res)=>{
     res.render("realTimeProducts")
 
 })

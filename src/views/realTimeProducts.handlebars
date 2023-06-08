@@ -1,34 +1,52 @@
-<h3>Agregar producto</h3>
-<form id="formulario" action="/api/products" method="post">
 
-    Title:<input class="form" type="text" name="title" id="title" required>
-    Description: <input class="form" type="text" name="description" id="description" required>
-    Code: <input class="form" type="text" name="code" id="code" required>
-    Price: <input class="form" type="number" name="price" id="price" required>
-    Status: <input class="form" type="text" name="status" id="status">
-    Stock: <input class="form" type="number" name="status" id="status">
-    Category: <input class="form" type="text" name="category" id="category" required>
-    Thumbnail: <input class="form" type="url" name="thumbnail" id="thumbnail">
+	
+	<form class="formProducts" id="formulario" action="/api/products" method="post">
+	<h3>Agregar producto</h3>
+		<label for="title">Title</label>
+		<input autofocus type="text" name="title" id="title" required>
 
-    <input type="submit" value="enviar">
-</form>
+		<label for="description">Description</label>
+		<input type="text" name="description" id="description" required>
+
+		<label for="code">Code</label>
+		 <input type="text" name="code" id="code" required>
+
+		<label for="price">Price</label>
+		<input type="number" name="price" id="price" required>
+
+		<label for="stock">Stock</label>
+		 <input type="number" name="status" id="status">
+
+		<label for="category">Category</label>
+		 <input type="text" name="category" id="category" required>
+
+		<label for="thumbnail">Thumbnail</label>
+		 <input type="url" name="thumbnail" id="thumbnail">
+
+		<input class="submitButton" type="submit" value="Enviar">
+	</form>
 
 
-<h3>Eliminar producto</h3>
+
+{{!-- <div>
+	<h3>Eliminar producto</h3>
 ID: <form id="deleteForm" action="/api/products" method="delete">
-    <input type="number" name="idProduct" id="idProduct">
-    <input type="submit" value="eliminar">
+	<input type="number" name="idProduct" id="idProduct">
+	<input type="submit" value="eliminar">
 </form>
+</div> --}}
 
 
 
-<h3>LISTA DE PRODUCTOS</h3>
+
+{{!-- <h3>LISTA DE PRODUCTOS</h3>
 <p id="productsList">
- 
-</p>
+
+</p> --}}
 
 
 
-<script src="/socket.io/socket.io.js"></script>
+{{!--
+<script src="/socket.io/socket.io.js"></script> --}}
 
 <script src="/js/index.js"></script>

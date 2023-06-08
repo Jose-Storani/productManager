@@ -134,51 +134,51 @@ const httpServer = app.listen(PORT, () => {
     console.log(`Escuchando al ${PORT}`);
 })
 
-const socketServer = new Server(httpServer);
+// const socketServer = new Server(httpServer);
 
-socketServer.on("connection", async (socket) => {
-    console.log("CONECTADO");
-    let productsListServer = await productManager.listToShow();    
-    socketServer.emit("productsList", productsListServer)
+// socketServer.on("connection", async (socket) => {
+//     console.log("CONECTADO");
+//     let productsListServer = await productManager.listToShow();    
+//     socketServer.emit("productsList", productsListServer)
 
-    socket.on("disconnect", () => {
-        console.log("Usuario desconectado")
-    });
+//     socket.on("disconnect", () => {
+//         console.log("Usuario desconectado")
+//     });
 
-    //relacionado a productos
-    socket.on("dataForm", async (dataForm) => {
-        let productsListServer = await productManager.listToShow();       
-        productsListServer.push(dataForm);
-        socketServer.emit("productsList", productsListServer);
-    });
+//     //relacionado a productos
+//     socket.on("dataForm", async (dataForm) => {
+//         let productsListServer = await productManager.listToShow();       
+//         productsListServer.push(dataForm);
+//         socketServer.emit("productsList", productsListServer);
+//     });
 
-    socket.on("dataDeleted", async (data) => {
-        const { id } = data;
-        let productsListServer = await productManager.listToShow(id);
-        socketServer.emit("productsListDeleted", productsListServer)
-    })
+//     socket.on("dataDeleted", async (data) => {
+//         const { id } = data;
+//         let productsListServer = await productManager.listToShow(id);
+//         socketServer.emit("productsListDeleted", productsListServer)
+//     })
 
-    //RELACIONADO AL CHAT
+//     //RELACIONADO AL CHAT
 
-    //recibimos el usuario nuevo registrado para avisar a todos los conectados que se conectó
+//     //recibimos el usuario nuevo registrado para avisar a todos los conectados que se conectó
 
-    socket.on("newUser", (usuario) => {
-        socket.broadcast.emit("broadcast", usuario);
-    })
-
-
-    //aca recibo la informacion del mensaje, que usuario lo envió y el contenido del mensaje 
-    socket.on("messageChat", async (data) => {
-        await messagesManager.createMessages(data);
-        const messages = await messagesManager.getMessages();
-        socketServer.emit("messageLogs", messages)
-    }
-    )
+//     socket.on("newUser", (usuario) => {
+//         socket.broadcast.emit("broadcast", usuario);
+//     })
 
 
+//     //aca recibo la informacion del mensaje, que usuario lo envió y el contenido del mensaje 
+//     socket.on("messageChat", async (data) => {
+//         await messagesManager.createMessages(data);
+//         const messages = await messagesManager.getMessages();
+//         socketServer.emit("messageLogs", messages)
+//     }
+//     )
 
 
-})
+
+
+// })
 
 app.use(errorsMiddleware)
 
