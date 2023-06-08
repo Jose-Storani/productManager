@@ -1,6 +1,7 @@
 // const socketClient = io();
 
-let formAddProduct = document.getElementById("formulario")
+let formAddProduct = document.querySelector(".formProducts");
+console.log(formAddProduct)
 let productsList = document.getElementById("productsList");
 
 //* todos los inputs del form
@@ -22,14 +23,13 @@ formAddProduct.addEventListener("submit", (e) => {
 
     //objeto a enviar por body del request
     let producto = {
-        title: formElements[0].value,
-        description: formElements[1].value,
-        code: formElements[2].value,
-        price: formElements[3].value,
-        status: formElements[4].value,
-        stock: formElements[5].value,
-        category: formElements[6].value,
-        thumbnail: formElements[7].value
+        title: formAddProduct[0].value,
+        description: formAddProduct[1].value,
+        code: formAddProduct[2].value,
+        price: formAddProduct[3].value,
+        stock: formAddProduct[4].value,
+        category: formAddProduct[5].value,
+        thumbnail: formAddProduct[6].value
     }
 
 
@@ -79,54 +79,54 @@ formAddProduct.addEventListener("submit", (e) => {
 
 //formulario DELETE
 
-let formDelete = document.getElementById("deleteForm");
-let idDeleteElement = document.getElementById("idProduct");
+// let formDelete = document.getElementById("deleteForm");
+// let idDeleteElement = document.getElementById("idProduct");
 
 
-formDelete.addEventListener("submit", (e) => {
-    e.preventDefault();
+// formDelete.addEventListener("submit", (e) => {
+//     e.preventDefault();
 
-    let idProductToDelete = idDeleteElement.value;
-    let url = "/api/products/" + idProductToDelete
-
-
-    const options = {
-        method: "DELETE",
-        headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-        }
-    }
-
-    fetch(url, options)
-        .then(response => {
-            if (response.ok)
-                console.log(response)
-            else
-                throw new Error(response.status);
-        })
-        .then(() => {
-            socketClient.emit("dataDeleted", { id: idProductToDelete });
-        })
-        .catch(err => {
-            console.error("ERROR: ", err.message)
-        });
+//     let idProductToDelete = idDeleteElement.value;
+//     let url = "/api/products/" + idProductToDelete
 
 
-    //POR ALGUNA RAZON, EL ENVIO EN TIEMPO REAL DE LA LISTA CON PRODUCTO ELIMINADO SOLO ES A UN SOCKET Y NO A TODOS LOS NAVEGADORES ABIERTOS.
+//     const options = {
+//         method: "DELETE",
+//         headers: {
+//             'Content-type': 'application/json; charset=UTF-8',
+//         }
+//     }
 
-    socketClient.on("productsListDeleted", (productsListArray) => {
-        let listToRender = "";
+//     fetch(url, options)
+//         .then(response => {
+//             if (response.ok)
+//                 console.log(response)
+//             else
+//                 throw new Error(response.status);
+//         })
+//         .then(() => {
+//             socketClient.emit("dataDeleted", { id: idProductToDelete });
+//         })
+//         .catch(err => {
+//             console.error("ERROR: ", err.message)
+//         });
 
-        productsListArray.forEach(product => {
-            listToRender += `Producto: ${product.title} </br>
-                Precio: $${product.price} </br>
-                </br> `
-        });
 
-        productsList.innerHTML = listToRender
-    })
+//     //POR ALGUNA RAZON, EL ENVIO EN TIEMPO REAL DE LA LISTA CON PRODUCTO ELIMINADO SOLO ES A UN SOCKET Y NO A TODOS LOS NAVEGADORES ABIERTOS.
 
-})
+//     socketClient.on("productsListDeleted", (productsListArray) => {
+//         let listToRender = "";
+
+//         productsListArray.forEach(product => {
+//             listToRender += `Producto: ${product.title} </br>
+//                 Precio: $${product.price} </br>
+//                 </br> `
+//         });
+
+//         productsList.innerHTML = listToRender
+//     })
+
+// })
 
 
 
