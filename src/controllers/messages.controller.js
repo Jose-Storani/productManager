@@ -8,7 +8,7 @@ export const mailController = async (req, res, next) => {
       from: "Jose Storani",
       //se le puede pasar un array de mails para enviar el mismo mail a varias personas, tipo difusión.
       to: "jdstorani91@gmail.com",
-      subject: "Probando",
+      subject: "Comprobante de compra",
       text: "Probando",
       //para archivos adjuntos uso attachments
       // attachments:[{

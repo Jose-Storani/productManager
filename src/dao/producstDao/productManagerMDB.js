@@ -10,7 +10,7 @@ export default class ProductManager extends CommonMethods {
 
 
 	async addProduct(obj) {
-		
+			
 			const {title,
 				description,
 				code,
@@ -18,9 +18,9 @@ export default class ProductManager extends CommonMethods {
 				status = true,
 				stock,
 				category,
-				thumbnail = [],
+				thumbnail = "",
 			} = obj
-			const products = await this.getProducts();
+			const products = await this.getAll();
 
 			if (!title || !description || !code || !price || !stock || !category) {
 				CustomError.createError(errors.BadRequest)

@@ -5,18 +5,21 @@ export const stockVerification = async (req, res, next) => {
 	const { cid } = req.params;
 	const purchaserCart = await cartDao.getById(cid);
 	let finalPurchaseCart = [];
+	let userProducts = purchaserCart[0].products
 
-	purchaserCart[0].products.forEach((product, productIndex) => {
-		if (product.productId.stock >= product.quantity) {
-			productsDao.updateProduct(product.productId, {
-				stock: product.productId.stock - product.quantity,
+	for(let i = purchaserCart[0].products.length - 1; i>=0; i--){
+		if(userProducts[i].productId.stock >= userProducts[i].quantity ){
+			productsDao.updateProduct(userProducts[i].productId,{
+				stock: userProducts[i].productId.stock - userProducts[i].quantity
 			});
-			finalPurchaseCart.push(product);
-			purchaserCart[0].products.splice(productIndex, 1);
-		}
-	});
+			finalPurchaseCart.push(userProducts[i]);
+			userProducts.splice(i,1)
 
-	const arrayToUpdate = await purchaserCart[0].products.map((product) => {
+		}
+	}
+ 
+
+	const arrayToUpdate = userProducts.map((product) => {
 		return {
 			productId: product.productId,
 			quantity: product.quantity,

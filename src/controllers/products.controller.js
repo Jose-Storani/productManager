@@ -71,19 +71,9 @@ export const addOneProduct = async (req, res, next) => {
     const objProduct = req.body;
     const newProduct = await productsDao.addProduct(objProduct);
 
-    if (newProduct === 401) {
-      return res
-        .status(400)
-        .json({ error: "Debe ingresar todos los campos requeridos" });
-    }
-    if (newProduct === 402) {
-      return res
-        .status(400)
-        .json({ error: "El codigo no puede ser igual a uno existente" });
-    }
     return res
       .status(200)
-      .json({ mensaje: "producto agregado con exito", newProduct });
+      .json({ mensaje: "producto agregado con exito",newProduct});
   } catch (error) {
     next(error);
   }

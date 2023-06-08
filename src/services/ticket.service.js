@@ -2,7 +2,6 @@ import { ticketsDao } from "../dao/factory.js";
 
 export const createATicket = async(ticketData) =>{
     const allTickets = await ticketsDao.getAll();
-		console.log(allTickets)
     //codigo inicial si BD está vacía
     let ticketCode = 10000;
 

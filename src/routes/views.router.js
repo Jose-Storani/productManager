@@ -43,7 +43,7 @@ router.get("/jwtfront",(req,res)=>{
 });
 
 router.get("/purchaseSuccessful",(req,res)=>{
-	res.render("purchaseSuccessful")
+	res.render("purchaseSuccessful",{data:req.session.userInfo.purchaseData.ticketCreated})
 })
 
 export default router
