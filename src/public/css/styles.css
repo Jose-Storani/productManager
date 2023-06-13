@@ -296,6 +296,23 @@ div#pagination{
   }
 }
 
+
+/* spinner de boton de compra */
+.purchase-loader {
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:8px solid;
+  border-color:#E4E4ED;
+  border-right-color: #766DF4;
+  animation:s2 1s infinite linear;
+	position: fixed;
+    top: 50%;
+    left: 50%;
+    
+}
+@keyframes s2 {to{transform: rotate(1turn)}}
+
 /* 404 PAGE */
 
 #notfound {

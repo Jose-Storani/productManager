@@ -22,6 +22,10 @@ const value = totalValue.toFixed(2)
 const botonPago = document.getElementById("boton_pago");
 
 botonPago.addEventListener("click",async ()=>{
+		const spinner = document.createElement('div');
+    spinner.classList.add('purchase-loader');
+    botonPago.replaceWith(spinner);
+
 await fetch(`/api/carts/${cartId}/purchase`,{
 	method: "POST",
 	headers: {
