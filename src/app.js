@@ -2,7 +2,6 @@
 import express from "express"
 import { __dirname } from "./utilities.js"
 import handlebars from "express-handlebars"
-import { Server } from "socket.io";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport"
@@ -11,12 +10,8 @@ import config from "./config.js";
 import { errorsMiddleware } from "./middlewares/errors.middleware.js";
 import swaggerUi from "swagger-ui-express"
 import { specs } from "./utils/swagger.js";
-
 import compression from "express-compression";
-
 import "./passport/passportStrategies.js";
-
-
 import "./dao/mongoDB/dbConfig.js"
 
 
@@ -77,7 +72,6 @@ const hbs = handlebars.create({
       }
 })
 
-
 app.engine("handlebars", hbs.engine)
 
 
@@ -87,11 +81,6 @@ import cartsRoute from "./routes/carts.router.js"
 import viewsRoute from "./routes/views.router.js"
 import sessionsRouter from "./routes/sessions.router.js"
 import usersRouter from "./routes/users.router.js"
-
-
-
-
-
 
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartsRoute);
@@ -114,51 +103,6 @@ const httpServer = app.listen(PORT, () => {
     console.log(`Escuchando al ${PORT}`);
 })
 
-// const socketServer = new Server(httpServer);
-
-// socketServer.on("connection", async (socket) => {
-//     console.log("CONECTADO");
-//     let productsListServer = await productManager.listToShow();    
-//     socketServer.emit("productsList", productsListServer)
-
-//     socket.on("disconnect", () => {
-//         console.log("Usuario desconectado")
-//     });
-
-//     //relacionado a productos
-//     socket.on("dataForm", async (dataForm) => {
-//         let productsListServer = await productManager.listToShow();       
-//         productsListServer.push(dataForm);
-//         socketServer.emit("productsList", productsListServer);
-//     });
-
-//     socket.on("dataDeleted", async (data) => {
-//         const { id } = data;
-//         let productsListServer = await productManager.listToShow(id);
-//         socketServer.emit("productsListDeleted", productsListServer)
-//     })
-
-//     //RELACIONADO AL CHAT
-
-//     //recibimos el usuario nuevo registrado para avisar a todos los conectados que se conectó
-
-//     socket.on("newUser", (usuario) => {
-//         socket.broadcast.emit("broadcast", usuario);
-//     })
-
-
-//     //aca recibo la informacion del mensaje, que usuario lo envió y el contenido del mensaje 
-//     socket.on("messageChat", async (data) => {
-//         await messagesManager.createMessages(data);
-//         const messages = await messagesManager.getMessages();
-//         socketServer.emit("messageLogs", messages)
-//     }
-//     )
-
-
-
-
-// })
 
 app.use(errorsMiddleware)
 
