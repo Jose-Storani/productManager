@@ -23,13 +23,6 @@ import "./dao/mongoDB/dbConfig.js"
 
 
 
-import  {MessagesManager}  from "./dao/messagesDao/messagesManager.js";
-
-export let messagesManager = new MessagesManager
-
-
-
-
 //express 
 const app = express()
 app.use(compression({brotli:{enabled:true,zlib:{}}}))
@@ -88,23 +81,15 @@ const hbs = handlebars.create({
 app.engine("handlebars", hbs.engine)
 
 
-
-
-
-
-
-
 //rutas
 import productRoute from "./routes/products.router.js"
 import cartsRoute from "./routes/carts.router.js"
 import viewsRoute from "./routes/views.router.js"
 import sessionsRouter from "./routes/sessions.router.js"
 import usersRouter from "./routes/users.router.js"
-import mailerRoute from "./routes/mailer.router.js"
-import mensajesRouter from "./routes/twilio.router.js"
-import mocking from "./routes/mocks.router.js"
-import loggerTest from "./routes/loggerTest.router.js"
-import artilleryTest from "./routes/artilleryTest.router.js"
+
+
+
 
 
 
@@ -113,11 +98,6 @@ app.use("/api/carts", cartsRoute);
 app.use("/", viewsRoute);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/users", usersRouter);
-app.use("/api/mail",mailerRoute)
-app.use("/api/mensajes",mensajesRouter)
-app.use("/mocks", mocking)
-app.use("/loggerTest", loggerTest)
-app.use("/artilleryTest", artilleryTest )
 app.use("/api/docs", swaggerUi.serve,swaggerUi.setup(specs))
 
 

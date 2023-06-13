@@ -14,12 +14,6 @@ router.get("/realtimeproducts", (req,res)=>{
 
 })
 
-
-
-router.get("/chat",(req,res)=> {
-    res.render("chat",{})
-});
-
 router.get("/products",userValidation,profileRender )
 
 router.get("/registro",(req,res)=>{
@@ -33,14 +27,6 @@ router.get("/registroSuccess",(req,res)=>{
 router.get("/registroFailed", (req,res)=>{
     res.render("registroFailed");
 })
-
-router.get("/loginError", (req,res)=>{
-    res.render("loginError")
-});
-
-router.get("/jwtfront",(req,res)=>{
-    res.render("jwt")
-});
 
 router.get("/purchaseSuccessful",(req,res)=>{
 	res.render("purchaseSuccessful",{data:req.session.userInfo.purchaseData.ticketCreated})
