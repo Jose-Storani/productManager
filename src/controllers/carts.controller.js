@@ -14,10 +14,11 @@ export const cartById = async (req, res, next) => {
 		
 		const { cid } = req.params;
 		const cart = await cartDao.getById(cid);
-		if (cart) {
+		
+		if (cart[0].products.length) {
 			res.render("cart", { cart : cart[0] });
 		} else {
-			res.json({ mensaje: "Carrito no encontrado" });
+			res.render("cart");
 		}
 	} catch (error) {
 		next(error);

@@ -1,15 +1,12 @@
 {{> navbar}}
 {{#if cart}}
 <script>
-		
     const cartId = "{{cart._id}}";
     let totalValue = 0
+
 		{{#each cart.products}}
     totalValue+= {{quantity}} * {{productId.price}}
-		
     {{/each}}
-		
-    
 </script>
 
 <table>
@@ -51,7 +48,8 @@
 
 {{/each}}
 
-<tr >   
+
+<tr>   
     <td style="text-align: center" colspan="6" >
         <h5>Total: $<span id="totalValue">{{totalValue}}</span></h5>
             <button id="boton_pago">Realizar Compra</button>

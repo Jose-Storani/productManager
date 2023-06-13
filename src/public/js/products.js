@@ -29,8 +29,7 @@ async function renderProductsList(pageNumber = 1) {
     );
     const responseJson = await cartCreation.json();
     const cartId = responseJson.cartId._id;
-		console.log("id del carrito", cartId)
-    
+
     const response = await fetch(`/api/products?page=${pageNumber}`);
     const responseJSON = await response.json();
     const results = responseJSON.results;
@@ -78,9 +77,6 @@ ${cartButton}
 
     let addToCart = document.querySelectorAll(".addToCart")
     const productQuantityArray = document.querySelectorAll("#productQuantity")
-
-
-
 
     addToCart.forEach((button, index) => {
         const productId = button.id
