@@ -13,6 +13,10 @@ export default {
         creator:process.env.CREATOR_ADMIN,
         other: process.env.OTHER_ADMIN
     },
+		adminAccount: {
+			adminUser : process.env.ADMIN,
+			adminPass : process.env.ADMIN_PASS
+		},
     environment : process.env.ENVIRONMENT
 }
 

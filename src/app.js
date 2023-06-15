@@ -40,12 +40,19 @@ const mongoSessionUrl = config?.mongoSessionUrl;
 const sessionOptions = {
     secret: "secretCoder",
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: false,
+		name: "sessionID",
+		cookie:{
+			maxAge: 3*60*10000
+		}
 }
+
+
 
 if (mongoSessionUrl) {
     sessionOptions.store = new MongoStore({
-        mongoUrl: mongoSessionUrl
+        mongoUrl: mongoSessionUrl,
+				ttl: 2 * 24 * 60 * 60
     })
 }
 
@@ -56,7 +63,6 @@ app.use(session(sessionOptions));
 //inicializar passport
 app.use(passport.initialize());
 
-//passport guarda la informacion de session.
 app.use(passport.session());
 
 //handlebars

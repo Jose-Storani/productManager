@@ -5,7 +5,7 @@ import passport from "passport";
 export const createUser = async (req, res, next) => {
   try {
     const response = await usersDao.createUser(req.body);
-    res.json({ mensaje: "Usuario creado", usuario: response });
+    res.status(200).json({ mensaje: "Usuario creado", usuario: response });
   } catch (error) {
     next(error);
   }
@@ -56,6 +56,7 @@ export const userLogOut = async (req, res, next) => {
       if (err) {
         res.send("LogOut Error");
       } else {
+				res.clearCookie("sessionID")
         res.status(400).redirect("/");
       }
     });
@@ -63,3 +64,12 @@ export const userLogOut = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deleteAllUsers = async (req,res,next) =>{
+	try {
+		const deleted = await usersDao.deleteAll();
+		res.status(200).json({deleted:deleted})
+	} catch (error) {
+		next(error)
+	}
+}

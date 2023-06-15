@@ -1,11 +1,10 @@
 import { Router } from "express";
 import passport from "passport"
-import { findUser } from "../controllers/users.controller.js";
+import { deleteAllUsers } from "../controllers/users.controller.js";
 
 
 const router = Router();
 
-router.get("/",findUser)
 
 router.get("/registroGithub",passport.authenticate("github",{
     scope:["user:email"]
@@ -13,7 +12,9 @@ router.get("/registroGithub",passport.authenticate("github",{
 
 router.get("/github", passport.authenticate("github"),async(req,res)=>{ 
     req.session.userInfo = req.user
-    
+    // if(req.user.password === "1$#522%%"){
+		// 	res.redirect("/changePassword");
+		// }
     res.redirect("/products")
 });
 
@@ -25,8 +26,7 @@ passport.authenticate("registro",{
     passReqToCallBack: true
 }));
 
-
-
+router.get("/deleteall",deleteAllUsers)
 
 
 

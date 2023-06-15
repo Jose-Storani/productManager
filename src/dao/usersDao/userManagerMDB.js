@@ -26,12 +26,10 @@ export default class UserManager extends CommonMethods {
                     password !== " " ? await hashPassword(password) : password;
 
                 const newUser =
-                    email === config.admins?.coder ||
-                        email === config.admins?.creator ||
-                        email === config.admins?.other
+                    email === config.adminAccount.adminUser
                         ? {
                             ...userInfo,
-                            password: hashNewPassword,
+                            password: await hashPassword(config.adminAccount.adminPass),
                             rol: "Administrador",
                         }
                         : {
@@ -62,6 +60,10 @@ export default class UserManager extends CommonMethods {
         }
     }
 
+		async findByEmail(email){
+			const foundUser = await usersModel.find({email}).lean();
+			return foundUser
+		}
     async updateUser(email, updateId) {
         const response = await usersModel.findOneAndUpdate(
             { email },

@@ -6,7 +6,8 @@ import { profileRender } from "../controllers/users.controller.js";
 const router = Router();
 
 router.get("/", async (req,res)=>{  
-    res.render("login",{isAuthenticated: req.session.userInfo?.email});   
+	
+	res.render("login",{isAuthenticated: req.session.userInfo?.email});  
 })
 
 router.get("/realtimeproducts", (req,res)=>{
@@ -30,6 +31,10 @@ router.get("/registroFailed", (req,res)=>{
 
 router.get("/purchaseSuccessful",(req,res)=>{
 	res.render("purchaseSuccessful",{data:req.session.userInfo.purchaseData.ticketCreated})
+})
+
+router.get("changePassword", (req,res)=>{
+	res.render("changePassword")
 })
 
 export default router
