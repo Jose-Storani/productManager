@@ -15,7 +15,7 @@ router.get("/github", passport.authenticate("github"),async(req,res)=>{
     // if(req.user.password === "1$#522%%"){
 		// 	res.redirect("/changePassword");
 		// }
-    res.redirect("/products")
+    res.redirect("/changePassword")
 });
 
 // registro con passport

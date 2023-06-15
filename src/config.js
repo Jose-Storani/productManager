@@ -17,6 +17,7 @@ export default {
 			adminUser : process.env.ADMIN,
 			adminPass : process.env.ADMIN_PASS
 		},
-    environment : process.env.ENVIRONMENT
+    environment : process.env.ENVIRONMENT,
+		maxAttempsValue : process.env.MAX_ATTEMPS_VALUE
 }
 

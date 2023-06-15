@@ -59,5 +59,7 @@ export const errors = {
         cause:
         "The server, while acting as a gateway or proxy, did not receive a timely response from an upstream server.",
         code: 504,
-    }
+    },
+
+		
 };

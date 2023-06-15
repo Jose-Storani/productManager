@@ -43,10 +43,11 @@ export const userLogin = (req, res, next) => {
     }
 
     if (!user) {
-      return res.status(401).json({ error: info.message });
+			
+      return res.status(401).json(info.message);
     }
     req.session.userInfo = user;
-    return res.json({ message: "logeado" });
+    return res.status(200).json(info.message);
   })(req, res, next);
 };
 

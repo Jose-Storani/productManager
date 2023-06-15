@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		default: "Usuario",
 	},
+	failedLoginAttempts: {
+    type: Number,
+    default: 0,
+  }
 });
 
 const githubUserSchema = new mongoose.Schema({
