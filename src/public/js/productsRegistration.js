@@ -1,21 +1,11 @@
-// const socketClient = io();
+
 
 let formAddProduct = document.querySelector(".formProducts");
-console.log(formAddProduct)
-let productsList = document.getElementById("productsList");
 
 //* todos los inputs del form
-const formElements = [...document.getElementsByClassName("form")];
+const formElements = [...document.getElementsByTagName("input")];
 
-//al conectarse al endpoint, display de los productos en la BD
-// socketClient.on("productsList", (productsListArray) => {
-//     let listToRender = "";
-//     productsListArray.forEach(product => {
-//         listToRender += `Producto: ${product.title} </br>
-//         Precio: $${product.price} </br></br> `
-//     });
-//     productsList.innerHTML = listToRender
-// });
+console.log(formElements)
 
 
 formAddProduct.addEventListener("submit", (e) => {
@@ -46,32 +36,25 @@ formAddProduct.addEventListener("submit", (e) => {
     // envio al endpoint
     fetch("/api/products", options)
         .then(response => {
-            if (response.ok)
-                console.log(response.json())
+            if (response.ok){
+							console.log(response.json());
+							[...formAddProduct].forEach((input)=>{
+								if(input.type === "submit") return
+								
+								input.value = "";
+							})
+
+						}
+								
             else
                 throw new Error(response.status);
         })
         .catch(err => {
             console.error("ERROR: ", err.message)
         });
+
+
 			})
-    //manejo de data del servidor hacia el cliente y viceversa
-//     socketClient.emit("dataForm", { title: producto.title, price: producto.price })
-//     socketClient.on("productsList", (productsListArray) => {
-//         let listToRender = "";
-
-//         productsListArray.forEach(product => {
-//             listToRender += `Producto: ${product.title} </br>
-//             Precio: $${product.price} </br></br> `
-//         });
-//         productsList.innerHTML = listToRender
-//     })
-
-//     formElements.forEach((e)=>{
-//         e.value = "";
-//     })
-
-// })
 
 
 
@@ -112,21 +95,6 @@ formAddProduct.addEventListener("submit", (e) => {
 //         });
 
 
-//     //POR ALGUNA RAZON, EL ENVIO EN TIEMPO REAL DE LA LISTA CON PRODUCTO ELIMINADO SOLO ES A UN SOCKET Y NO A TODOS LOS NAVEGADORES ABIERTOS.
-
-//     socketClient.on("productsListDeleted", (productsListArray) => {
-//         let listToRender = "";
-
-//         productsListArray.forEach(product => {
-//             listToRender += `Producto: ${product.title} </br>
-//                 Precio: $${product.price} </br>
-//                 </br> `
-//         });
-
-//         productsList.innerHTML = listToRender
-//     })
-
-// })
 
 
 

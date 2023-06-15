@@ -8,7 +8,9 @@ const spinner = document.querySelector(".center");
 let currentPage = 1;
 
 function showSpinner() {
+	
     spinner.style.display = "flex";
+		
 }
 
 function hideSpinner() {
@@ -104,7 +106,7 @@ ${cartButton}
     })
 
 
-    cartLink.setAttribute("href", `/api/carts/${cartId}`);
+    cartLink?.setAttribute("href", `/api/carts/${cartId}`);
 
 
 
