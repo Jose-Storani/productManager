@@ -42,31 +42,6 @@ export default class UserManager extends CommonMethods {
 		}
 	}
 
-	// async findUser(email, password) {
-	// 	const user = await usersModel.findOne({ email }).lean();
-
-	// 	if (!user) {
-
-	// 		return null;
-	// 	}
-
-	// 	if (user.failedLoginAttempts >= 3) {
-
-	// 		return false;
-	// 	}
-
-	// 	const isPasswordCorrect = await comparePasswords(password, user.password);
-
-	// 	if (isPasswordCorrect) {
-
-	// 		await resetFailedLoginAttempts(email);
-	// 		return user;
-	// 	}
-
-	// 	await incrementFailedLoginAttempts(email);
-
-	// 	return null;
-	// }
 
 	async findUser(email, password) {
 		const user = await usersModel.findOne({ email }).lean();
@@ -110,5 +85,21 @@ export default class UserManager extends CommonMethods {
 			{ new: true }
 		);
 		return response;
+	}
+
+	async  cambiarRolUsuario(userId) {
+		try {
+			const usuario = await usersModel.findById(userId);
+			if (!usuario) {
+				// Usuario no encontrado
+				return null;
+			}
+	
+			usuario.rol = (usuario.rol === "administrador") ? "usuario" : "administrador";
+			await usuario.save();
+		} catch (error) {
+			console.error(error);
+			throw error;
+		}
 	}
 }

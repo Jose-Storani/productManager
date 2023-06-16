@@ -1,14 +1,17 @@
 import { Router } from "express";
 import { adminValidation, userValidation } from "../middlewares/userValidation.js";
-import { profileRender } from "../controllers/users.controller.js";
+import { changeUserRol, getAllUsersRol, profileRender } from "../controllers/users.controller.js";
+
 
 
 const router = Router();
 
-router.get("/", async (req,res)=>{  
+router.get("/", (req,res)=>{  
 	
 	res.render("login",{isAuthenticated: req.session.userInfo?.email});  
 })
+
+router.get("/changeRol", adminValidation, getAllUsersRol )
 
 router.get("/realtimeproducts",adminValidation, (req,res)=>{
     res.render("realTimeProducts",{adminData:true})

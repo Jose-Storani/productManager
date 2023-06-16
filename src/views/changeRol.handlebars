@@ -1,0 +1,40 @@
+{{> navbar}}
+
+{{#if users}}
+<table>
+        <thead>
+            <tr>
+            
+            <th>Nombre</th>
+            <th>Email</th>         
+            <th>Rol</th>
+          
+        </tr>
+        </thead>
+
+    <tbody >
+        {{#each users}}
+    <tr class="data_body">
+        
+        <td>
+            {{first_name}}
+        </td>
+        <td>
+            {{email}}
+        </td>
+        <td>
+            {{rol}}
+        </td>
+  
+        <td>
+            <button class="changeRolButton" id={{_id}}>Cambiar Rol</button>
+        </td>
+    </tr>
+    </tbody>
+
+
+{{/each}}
+<script src="/js/rols.js"></script>
+{{/if}}
+
+

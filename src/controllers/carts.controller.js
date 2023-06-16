@@ -11,12 +11,11 @@ export const getAllCarts = async (req, res, next) => {
 
 export const cartById = async (req, res, next) => {
 	try {
-		
 		const { cid } = req.params;
 		const cart = await cartDao.getById(cid);
-		
+
 		if (cart[0].products.length) {
-			res.render("cart", { cart : cart[0] });
+			res.render("cart", { cart: cart[0] });
 		} else {
 			res.render("cart");
 		}
@@ -29,7 +28,7 @@ export const createCart = async (req, res, next) => {
 	try {
 		const cartId = req.session.userInfo.associatedCart;
 		res.status(200).json({
-			cartId
+			cartId,
 		});
 	} catch (error) {
 		next(error);
