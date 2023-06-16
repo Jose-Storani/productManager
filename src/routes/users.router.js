@@ -1,6 +1,7 @@
 import { Router } from "express";
 import passport from "passport"
 import { deleteAllUsers } from "../controllers/users.controller.js";
+import { adminValidation } from "../middlewares/userValidation.js";
 
 
 const router = Router();
@@ -26,7 +27,7 @@ passport.authenticate("registro",{
     passReqToCallBack: true
 }));
 
-router.get("/deleteall",deleteAllUsers)
+router.get("/deleteall",adminValidation,deleteAllUsers)
 
 
 

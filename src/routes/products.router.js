@@ -8,6 +8,7 @@ import {
 	deleteOne,
 	deleteAllProducts,
 } from "../controllers/products.controller.js";
+import { adminValidation } from "../middlewares/userValidation.js";
 
 const router = Router();
 
@@ -21,15 +22,15 @@ router.get("/aggregation/:category", aggregationFunction);
 router.get("/:id", productById);
 
 //agregar producto
-router.post("/", addOneProduct);
+router.post("/",adminValidation, addOneProduct);
 
 //modificar producto por ID pasada por params
 router.put("/:pid", modifyProduct);
 
 //borrar producto por ID pasada por params
-router.delete("/:pid", deleteOne);
+router.delete("/:pid", adminValidation, deleteOne);
 
 //borrar todos los productos
-router.delete("/", deleteAllProducts);
+router.delete("/",adminValidation, deleteAllProducts);
 
 export default router;

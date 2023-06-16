@@ -93,7 +93,7 @@ import { allRutesValidation } from "./middlewares/userValidation.js";
 //middleware de autenticación para todas las rutas, excepto login y registro
 
 app.use("/api/sessions", sessionsRouter);
-app.use(allRutesValidation)
+// app.use(allRutesValidation)
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartsRoute);
 app.use("/", viewsRoute);

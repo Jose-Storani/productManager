@@ -1,6 +1,6 @@
 
-
-<form class="form-registro" action="/api/users/registro" method="POST">
+<div class="form-registro-container">
+	<form class="form-registro" action="/api/users/registro" method="POST">
 <h3>Crear usuario</h3>
 <label for="nombre">Nombre</label>
 <input type="text" name="first_name" id="first_name" required>
@@ -19,4 +19,10 @@
     
     <input class="submitButton" type="submit" value="Registrar">
 </form>
+
+
+</div>
+<div class="buttonHomeDiv">
+    <button id="profile"  onclick="location.href='/'">Ir al login</button>
+</div>
 

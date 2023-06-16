@@ -10,12 +10,12 @@ router.get("/", async (req,res)=>{
 	res.render("login",{isAuthenticated: req.session.userInfo?.email});  
 })
 
-router.get("/realtimeproducts", (req,res)=>{
+router.get("/realtimeproducts",adminValidation, (req,res)=>{
     res.render("realTimeProducts",{adminData:true})
 
 })
 
-router.get("/products",profileRender )
+router.get("/products",userValidation,profileRender )
 
 router.get("/registro",(req,res)=>{
     res.render("registro")
@@ -29,7 +29,7 @@ router.get("/registroFailed", (req,res)=>{
     res.render("registroFailed");
 })
 
-router.get("/purchaseSuccessful",(req,res)=>{
+router.get("/purchaseSuccessful", userValidation, (req,res)=>{
 	res.render("purchaseSuccessful",{data:req.session.userInfo.purchaseData.ticketCreated})
 })
 

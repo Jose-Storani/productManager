@@ -31,10 +31,7 @@ export const purchaseGenerator = async (req, res, next) => {
 		Monto total: $${amount}
 		Detalle artículos: ${detailDisplay}
 		`,
-
-
 		});
-
 
 		res.status(200).redirect("/purchaseSuccessful");
 	} catch (error) {
