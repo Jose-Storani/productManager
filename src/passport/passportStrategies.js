@@ -47,10 +47,10 @@ passport.use(
 					logger.info(`usuario logeado: ${correctUser.email}`);
 					return done(null, correctUser,{message:"logeado"});
 				} else {
-					const user = await usersDao.findByEmail(email);
-					if (user && user.failedLoginAttempts >= config.maxAttempsValue) {
+					
+					if (correctUser === false) {
 						logger.info(
-							`La cuenta de usuario '${user.email}' ha sido bloqueada debido a múltiples intentos fallidos.`
+							`La cuenta ha sido bloqueada debido a múltiples intentos fallidos.`
 						);
 						return done(null, false, {
 							message:

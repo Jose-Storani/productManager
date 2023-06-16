@@ -42,44 +42,68 @@ export default class UserManager extends CommonMethods {
 		}
 	}
 
+	// async findUser(email, password) {
+	// 	const user = await usersModel.findOne({ email }).lean();
+
+	// 	if (!user) {
+
+	// 		return null;
+	// 	}
+
+	// 	if (user.failedLoginAttempts >= 3) {
+
+	// 		return false;
+	// 	}
+
+	// 	const isPasswordCorrect = await comparePasswords(password, user.password);
+
+	// 	if (isPasswordCorrect) {
+
+	// 		await resetFailedLoginAttempts(email);
+	// 		return user;
+	// 	}
+
+	// 	await incrementFailedLoginAttempts(email);
+
+	// 	return null;
+	// }
+
 	async findUser(email, password) {
-		const correctUser = await usersModel.find({ email }).lean();
-		if (correctUser.length) {
-			const isPassword = await comparePasswords(
-				password,
-				correctUser[0].password
-			);
+		const user = await usersModel.findOne({ email }).lean();
+		if (!user) return null;
+		if (user) {
+			if (user.failedLoginAttempts >= 3) return false;
+
+			const isPassword = await comparePasswords(password, user.password);
 			if (isPassword) {
-				await usersModel.findOneAndUpdate(
-					{
-						email,
-					},
-					{
-						$set: { failedLoginAttempts: 0 },
-					}
-				);
-				return correctUser[0];
-			} else {
-				await usersModel.findOneAndUpdate(
-					{
-						email,
-					},
-					{
-						$inc: { failedLoginAttempts: 1 },
-					}
-				);
-				return null;
+				await this.resetFailedLoginAttempts(email);
+				return user;
 			}
-		} else {
+
+			await this.incLoginAttemps(email);
 			return null;
 		}
+	}
+
+	async incLoginAttemps(email) {
+		await usersModel.findOneAndUpdate(
+			{ email },
+			{ $inc: { failedLoginAttempts: 1 } }
+		);
+	}
+
+	async resetFailedLoginAttempts(email) {
+		await usersModel.findOneAndUpdate(
+			{ email },
+			{ $set: { failedLoginAttempts: 0 } }
+		);
 	}
 
 	async findByEmail(email) {
 		const foundUser = await usersModel.find({ email }).lean();
 		return foundUser[0];
 	}
-	async updateUser(email, updateId) {
+	async updateUserCartID(email, updateId) {
 		const response = await usersModel.findOneAndUpdate(
 			{ email },
 			{ associatedCart: updateId },

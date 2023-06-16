@@ -3,10 +3,6 @@ import { userLogin, userLogOut } from "../controllers/users.controller.js";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-    res.json(req.session)
-})
-
 
 router.get("/logout", userLogOut)
 

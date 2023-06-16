@@ -154,9 +154,6 @@ input {
 	max-width: 100%
 }
 
-
-
-
 .deleteForm{
 	width: 320px;
 	height: auto;
@@ -261,7 +258,7 @@ tr:hover {
 }
 
 .welcomeImage {
-  width: 100vw;
+  width: 100%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url("https://res.cloudinary.com/josestorani/image/upload/v1680195350/31367_m0piwf.jpg");
   height: 200px;

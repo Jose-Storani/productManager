@@ -30,7 +30,10 @@ async function renderProductsList(pageNumber = 1) {
     }
     );
     const responseJson = await cartCreation.json();
-    const cartId = responseJson.cartId._id;
+    const cartId = responseJson.cartId;
+		console.log(responseJson)
+		console.log(cartId)
+	
 
     const response = await fetch(`/api/products?page=${pageNumber}`);
     const responseJSON = await response.json();

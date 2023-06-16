@@ -5,9 +5,6 @@ let formAddProduct = document.querySelector(".formProducts");
 //* todos los inputs del form
 const formElements = [...document.getElementsByTagName("input")];
 
-console.log(formElements)
-
-
 formAddProduct.addEventListener("submit", (e) => {
     e.preventDefault();
 

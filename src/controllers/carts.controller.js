@@ -29,7 +29,7 @@ export const createCart = async (req, res, next) => {
 	try {
 		const cartId = req.session.userInfo.associatedCart;
 		res.status(200).json({
-			cartId,
+			cartId
 		});
 	} catch (error) {
 		next(error);

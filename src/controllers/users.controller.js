@@ -41,9 +41,7 @@ export const userLogin = (req, res, next) => {
     if (err) {
       return next(err);
     }
-
     if (!user) {
-			
       return res.status(401).json(info.message);
     }
     req.session.userInfo = user;

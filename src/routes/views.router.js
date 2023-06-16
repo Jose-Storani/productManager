@@ -11,11 +11,11 @@ router.get("/", async (req,res)=>{
 })
 
 router.get("/realtimeproducts", (req,res)=>{
-    res.render("realTimeProducts")
+    res.render("realTimeProducts",{adminData:true})
 
 })
 
-router.get("/products",userValidation,profileRender )
+router.get("/products",profileRender )
 
 router.get("/registro",(req,res)=>{
     res.render("registro")
