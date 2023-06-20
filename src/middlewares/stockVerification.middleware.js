@@ -2,6 +2,7 @@ import { cartDao, productsDao } from "../dao/factory.js";
 
 export const stockVerification = async (req, res, next) => {
 	const { cid } = req.params;
+	req.cartId = cid;
 	const purchaserCart = await cartDao.getById(cid);
 	let finalPurchaseCart = [];
 	let userProducts = purchaserCart[0].products;

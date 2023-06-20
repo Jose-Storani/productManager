@@ -1,5 +1,17 @@
 {{> navbar}}
+<script>
+	let cartId = "{{data.cartId}}";
+</script>
 <h3>Compra realizada</h3>
-<p>Id de compra: {{data.ticketCode}}</p>
-<p>Fecha de compra: {{data.purchase_dateTime}}</p>
-<p>Total de compra: ${{data.amount}}</p>
+<p>Id de compra: {{data.ticketCreated.ticketCode}}</p>
+<p>Fecha de compra: {{data.ticketCreated.purchase_dateTime}}</p>
+<p>Total de compra: ${{data.ticketCreated.amount}}</p>
+
+{{#each data.cartPurchaseData}}
+<p>Producto: {{productId.title}}</p>
+<p>Cantidad: {{quantity}}</p>
+
+{{/each}}
+
+
+<script src="./js/purchaseSuccess.js"></script>

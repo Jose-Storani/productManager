@@ -12,4 +12,9 @@ export default class TicketManager extends CommonMethods{
 
     }
 
+		async findTicket(ticketNumber){
+			const response = await ticketModel.findOne({ticketCode:ticketNumber});
+			return response
+		}
+
 }

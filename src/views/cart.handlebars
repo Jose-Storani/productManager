@@ -3,9 +3,10 @@
 <script>
     const cartId = "{{cart._id}}";
     let totalValue = 0
-
 		{{#each cart.products}}
+
     totalValue+= {{quantity}} * {{productId.price}}
+
     {{/each}}
 </script>
 

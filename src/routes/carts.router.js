@@ -4,7 +4,7 @@ import { cartById, createCart, getAllCarts, addProducToCart, addArrayToCart, upd
 
 
 import { stockVerification } from "../middlewares/stockVerification.middleware.js";
-import { deleteTicketById, getAllTickets, purchaseGenerator, deleteTickets } from "../controllers/tickets.controller.js";
+import { deleteTicketById, getAllTickets, purchaseGenerator, deleteTickets, getTicketByNumber } from "../controllers/tickets.controller.js";
 import { adminValidation } from "../middlewares/userValidation.js";
 const router = Router();
 
@@ -12,6 +12,7 @@ const router = Router();
 
 //*TICKETS RELATED
 router.get("/tickets", getAllTickets )
+router.post("/ticket-by-number",getTicketByNumber)
 
 router.delete("/:tid/tickets",adminValidation,deleteTicketById)
 

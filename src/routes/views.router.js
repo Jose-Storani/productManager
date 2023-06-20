@@ -33,7 +33,7 @@ router.get("/registroFailed", (req,res)=>{
 })
 
 router.get("/purchaseSuccessful", userValidation, (req,res)=>{
-	res.render("purchaseSuccessful",{data:req.session.userInfo.purchaseData.ticketCreated})
+	res.render("purchaseSuccessful",{data:req.session.userInfo.purchaseData})
 })
 
 router.get("changePassword", (req,res)=>{

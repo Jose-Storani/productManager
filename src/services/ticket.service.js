@@ -21,10 +21,12 @@ export const createATicket = async(ticketData) =>{
         ticketCode,
         purchase_dateTime: dateTimeString,
         amount:ticketData.amount,
-        purchaser: ticketData.purchaser
+        purchaser: ticketData.purchaser,
+				relatedProducts: ticketData.cartPurchaseData
     }
 
     const response = await ticketsDao.createTicket(newTicket);
+		console.log(response)
     return response
 }
 
