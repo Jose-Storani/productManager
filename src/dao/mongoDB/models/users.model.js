@@ -33,7 +33,8 @@ const userSchema = new mongoose.Schema({
 	failedLoginAttempts: {
     type: Number,
     default: 0,
-  }
+  },
+	lastLogin: Date
 });
 
 const githubUserSchema = new mongoose.Schema({
@@ -51,3 +52,5 @@ userSchema.pre("find", function (next) {
 
 export const usersModel = mongoose.model("Users", userSchema);
 export const githubUserModel = mongoose.model("GithubUser",githubUserSchema)
+
+

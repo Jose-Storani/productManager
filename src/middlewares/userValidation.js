@@ -19,16 +19,4 @@ export function adminValidation(req,res,next){
     }
 }
 
-export function allRutesValidation(req,res,next) {
-	if(req.path === "/" || req.path === "/registro"){
-		next()
-	}
-	else if(req.path === "/realtimeproducts"){
-		adminValidation(req,res,next)
-	}
-	else{
-		userValidation(req,res,next)
-	}
-
-}
 

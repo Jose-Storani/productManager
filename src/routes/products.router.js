@@ -34,3 +34,5 @@ router.delete("/:pid", adminValidation, deleteOne);
 router.delete("/",adminValidation, deleteAllProducts);
 
 export default router;
+
+

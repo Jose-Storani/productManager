@@ -52,6 +52,8 @@ export default class UserManager extends CommonMethods {
 			const isPassword = await comparePasswords(password, user.password);
 			if (isPassword) {
 				await this.resetFailedLoginAttempts(email);
+				await this.updateLoginDate(email);
+
 				return user;
 			}
 
@@ -74,6 +76,14 @@ export default class UserManager extends CommonMethods {
 		);
 	}
 
+	async updateLoginDate(email){
+		await usersModel.findOneAndUpdate(
+			{email},
+			{$set: {lastLogin: new Date()}}
+		)
+
+	}
+
 	async findByEmail(email) {
 		const foundUser = await usersModel.find({ email }).lean();
 		return foundUser[0];
@@ -87,7 +97,7 @@ export default class UserManager extends CommonMethods {
 		return response;
 	}
 
-	async  cambiarRolUsuario(userId) {
+	async cambiarRolUsuario(userId) {
 		try {
 			const usuario = await usersModel.findById(userId);
 			if (!usuario) {
@@ -95,11 +105,26 @@ export default class UserManager extends CommonMethods {
 				return null;
 			}
 	
-			usuario.rol = (usuario.rol === "administrador") ? "usuario" : "administrador";
+			usuario.rol = (usuario.rol === "Administrador") ? "Usuario" : "Administrador";
 			await usuario.save();
 		} catch (error) {
 			console.error(error);
 			throw error;
 		}
 	}
+
+	async deleteByInactivity(){
+		console.log("ENTRANDO AL METODO")
+		const condition = {
+			lastLogin: { $lt: new Date(Date.now() -   1 * 1 * 60 * 1000) },
+			rol: "Usuario"
+		};
+		
+		const usersForDelete = await usersModel.find(condition);
+
+		await usersModel.deleteMany(condition);
+		return usersForDelete;
+
+	}
 }
+

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport"
-import { changeUserRol, deleteAllUsers } from "../controllers/users.controller.js";
+import { changeUserRol, deleteAllUsers, deleteInactiveUsers, deleteUser } from "../controllers/users.controller.js";
 import { adminValidation } from "../middlewares/userValidation.js";
 import { usersDao } from "../dao/factory.js";
 
@@ -28,9 +28,16 @@ passport.authenticate("registro",{
     passReqToCallBack: true
 }));
 
-router.get("/deleteall",adminValidation,deleteAllUsers);
+router.post("/changingRol",adminValidation, changeUserRol);
 
-router.post("/changingRol",adminValidation, changeUserRol)
+
+router.delete("/",adminValidation,deleteInactiveUsers)
+router.delete("/deleteall",adminValidation,deleteAllUsers);
+
+
+
+router.delete("/delete-by-id",adminValidation,deleteUser)
+
 
 
 

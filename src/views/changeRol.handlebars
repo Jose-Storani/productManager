@@ -8,6 +8,8 @@
             <th>Nombre</th>
             <th>Email</th>         
             <th>Rol</th>
+						<th></th>
+						<th></th>
           
         </tr>
         </thead>
@@ -29,11 +31,16 @@
         <td>
             <button class="changeRolButton" id={{_id}}>Cambiar Rol</button>
         </td>
+				<td>
+					<button class="deleteUser" id={{_id}}>Eliminar usuario</button>
+				</td>
     </tr>
     </tbody>
 
 
 {{/each}}
+
+<button id="deleteInactiveUsers">Eliminar usuarios inactivos</button>
 <script src="/js/rols.js"></script>
 {{/if}}
 

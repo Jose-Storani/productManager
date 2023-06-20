@@ -26,7 +26,6 @@ export const createATicket = async(ticketData) =>{
     }
 
     const response = await ticketsDao.createTicket(newTicket);
-		console.log(response)
     return response
 }
 
