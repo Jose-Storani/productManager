@@ -38,7 +38,8 @@ export const createCart = async (req, res, next) => {
 export const addProducToCart = async (req, res, next) => {
 	try {
 		const { cid, pid } = req.params;
-		const respuesta = await cartDao.addToCart(cid, pid);
+		const {quantity} = req.body;
+		const respuesta = await cartDao.addToCart(cid, pid,quantity);
 		res.json(respuesta);
 	} catch (error) {
 		next(error);

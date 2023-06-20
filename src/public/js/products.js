@@ -93,14 +93,15 @@ ${cartButton}
 			const quantity = selectedQuantity;
 
 			const options = {
-				method: "PUT",
+				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({ quantity: parseInt(quantity) }),
 			};
 
-			await fetch(`/api/carts/${cartId}/products/${productId}`, options);
+			await fetch(`/api/carts/${cartId}/product/${productId}`, options);
+			alert("Cantidad seleccionada añadida al carrito")
 		});
 	});
 

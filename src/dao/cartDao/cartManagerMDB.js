@@ -11,7 +11,7 @@ export default class CartManager extends CommonMethods{
 
     
 
-    async addToCart(cid, pid) {
+    async addToCart(cid, pid,quantity) {
         if(typeof cid !== "string" || typeof pid !== "string"){
             CustomError(errors.BadRequest)
         }
@@ -23,19 +23,19 @@ export default class CartManager extends CommonMethods{
                 const productIndex = cart.products.findIndex((e) => e.productId == pid);
 
                 if (productIndex !== -1) {
-                    let updateQ = await cartsModel.updateOne(
+                    let updateQ = await cartsModel.findOneAndUpdate(
                         { _id: cid, "products.productId": pid },
-                        { $inc: { "products.$.quantity": 1 } }
+                        { $inc: { "products.$.quantity": quantity } }
                     );
                     return updateQ;
                 } else {
-                    const pushProduct = cartsModel.updateOne(
+                    const pushProduct = cartsModel.findOneAndUpdate(
                         { _id: cid },
                         {
                             $push: {
                                 products: {
                                     productId: pid,
-                                    quantity: 1,
+                                    quantity
                                 },
                             },
                         }
@@ -44,13 +44,13 @@ export default class CartManager extends CommonMethods{
                 }
             } else {
                 {
-                    const pushProduct = cartsModel.updateOne(
+                    const pushProduct = cartsModel.findOneAndUpdate(
                         { _id: cid },
                         {
                             $push: {
                                 products: {
                                     productId: pid,
-                                    quantity: 1,
+                                    quantity
                                 },
                             },
                         }
