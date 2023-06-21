@@ -57,39 +57,7 @@ formAddProduct.addEventListener("submit", (e) => {
 
 
 
-//formulario DELETE
 
-// let formDelete = document.getElementById("deleteForm");
-// let idDeleteElement = document.getElementById("idProduct");
-
-
-// formDelete.addEventListener("submit", (e) => {
-//     e.preventDefault();
-
-//     let idProductToDelete = idDeleteElement.value;
-//     let url = "/api/products/" + idProductToDelete
-
-
-//     const options = {
-//         method: "DELETE",
-//         headers: {
-//             'Content-type': 'application/json; charset=UTF-8',
-//         }
-//     }
-
-//     fetch(url, options)
-//         .then(response => {
-//             if (response.ok)
-//                 console.log(response)
-//             else
-//                 throw new Error(response.status);
-//         })
-//         .then(() => {
-//             socketClient.emit("dataDeleted", { id: idProductToDelete });
-//         })
-//         .catch(err => {
-//             console.error("ERROR: ", err.message)
-//         });
 
 
 

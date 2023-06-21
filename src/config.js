@@ -9,10 +9,6 @@ export default {
     mongoSessionUrl: process.env.MONGO_SESSION_URL,
     gmailUser:process.env.GMAIL_USER,
     gmailPassword: process.env.GMAIL_PASSWORD,
-    admins: {coder: process.env.CODER_ADMIN,
-        creator:process.env.CREATOR_ADMIN,
-        other: process.env.OTHER_ADMIN
-    },
 		adminAccount: {
 			adminUser : process.env.ADMIN,
 			adminPass : process.env.ADMIN_PASS

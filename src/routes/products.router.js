@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
 	getAllProducts,
-	aggregationFunction,
+	
 	productById,
 	addOneProduct,
 	modifyProduct,
@@ -16,7 +16,6 @@ const router = Router();
 
 router.get("/", getAllProducts);
 
-router.get("/aggregation/:category", aggregationFunction);
 
 //Obtener producto unico por ID pasada por params
 router.get("/:id", productById);
@@ -25,7 +24,7 @@ router.get("/:id", productById);
 router.post("/",adminValidation, addOneProduct);
 
 //modificar producto por ID pasada por params
-router.put("/:pid", modifyProduct);
+router.put("/:pid",adminValidation, modifyProduct);
 
 //borrar producto por ID pasada por params
 router.delete("/:pid", adminValidation, deleteOne);

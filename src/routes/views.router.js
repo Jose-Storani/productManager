@@ -11,10 +11,10 @@ router.get("/", (req,res)=>{
 	res.render("login",{isAuthenticated: req.session.userInfo?.email});  
 })
 
-router.get("/changeRol", adminValidation, getAllUsersRol )
+router.get("/change-rol", adminValidation, getAllUsersRol )
 
-router.get("/realtimeproducts",adminValidation, (req,res)=>{
-    res.render("realTimeProducts",{adminData:true})
+router.get("/products-registration",adminValidation, (req,res)=>{
+    res.render("products-registration",{adminData:true})
 
 })
 
@@ -24,20 +24,20 @@ router.get("/registro",(req,res)=>{
     res.render("registro")
 })
 
-router.get("/registroSuccess",(req,res)=>{
-    res.render("registroSuccess");
+router.get("/registro-success",(req,res)=>{
+    res.render("registro-success");
 });
 
-router.get("/registroFailed", (req,res)=>{
-    res.render("registroFailed");
+router.get("/registro-failed", (req,res)=>{
+    res.render("registro-failed");
 })
 
-router.get("/purchaseSuccessful", userValidation, (req,res)=>{
-	res.render("purchaseSuccessful",{data:req.session.userInfo.purchaseData})
+router.get("/purchase-successful", userValidation, (req,res)=>{
+	res.render("purchase-successful",{data:req.session.userInfo.purchaseData})
 })
 
-router.get("changePassword", (req,res)=>{
-	res.render("changePassword")
+router.get("change-password", (req,res)=>{
+	res.render("change-password")
 })
 
 export default router

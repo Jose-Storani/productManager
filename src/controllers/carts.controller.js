@@ -13,12 +13,9 @@ export const cartById = async (req, res, next) => {
 	try {
 		const { cid } = req.params;
 		const cart = await cartDao.getById(cid);
-
-		if (cart[0].products.length) {
-			res.render("cart", { cart: cart[0] });
-		} else {
-			res.render("cart");
-		}
+		if (cart[0].products.length) res.render("cart", { cart: cart[0] });
+		else res.render("cart");
+		
 	} catch (error) {
 		next(error);
 	}
@@ -38,8 +35,8 @@ export const createCart = async (req, res, next) => {
 export const addProducToCart = async (req, res, next) => {
 	try {
 		const { cid, pid } = req.params;
-		const {quantity} = req.body;
-		const respuesta = await cartDao.addToCart(cid, pid,quantity);
+		const { quantity } = req.body;
+		const respuesta = await cartDao.addToCart(cid, pid, quantity);
 		res.json(respuesta);
 	} catch (error) {
 		next(error);
@@ -54,11 +51,9 @@ export const addArrayToCart = async (req, res, next) => {
 			cid,
 			products
 		);
-		if (productsUpdated) {
-			res.json(productsUpdated);
-		} else {
-			res.json({ mensaje: "carrito no encontrado para actualizar" });
-		}
+		if (productsUpdated) res.json(productsUpdated);
+		 else res.json({ mensaje: "carrito no encontrado para actualizar" });
+		
 	} catch (error) {
 		next(error);
 	}
@@ -102,11 +97,9 @@ export const deleteProductFromCart = async (req, res, next) => {
 	try {
 		const { cid, pid } = req.params;
 		const productDeletedFromCart = await cartDao.deleteProductCart(cid, pid);
-		if (productDeletedFromCart) {
-			res.json({ "producto eliminado con exito": productDeletedFromCart });
-		} else {
-			res.json({ error: "producto no encontrado" });
-		}
+		if (productDeletedFromCart) res.json({ "producto eliminado con exito": productDeletedFromCart });
+		 else res.json({ error: "producto no encontrado" });
+		
 	} catch (error) {
 		next(error);
 	}

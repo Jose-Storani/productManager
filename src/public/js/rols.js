@@ -14,7 +14,7 @@ button.addEventListener("click", async ()=>{
 
 	const data = await response.json();
 	alert(data.data)
-	window.location.href="/changeRol"
+	window.location.href="/change-rol"
 })
 })
 
@@ -29,7 +29,7 @@ deleteUser.forEach((deleteButton)=>{
 			body:JSON.stringify({USER_ID})
 		});
 		alert("Usuario eliminado con éxito")
-		window.location.href="/changeRol";
+		window.location.href="/change-rol";
 	})
 })
 
@@ -42,5 +42,5 @@ deleteInactive.addEventListener("click", async ()=>{
 	})
 	const response = await responseJSON.json();
 	alert("Usuarios inactivos eliminados con éxito");
-	window.location.href("/changeRol");
+	window.location.href("/change-rol");
 })

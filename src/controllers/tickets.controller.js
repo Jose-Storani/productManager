@@ -4,23 +4,27 @@ import { transporter } from "../mensajeria/nodemailer.js";
 
 export const purchaseGenerator = async (req, res, next) => {
 	try {
-		const { amount} = req.body;
+		const { amount } = req.body;
 		const cartId = req.cartId;
 		const cartPurchaseData = req.finalPurchaseCart;
-		const ticketData = { amount, purchaser: req.session.userInfo.email,cartPurchaseData};
+		const ticketData = {
+			amount,
+			purchaser: req.session.userInfo.email,
+			cartPurchaseData,
+		};
 		const ticketCreated = await createATicket(ticketData);
 		const userPurchase = {
 			ticketCreated,
 			cartPurchaseData,
-			cartId
+			cartId,
 		};
 		req.session.userInfo.purchaseData = userPurchase;
 
 		let detailDisplay = "";
-		cartPurchaseData.forEach((product)=>{
-			detailDisplay+= product.productId.title + "\n" + "quantity: " + product.quantity
-		})
-
+		cartPurchaseData.forEach((product) => {
+			detailDisplay +=
+				product.productId.title + "\n" + "quantity: " + product.quantity;
+		});
 
 		//envío de mail
 		await transporter.sendMail({
@@ -35,7 +39,7 @@ export const purchaseGenerator = async (req, res, next) => {
 		`,
 		});
 
-		res.status(200).redirect("/purchaseSuccessful");
+		res.status(200).redirect("/purchase-successful");
 	} catch (error) {
 		next(error);
 	}
@@ -46,24 +50,31 @@ export const getAllTickets = async (req, res) => {
 	res.json({ tickets });
 };
 
-export const getTicketByNumber = async (req,res,next)=>{
+export const getTicketByNumber = async (req, res, next) => {
 	try {
-		const {ticketNumber} = req.body
+		const { ticketNumber } = req.body;
 		const ticket = await ticketsDao.findTicket(ticketNumber);
-		res.status(200).send(ticket)
-		
+		res.status(200).send(ticket);
 	} catch (error) {
-		next(error)
+		next(error);
 	}
-}
+};
 
 export const deleteTicketById = async (req, res) => {
-	const { tid } = req.params;
-	const deletedTicket = await ticketsDao.deleteById(tid);
-	res.json({ Eliminado: deletedTicket });
+	try {
+		const { tid } = req.params;
+		const deletedTicket = await ticketsDao.deleteById(tid);
+		res.json({ Eliminado: deletedTicket });
+	} catch (error) {
+		next(error);
+	}
 };
 
 export const deleteTickets = async (req, res) => {
-	const deletedTickets = await ticketsDao.deleteAll();
-	res.json({ eliminado: deletedTickets });
+	try {
+		const deletedTickets = await ticketsDao.deleteAll();
+		res.json({ eliminado: deletedTickets });
+	} catch (error) {
+		next(error);
+	}
 };

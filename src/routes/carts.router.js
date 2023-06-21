@@ -18,12 +18,8 @@ router.delete("/:tid/tickets",adminValidation,deleteTicketById)
 
 router.delete("/tickets",adminValidation, deleteTickets)
 
-//todos los carritos
+//CART RELATED
 router.get("/", getAllCarts)
-
-
-
-//carrito por ID pasado por params
 
 router.get("/:cid", cartById)
 
@@ -31,7 +27,6 @@ router.get("/:cid", cartById)
 router.post("/:cid/purchase", stockVerification, purchaseGenerator )
 
 router.post("/", cartVerification, createCart)
-
 
 router.post("/:cid/product/:pid", addProducToCart)
 
@@ -41,7 +36,7 @@ router.put("/:cid/products/:pid", updateByQuery);
 
 router.delete("/",adminValidation, deleteAll)
 
-router.delete("/:cid", deleteCById)
+router.delete("/:cid",adminValidation, deleteCById)
 
 router.delete("/:cid/product/:pid", deleteProductFromCart);
 

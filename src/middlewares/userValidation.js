@@ -4,7 +4,7 @@ export function userValidation(req,res,next){
         next();
     }
     else{
-			res.status(401).render("invalidUrl",{error: errors.Unauthorized})
+			res.status(401).render("invalid-url",{error: errors.Unauthorized})
 	}
     
 
@@ -15,7 +15,7 @@ export function adminValidation(req,res,next){
         next()
     }
     else{
-        res.status(403).render("invalidUrl",{error:errors.Forbidden})
+        res.status(403).render("invalid-url",{error:errors.Forbidden})
     }
 }
 

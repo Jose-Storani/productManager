@@ -7,6 +7,6 @@ export const errorsMiddleware = (error,req,res,next) =>{
     // })
 
     logger.error(`${error.name} ${error.code}`)
-    res.status(error.code).render("invalidUrl",{error}
+    res.status(error.code).render("invalid-url",{error}
     )
 }

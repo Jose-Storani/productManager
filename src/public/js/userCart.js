@@ -31,5 +31,5 @@ botonPago.addEventListener("click", async () => {
 		},
 		body: JSON.stringify({ amount: value }),
 	});
-	window.location.href = "/purchaseSuccessful";
+	window.location.href = "/purchase-successful";
 });

@@ -49,6 +49,11 @@ async function renderProductsList(pageNumber = 1) {
 		let cartButton = hayStock
 			? ""
 			: `<button class="btn btn-primary addToCart" id=${product._id}>Añadir al carrito</button>`;
+
+		let modifyProductButton = `<button class="btn btn-primary modifyProduct" id=${product._id}>Modificar Producto</button>`;
+
+		let deleteProductButton = `<button class="btn btn-primary deleteProduct" id=${product._id}>Eliminar Producto</button>`;
+
 		let selectOptions = hayStock
 			? `<option value="NO STOCK">SIN STOCK</option>`
 			: `<option value="1">1</option>
@@ -63,13 +68,18 @@ async function renderProductsList(pageNumber = 1) {
 <div class="card-body" style="text-align: center;">
 <h5 class="card-title">${product.title}</h5>
 <p class="card-text">${product.description}</p>
+${
+	!IS_ADMIN
+		? `
 <div class="options" style="display:flex justify-content:center">
 <label for="cantidad">Cantidad:</label>
 <select id="productQuantity" name="cantidad">
   ${selectOptions}
 </select>
 </div>
-${cartButton}
+${cartButton}`
+		: `<div> ${modifyProductButton} ${deleteProductButton} </div>`
+}
 </div>
 </div>`;
 	});
@@ -78,6 +88,9 @@ ${cartButton}
 	pagination.style.display = "flex";
 
 	let addToCart = document.querySelectorAll(".addToCart");
+	const deleteProductButtons = document.querySelectorAll(".deleteProduct");
+	deleteProductFunction(deleteProductButtons);
+
 	const productQuantityArray = document.querySelectorAll("#productQuantity");
 
 	addToCart.forEach((button, index) => {
@@ -101,7 +114,7 @@ ${cartButton}
 			};
 
 			await fetch(`/api/carts/${cartId}/product/${productId}`, options);
-			alert("Cantidad seleccionada añadida al carrito")
+			alert("Cantidad seleccionada añadida al carrito");
 		});
 	});
 
@@ -125,3 +138,24 @@ prevButton.addEventListener("click", () => {
 	currentPage--;
 	renderProductsList(currentPage);
 });
+
+
+const deleteProductFunction = (arrayButtons) => {
+	arrayButtons.forEach((button) => {
+		const PRODUCT_ID = button.id;
+
+		button.addEventListener("click", async () => {
+			try {
+				const responseJSON = await fetch(`/api/products/${PRODUCT_ID}`, {method: "DELETE", headers: {
+					"Content-Type": "application/json"}});
+			
+			const response = await responseJSON.json();
+			alert(response.mensaje);
+			window.location.reload();
+			} catch (error) {
+				console.log(error);
+			}
+			
+		});
+	});
+};
