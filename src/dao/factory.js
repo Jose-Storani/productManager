@@ -1,8 +1,7 @@
 import config from "../config.js";
 import CartManagerMongo from "./cartDao/cartManagerMDB.js";
-import CartManagerFile from "./cartDao/cartManagerFile.js";
+
 import ProductManagerMongo from "./producstDao/productManagerMDB.js";
-import ProductManagerFile from "./producstDao/productManagerFile.js";
 import UserManagerMongo from "./usersDao/userManagerMDB.js";
 import TicketManager from "./ticketDao/ticketManagerMDB.js";
 import { cartsModel } from "./mongoDB/models/cart.model.js";
@@ -26,11 +25,6 @@ switch(config.persistencia){
         ticketsDao = new TicketManager(ticketModel);
 
         break;
-
-    case "FILE":
-        cartDao = new CartManagerFile();
-        productsDao = new ProductManagerFile();
-        break
     
     default:
         break

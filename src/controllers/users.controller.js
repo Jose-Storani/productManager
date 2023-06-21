@@ -87,7 +87,7 @@ export const deleteAllUsers = async (req, res, next) => {
 
 
 export const getAllUsersRol = async (req, res) => {
-	const users = await usersDao.getAll();
+	const users = await usersDao.findAllUsers();
 	res.render("changeRol", { users: users, adminData: true });
 };
 

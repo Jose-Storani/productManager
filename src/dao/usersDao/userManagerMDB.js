@@ -42,6 +42,18 @@ export default class UserManager extends CommonMethods {
 		}
 	}
 
+	async findAllUsers() {
+		let users = await this.getAll();
+		const ACTUAL_DATE = new Date();
+		users.forEach((user) => {
+			let difference = ACTUAL_DATE - user?.lastLogin;
+			let hoursDifference = difference / (1000 * 60 * 60);
+			if (hoursDifference > 48) user.status = "Inactivo";
+			else user.status = "Activo";
+		});
+		return users;
+	}
+
 
 	async findUser(email, password) {
 		const user = await usersModel.findOne({ email }).lean();
@@ -53,10 +65,8 @@ export default class UserManager extends CommonMethods {
 			if (isPassword) {
 				await this.resetFailedLoginAttempts(email);
 				await this.updateLoginDate(email);
-
 				return user;
 			}
-
 			await this.incLoginAttemps(email);
 			return null;
 		}
@@ -76,18 +86,18 @@ export default class UserManager extends CommonMethods {
 		);
 	}
 
-	async updateLoginDate(email){
+	async updateLoginDate(email) {
 		await usersModel.findOneAndUpdate(
-			{email},
-			{$set: {lastLogin: new Date()}}
-		)
-
+			{ email },
+			{ $set: { lastLogin: new Date() } }
+		);
 	}
 
 	async findByEmail(email) {
 		const foundUser = await usersModel.find({ email }).lean();
 		return foundUser[0];
 	}
+
 	async updateUserCartID(email, updateId) {
 		const response = await usersModel.findOneAndUpdate(
 			{ email },
@@ -98,33 +108,23 @@ export default class UserManager extends CommonMethods {
 	}
 
 	async cambiarRolUsuario(userId) {
-		try {
-			const usuario = await usersModel.findById(userId);
-			if (!usuario) {
-				// Usuario no encontrado
-				return null;
-			}
-	
-			usuario.rol = (usuario.rol === "Administrador") ? "Usuario" : "Administrador";
-			await usuario.save();
-		} catch (error) {
-			console.error(error);
-			throw error;
+		const usuario = await usersModel.findById(userId);
+		if (!usuario) {
+			return null;
 		}
+		usuario.rol = usuario.rol === "Administrador" ? "Usuario" : "Administrador";
+		await usuario.save();
 	}
 
-	async deleteByInactivity(){
-		console.log("ENTRANDO AL METODO")
+	async deleteByInactivity() {
 		const condition = {
-			lastLogin: { $lt: new Date(Date.now() -   1 * 1 * 60 * 1000) },
-			rol: "Usuario"
+			lastLogin: { $lt: new Date(Date.now() - 1 * 1 * 60 * 1000) },
+			rol: "Usuario",
 		};
-		
 		const usersForDelete = await usersModel.find(condition);
-
 		await usersModel.deleteMany(condition);
 		return usersForDelete;
-
 	}
-}
 
+
+}
