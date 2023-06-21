@@ -87,10 +87,97 @@ ${cartButton}`
 	productsList.innerHTML = cardHTML;
 	pagination.style.display = "flex";
 
-	let addToCart = document.querySelectorAll(".addToCart");
 	const deleteProductButtons = document.querySelectorAll(".deleteProduct");
 	deleteProductFunction(deleteProductButtons);
 
+	const modifyProductButtons = document.querySelectorAll(".modifyProduct");
+
+	modifyProductButtons.forEach((button) => {
+		const PRODUCT_ID = button.id
+		button.addEventListener("click", (e) => {
+			let productCard = e.target.closest(".card");
+
+			let modifyForm = document.createElement("form");
+
+			let inputTitle = document.createElement("input");
+			inputTitle.setAttribute("type", "text");
+			inputTitle.setAttribute("placeholder", "Title");
+
+			let inputDescription = document.createElement("input");
+			inputDescription.setAttribute("type", "text");
+			inputDescription.setAttribute("placeholder", "Description");
+
+			let inputStock = document.createElement("input");
+			inputStock.setAttribute("type", "number");
+			inputStock.setAttribute("placeholder", "Stock");
+			inputStock.setAttribute("min","1");
+
+			let inputCategory = document.createElement("input");
+			inputCategory.setAttribute("type", "text");
+			inputCategory.setAttribute("placeholder", "Category");
+
+			let inputThumbnail = document.createElement("input");
+			inputThumbnail.setAttribute("type", "url");
+			inputThumbnail.setAttribute("placeholder","Thumbnail" );
+
+			let inputPrice = document.createElement("input");
+			inputPrice.setAttribute("type", "number");
+			inputPrice.setAttribute("placeholder", "Price");
+			inputPrice.setAttribute("min","1");
+
+			let inputSubmit = document.createElement("input");
+			inputSubmit.setAttribute("type", "submit");
+			inputSubmit.textContent = "Guardar";
+
+			modifyForm.appendChild(inputTitle);
+			modifyForm.appendChild(inputDescription);
+			modifyForm.appendChild(inputPrice);
+			modifyForm.appendChild(inputStock);
+			modifyForm.appendChild(inputCategory);
+			modifyForm.appendChild(inputThumbnail);
+			modifyForm.appendChild(inputSubmit);
+
+			productCard.innerHTML = "";
+			productCard.appendChild(modifyForm);
+
+			modifyForm.addEventListener("submit", async (e)=>{
+				e.preventDefault();
+				
+				const formData = {
+					title: inputTitle.value,
+					description: inputDescription.value,
+					price: inputPrice.value,
+					stock: inputStock.value,
+					category: inputCategory.value,
+					thumbnail: inputThumbnail.value
+				}
+
+				for (let key in formData){
+					if(formData.hasOwnProperty(key)){
+						const value = formData[key];
+						if(!value) delete formData[key];
+					}
+				}
+
+				const options = {
+					method: "PUT",
+					headers: {
+							'Content-type': 'application/json; charset=UTF-8',
+					},
+					body: JSON.stringify(formData)
+			};
+
+			let responseJSON = await fetch(`/api/products/${PRODUCT_ID}`,options);
+			const response = await responseJSON.json();
+			console.log(response);
+			window.location.reload();
+
+
+			})
+		});
+	});
+
+	let addToCart = document.querySelectorAll(".addToCart");
 	const productQuantityArray = document.querySelectorAll("#productQuantity");
 
 	addToCart.forEach((button, index) => {
@@ -139,23 +226,27 @@ prevButton.addEventListener("click", () => {
 	renderProductsList(currentPage);
 });
 
-
 const deleteProductFunction = (arrayButtons) => {
 	arrayButtons.forEach((button) => {
 		const PRODUCT_ID = button.id;
 
 		button.addEventListener("click", async () => {
 			try {
-				const responseJSON = await fetch(`/api/products/${PRODUCT_ID}`, {method: "DELETE", headers: {
-					"Content-Type": "application/json"}});
-			
-			const response = await responseJSON.json();
-			alert(response.mensaje);
-			window.location.reload();
+				const responseJSON = await fetch(`/api/products/${PRODUCT_ID}`, {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				});
+
+				const response = await responseJSON.json();
+				alert(response.mensaje);
+				window.location.reload();
 			} catch (error) {
 				console.log(error);
 			}
-			
 		});
 	});
 };
+
+const addToCartFunction = () => {};

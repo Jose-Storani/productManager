@@ -69,6 +69,7 @@ export const modifyProduct = async (req, res, next) => {
 	try {
 		const { pid } = req.params;
 		const update = req.body;
+		//funcion para limpiar aquellas propiedades que tengan strings vacíos
 		const responseUpdated = await productsDao.updateProduct(pid, update);
 		res.json(responseUpdated);
 	} catch (error) {
