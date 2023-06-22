@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { adminValidation, userValidation } from "../middlewares/userValidation.js";
+import { cartVerification } from "../middlewares/cartVerification.middleware.js";
 import { changeUserRol, getAllUsersRol, profileRender } from "../controllers/users.controller.js";
 
 
@@ -18,7 +19,7 @@ router.get("/products-registration",adminValidation, (req,res)=>{
 
 })
 
-router.get("/products",userValidation,profileRender )
+router.get("/products",userValidation,cartVerification,profileRender)
 
 router.get("/registro",(req,res)=>{
     res.render("registro")

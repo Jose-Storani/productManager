@@ -304,6 +304,8 @@ tr:hover {
 
 /* CARD RENDER DIV */
 
+
+
 #card-render {
   margin-top: 10px;
   display: flex;
@@ -327,6 +329,16 @@ div#pagination{
   display: flex;
   justify-content: center;
 }
+
+.modify-product-form{
+	border: none;
+	opacity: 1;
+}
+
+.modify-product-form ::placeholder{
+	color: #202020;
+}
+
 
 /* SPINNER */
 

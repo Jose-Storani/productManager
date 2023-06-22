@@ -1,6 +1,7 @@
 {{> navbar adminData=adminData}}
 <script>
-	const IS_ADMIN = "{{userData.rol}}" === "Administrador" ? true : false
+	const IS_ADMIN = "{{userData.rol}}" === "Administrador" ? true : false;
+	const CART_ID = "{{userData.associatedCart}}"
 </script>
 <div class="welcomeImage">
   <div class="welcomeText">

@@ -56,7 +56,9 @@ export default class ProductManager extends CommonMethods {
 	async updateProduct(pid, fieldToUpdate) {
 		
 			const filter = { _id: pid };
-			return await productsModel.findOneAndUpdate(filter, fieldToUpdate, {
+			return await productsModel.findOneAndUpdate(filter, {
+				$set: fieldToUpdate
+			}, {
 				new: true,
 			});
 	}
