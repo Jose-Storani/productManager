@@ -4,7 +4,7 @@ const deleteInactive = document.getElementById("deleteInactiveUsers")
 
 changeRol.forEach((button)=>{
 button.addEventListener("click", async ()=>{
-	const response = await fetch("/api/users/changingRol",{
+	const response = await fetch("/api/users/changing-rol",{
 		method: "POST",
 		headers:{
 			"Content-type": "application/json; charset=UTF-8"

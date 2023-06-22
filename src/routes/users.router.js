@@ -17,18 +17,18 @@ router.get("/github", passport.authenticate("github"),async(req,res)=>{
     // if(req.user.password === "1$#522%%"){
 		// 	res.redirect("/changePassword");
 		// }
-    res.redirect("/changePassword")
+    res.redirect("/change-password")
 });
 
 // registro con passport
 router.post("/registro",
 passport.authenticate("registro",{
-    failureRedirect: "/registroFailed",
-    successRedirect: "/registroSuccess",    
+    failureRedirect: "/registro-failed",
+    successRedirect: "/registro-success",    
     passReqToCallBack: true
 }));
 
-router.post("/changingRol",adminValidation, changeUserRol);
+router.post("/changing-rol",adminValidation, changeUserRol);
 
 
 router.delete("/",adminValidation,deleteInactiveUsers)
