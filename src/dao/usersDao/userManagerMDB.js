@@ -107,7 +107,7 @@ export default class UserManager extends CommonMethods {
 			{ email },
 			{ associatedCart: updateId },
 			{ new: true }
-		);
+		).lean();
 		return response;
 	}
 
