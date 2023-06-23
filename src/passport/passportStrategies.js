@@ -20,6 +20,7 @@ passport.use(
 		async (req, email, password, done) => {
 			try {
 				const user = await usersDao.createUser(req.body);
+				
 				if (!user) {
 					logger.warning("Usuario existente");
 					return done(null, false);

@@ -1,3 +1,5 @@
+import CustomError from "../utils/errors/customError.js";
+import { errors } from "../utils/errors/errors.dictionary.js";
 export default class CommonMethods {
   constructor(model) {
     this.model = model;
@@ -15,7 +17,7 @@ export default class CommonMethods {
 
   async getById(id) {
     if (typeof id !== "string") {
-      CustomError(errors.BadRequest);
+      CustomError.createError(errors.BadRequest);
     }
     const response = await this.model.find({ _id: id }).lean();
     return response;

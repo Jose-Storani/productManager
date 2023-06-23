@@ -26,10 +26,13 @@ router.get("/registro",(req,res)=>{
 })
 
 router.get("/registro-success",(req,res)=>{
+	req.session.destroy();
+	res.clearCookie("sessionID");
     res.render("registro-success");
 });
 
 router.get("/registro-failed", (req,res)=>{
+	req.session.destroy();
     res.render("registro-failed");
 })
 
