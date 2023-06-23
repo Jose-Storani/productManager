@@ -36,8 +36,18 @@ export default class UserManager extends CommonMethods {
 								...userInfo,
 								password: hashNewPassword,
 						  };
-
-				return await usersModel.create(newUser);
+							
+							
+							// function logPropertyTypes(obj) {
+							// 	for (var key in obj) {
+							// 		if (obj.hasOwnProperty(key)) {
+							// 			console.log(key + ": " + typeof obj[key]);
+							// 		}
+							// 	}
+							// }
+							;
+							return await usersModel.create(newUser);
+					
 			}
 		}
 	}
