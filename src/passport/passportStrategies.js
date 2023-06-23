@@ -40,11 +40,12 @@ passport.use(
 			usernameField: "email",
 			passwordField: "password",
 		},
-		async (email, password, done) => {
+		async (req,email, password, done) => {
 			try {
 				const correctUser = await usersDao.findUser(email, password);
 				if (correctUser) {
 					logger.info(`usuario logeado: ${correctUser.email}`);
+					req.session.userInfo = correctUser;
 					return done(null, correctUser,{message:"logeado"});
 				} else {
 					

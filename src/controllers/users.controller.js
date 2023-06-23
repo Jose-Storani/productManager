@@ -22,17 +22,8 @@ export const findUser = async (req, res, next) => {
 	}
 };
 
-export const profileRender = async (req, res, next) => {
+export const profileRender = (req, res, next) => {
 	try {
-		function logPropertyTypes(obj) {
-			for (var key in obj) {
-				if (obj.hasOwnProperty(key)) {
-					console.log(key + ": " + typeof obj[key]);
-				}
-			}
-		}
-		logPropertyTypes(req.session.userInfo);
-		console.log(req.session.userInfo)
 		if (req.session.userInfo.rol === "Administrador") {
 			res.render("products", {
 				userData: req.session.userInfo,
