@@ -2,6 +2,7 @@ import { usersDao } from "../dao/factory.js";
 import passport from "passport";
 import { transporter } from "../mensajeria/nodemailer.js";
 
+
 export const createUser = async (req, res, next) => {
 	try {
 		const response = await usersDao.createUser(req.body);
@@ -23,6 +24,15 @@ export const findUser = async (req, res, next) => {
 
 export const profileRender = async (req, res, next) => {
 	try {
+		function logPropertyTypes(obj) {
+			for (var key in obj) {
+				if (obj.hasOwnProperty(key)) {
+					console.log(key + ": " + typeof obj[key]);
+				}
+			}
+		}
+		logPropertyTypes(req.session.userInfo);
+		console.log(req.session.userInfo)
 		if (req.session.userInfo.rol === "Administrador") {
 			res.render("products", {
 				userData: req.session.userInfo,
@@ -84,8 +94,6 @@ export const deleteAllUsers = async (req, res, next) => {
 	}
 };
 
-
-
 export const getAllUsersRol = async (req, res) => {
 	const users = await usersDao.findAllUsers();
 	res.render("change-rol", { users: users, adminData: true });
@@ -102,16 +110,16 @@ export const changeUserRol = async (req, res, next) => {
 	}
 };
 
-export const deleteInactiveUsers = async(req,res,next) =>{
+export const deleteInactiveUsers = async (req, res, next) => {
 	const deletedUsers = await usersDao.deleteByInactivity();
-	const usersEmails = deletedUsers.map((user)=> user.email);
+	const usersEmails = deletedUsers.map((user) => user.email);
 
 	await transporter.sendMail({
-		from:"Administración Omega Electrónica",
+		from: "Administración Omega Electrónica",
 		to: usersEmails,
 		subject: "Cuenta eliminada",
-		text: "Estimado usuario, su cuenta a sido eliminada por inactividad, por favor, contactese con un administrador para volver a activarla"
-	})
+		text: "Estimado usuario, su cuenta a sido eliminada por inactividad, por favor, contactese con un administrador para volver a activarla",
+	});
 
-	res.status(200).json({deletedUsersMails: usersEmails})
-}
+	res.status(200).json({ deletedUsersMails: usersEmails });
+};

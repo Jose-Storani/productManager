@@ -92,10 +92,10 @@ import usersRouter from "./routes/users.router.js"
 
 //middleware de autenticación para todas las rutas, excepto login y registro
 
+app.use("/", viewsRoute);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartsRoute);
-app.use("/", viewsRoute);
 app.use("/api/users", usersRouter);
 app.use("/api/docs", swaggerUi.serve,swaggerUi.setup(specs))
 
