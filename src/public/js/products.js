@@ -4,8 +4,8 @@ const nextButton = document.getElementById("next-btn");
 const prevButton = document.getElementById("prev-btn");
 const cartLink = document.getElementById("linkToCart");
 const spinner = document.querySelector(".center");
+
 console.log(CART_ID);
-console.log(IS_ADMIN);
 
 let currentPage = 1;
 

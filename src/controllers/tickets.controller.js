@@ -1,4 +1,4 @@
-import { createATicket } from "../services/ticket.service.js";
+import { createATicketService } from "../services/ticket.service.js";
 import { ticketsDao } from "../dao/factory.js";
 import { transporter } from "../mensajeria/nodemailer.js";
 
@@ -6,22 +6,24 @@ export const purchaseGenerator = async (req, res, next) => {
 	try {
 		const { amount } = req.body;
 		const cartId = req.cartId;
-		const cartPurchaseData = req.finalPurchaseCart;
+		const cartData = req.finalPurchaseCart;
 		const ticketData = {
 			amount,
 			purchaser: req.session.userInfo.email,
-			cartPurchaseData,
+			cartData,
 		};
-		const ticketCreated = await createATicket(ticketData);
+		
+		const ticketCreated = await createATicketService(ticketData);
 		const userPurchase = {
 			ticketCreated,
-			cartPurchaseData,
+			cartData,
 			cartId,
 		};
 		req.session.userInfo.purchaseData = userPurchase;
 
+
 		let detailDisplay = "";
-		cartPurchaseData.forEach((product) => {
+		cartData.forEach((product) => {
 			detailDisplay +=
 				product.productId.title + "\n" + "quantity: " + product.quantity;
 		});

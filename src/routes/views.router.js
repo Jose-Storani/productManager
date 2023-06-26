@@ -22,12 +22,14 @@ router.get("/products-registration",adminValidation, (req,res)=>{
 router.get("/products",userValidation,cartVerification,profileRender)
 
 router.get("/registro",(req,res)=>{
-    res.render("registro")
+	req.session.destroy();
+	res.clearCookie("sessionID");
+	res.render("registro")
 })
 
 router.get("/registro-success",(req,res)=>{
-	req.session.destroy();
-	res.clearCookie("sessionID");
+	// req.session.destroy();
+	// res.clearCookie("sessionID");
     res.render("registro-success");
 });
 
