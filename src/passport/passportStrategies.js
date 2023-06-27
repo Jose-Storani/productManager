@@ -27,7 +27,7 @@ passport.use(
 					return done(null, false);
 				}
 				req.session.userInfo = newUser;
-				logger.info(`usuario creado: ${newUser}`);
+				logger.info(`usuario creado: ${newUser.email}`);
 				done(null, newUser);
 			} catch (error) {
 				return done("ERROR AL OBTENER EL USUARIO:", error);

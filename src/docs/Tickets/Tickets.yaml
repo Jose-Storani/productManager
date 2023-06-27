@@ -1,0 +1,80 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: Swagger Cart API
+paths:
+  /api/carts/tickets:
+    get:
+      summary: Obtiene todos los tickets
+      tags:
+        - Tickets
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: array
+            items:
+              type: object
+        "400":
+          description: Error del lado del cliente
+        "500":
+          description: Error del lado del servidor
+
+    delete:
+      summary: Elimina todos los tickets (solo para administradores)
+      tags:
+        - Tickets
+      security:
+        - admin: []
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+            properties:
+              deletedTickets:
+                type: array
+                items:
+                  type: object
+        "400":
+          description: Error del lado del cliente
+        "500":
+          description: Error del lado del servidor
+
+  /api/carts/ticket-by-number:
+    post:
+      summary: Obtiene un ticket por número
+      tags:
+        - Tickets
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "400":
+          description: Error del lado del cliente
+        "500":
+          description: Error del lado del servidor
+
+  /api/carts/{tid}/tickets:
+    parameters:
+      - name: tid
+        in: path
+        description: ID del ticket
+        required: true
+        type: string
+    delete:
+      summary: Elimina un ticket específico (solo para administradores)
+      tags:
+        - Tickets
+      security:
+        - admin: []
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "400":
+          description: Error del lado del cliente
+        "500":
+          description: Error del lado del servidor

@@ -27,11 +27,6 @@ router.get("/registro",(req,res)=>{
 	res.render("registro")
 })
 
-router.get("/registro-success",(req,res)=>{
-	// req.session.destroy();
-	// res.clearCookie("sessionID");
-    res.render("registro-success");
-});
 
 router.get("/registro-failed", (req,res)=>{
 	req.session.destroy();
@@ -42,8 +37,6 @@ router.get("/purchase-successful", userValidation, (req,res)=>{
 	res.render("purchase-successful",{data:req.session.userInfo.purchaseData})
 })
 
-router.get("change-password", (req,res)=>{
-	res.render("change-password")
-})
+
 
 export default router

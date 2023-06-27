@@ -1,0 +1,269 @@
+paths:
+  /api/carts:
+    get:
+      summary: Obtiene todos los carritos
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: array
+            items:
+              type: object
+        "400":
+          description: Error del lado del cliente
+        "500":
+          description: Error del lado del servidor
+
+    post:
+      summary: Verifica y crea un carrito para un usuario
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+            properties:
+              cartId:
+                type: string
+        "400":
+          description: Error del lado del cliente
+        "500":
+          description: Error del lado del servidor
+
+    delete:
+      summary: Elimina todos los carritos (solo para administradores)
+      tags:
+        - Carts
+      security:
+        - admin: []
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              deletedCarts:
+                type: array
+                items:
+                  type: object
+        "400":
+          description: Error del lado del cliente
+        "500":
+          description: Error del lado del servidor
+
+  /api/carts/{cid}:
+    parameters:
+      - name: cid
+        in: path
+        description: ID del carrito
+        required: true
+        type: string
+    get:
+      summary: Obtiene la información de un carrito específico
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+            properties:
+              cartInfo:
+                type: object
+        "404":
+          description: Carrito no encontrado
+        "400":
+          description: Error del lado del cliente
+        "500":
+          description: Error del lado del servidor
+
+    put:
+      summary: Actualiza la información de un carrito específico
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: ID del carrito
+          required: true
+          type: string
+        - name: products
+          in: body
+          description: Array de productos
+          required: true
+          schema:
+            type: array
+            items:
+              type: object
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+            properties:
+              updatedCart:
+                type: object
+        "404":
+          description: Carrito no encontrado
+        "400":
+          description: Error del lado del cliente
+        "500":
+          description: Error del lado del servidor
+
+    delete:
+      summary: Elimina un carrito específico
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: ID del carrito
+          required: true
+          type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+            properties:
+              deletedCart:
+                type: object
+        "404":
+          description: Carrito no encontrado
+        "400":
+          description: Error del lado del cliente
+        "500":
+          description: Error del lado del servidor
+
+  /api/carts/{cid}/purchase:
+    parameters:
+      - name: cid
+        in: path
+        description: ID del carrito
+        required: true
+        type: string
+    post:
+      summary: Crea un ticket de compra para un carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: ID del carrito
+          required: true
+          type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "404":
+          description: Carrito no encontrado
+        "400":
+          description: Error del lado del cliente
+        "500":
+          description: Error del lado del servidor
+
+  /api/carts/{cid}/product/{pid}:
+    parameters:
+      - name: cid
+        in: path
+        description: ID del carrito
+        required: true
+        type: string
+      - name: pid
+        in: path
+        description: ID del producto
+        required: true
+        type: string
+    post:
+      summary: Agrega un producto a un carrito específico
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: ID del carrito
+          required: true
+          type: string
+        - name: pid
+          in: path
+          description: ID del producto
+          required: true
+          type: string
+        - name: productInfo
+          in: body
+          description: Información del producto
+          required: true
+          schema:
+            type: object
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "404":
+          description: Carrito no encontrado
+        "400":
+          description: Error del lado del cliente
+        "500":
+          description: Error del lado del servidor
+
+    put:
+      summary: Actualiza la información de un producto en un carrito específico
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: ID del carrito
+          required: true
+          type: string
+        - name: pid
+          in: path
+          description: ID del producto
+          required: true
+          type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "404":
+          description: Carrito no encontrado
+        "400":
+          description: Error del lado del cliente
+        "500":
+          description: Error del lado del servidor
+
+    delete:
+      summary: Elimina un producto de un carrito específico
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: ID del carrito
+          required: true
+          type: string
+        - name: pid
+          in: path
+          description: ID del producto
+          required: true
+          type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "404":
+          description: Carrito no encontrado
+        "400":
+          description: Error del lado del cliente
+        "500":
+          description: Error del lado del servidor

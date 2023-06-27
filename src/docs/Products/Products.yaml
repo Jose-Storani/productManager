@@ -28,7 +28,7 @@ paths:
     post:
       summary: Agregar un producto, el código debe ser único
       tags:
-        - Agregar producto
+        - Productos
       requestBody:
         required: true
         content:
@@ -54,7 +54,7 @@ paths:
     delete:
       summary: Elimina todos los productos de la BD
       tags:
-        - Eliminar productos
+        - Productos
       responses:
         "200":
           description: "Devuelve un json con la cantidad de elementos eliminados"
@@ -67,7 +67,7 @@ paths:
     get:
       summary: Obtiene un solo producto buscado por ID
       tags:
-        - Buscar product por ID
+        - Productos
       parameters:
       - name: pid
         in: path
@@ -87,7 +87,7 @@ paths:
     put:
       summary: Modifica un producto existente en la BD
       tags:
-        - Modificar producto
+        - Productos
       parameters:
       - name: pid
         in: path
@@ -112,7 +112,7 @@ paths:
     delete:
       summary: Elimina un producto de la BD buscado por ID
       tags:
-        - Eliminar producto por ID
+        - Productos
       parameters:
       - name: pid
         in: path
@@ -131,7 +131,6 @@ paths:
                   "producto eliminado con exito":
                     type: object
                     $ref: "#components/schemas/Product"
-components:
   schemas:
     Product:
       type: object

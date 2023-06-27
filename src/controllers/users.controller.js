@@ -29,7 +29,6 @@ export const findUser = async (req, res, next) => {
 export const profileRender = (req, res, next) => {
 	try {
 		const userData = UserDTO.getUserData(req.session.userInfo);
-		console.log(userData);
 		if (req.session.userInfo.rol === "Administrador") {
 			res.render("products", {
 				userData,

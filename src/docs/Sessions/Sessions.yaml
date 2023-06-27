@@ -1,0 +1,38 @@
+paths:
+  /api/sessions/login:
+    post:
+      summary: Iniciar sesión
+      tags:
+        - Sesiones
+      parameters:
+        - name: body
+          in: body
+          description: Credenciales de usuario
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        "200":
+          description: Inicio de sesión exitoso
+        "401":
+          description: Error en las credenciales o cuenta bloqueada
+        "500":
+          description: Error del lado del servidor
+
+  /api/sessions/logout:
+    get:
+      summary: Cerrar sesión
+      tags:
+        - Sesiones
+      responses:
+        "200":
+          description: Sesión cerrada exitosamente
+          schema:
+            type: object
+        "500":
+          description: Error del lado del servidor

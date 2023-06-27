@@ -37,9 +37,10 @@ export default class UserManager extends CommonMethods {
 								password: hashNewPassword,
 						  };
 
-				const doc = await usersModel.create(newUser);
-				//Hago esta devolución porque create no devuelve un objeto plano, y las conversiones que he tratado de realizar no funcionaron, incluso el metodo .toObject de mongoose.
-				return await usersModel.findOne({email:doc.email}).lean();
+				await usersModel.create(newUser);
+				//Hago este return porque create no devuelve un objeto plano, y las conversiones que he tratado de realizar no funcionaron, incluso el metodo .toObject de mongoose.
+				await this.updateLoginDate(email);
+				return await usersModel.findOne({email}).lean();
 			}
 		}
 	}

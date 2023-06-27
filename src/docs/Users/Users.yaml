@@ -1,38 +1,111 @@
-components:
-  schemas:
-    User:
-      type: object
-      properties:
-        _id:
-          type: ObjectId
-          description: Id autogenerada por mongo
-        first_name:
-          type: string
-          description: Nombre del usuario
-        last_name:
-          type: string
-          description: Apellido del usuario
-        email:
-          type: string
-          description: Email del usuario, este campo es único
-        age:
-          type: string
-          description: Edad del usuario, por default 0.
-        password:
-          type: string
-          description: Contraseña Hasheada del usuario
-        associatedCart:
-          type: ObjectId
-          description: Id del cart referenciado al usuario en particular
-        rol:
-          type: string,
-          description: Rol del usuario en la web. Por default User
-      example:
-        _id: ObjectId("644d4d76d61d543835d69bd0")
-        first_name: Jose
-        last_name: Storani
-        email: jdstorani91@gmail.com
-        age: "32"
-        password: $2b$10$uluK3RSKXvfFg4clmImGMeDXa5UJET4ZI8flyinAmoNeHa2Nfl1IG
-        associatedCart: ObjectId("645577694960897931daeaf0")
-        rol: Administrador
+paths:
+  /api/users/registro:
+    post:
+      summary: Registrar nuevo usuario
+      tags:
+        - Usuarios
+      parameters:
+        - name: body
+          in: body
+          description: Información del usuario
+          required: true
+          schema:
+            type: object
+            properties:
+              nombre:
+                type: string
+              apellido:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+              edad:
+                type: string
+      responses:
+        "200":
+          description: Registro exitoso
+          schema:
+            type: object
+        "400":
+          description: Error del lado del cliente
+        "500":
+          description: Error del lado del servidor
+
+  /api/users/changing-rol:
+    post:
+      summary: Cambiar rol de usuario (solo para administradores)
+      tags:
+        - Usuarios
+      security:
+        - admin: []
+      parameters:
+        - name: body
+          in: body
+          description: ID del usuario
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+      responses:
+        "200":
+          description: Información de usuario modificada
+          schema:
+            type: object
+        "500":
+          description: Error del lado del servidor
+
+  /api/users:
+    delete:
+      summary: Eliminar usuarios inactivos (solo para administradores)
+      tags:
+        - Usuarios
+      security:
+        - admin: []
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "500":
+          description: Error del lado del servidor
+
+  /api/users/deleteall:
+    delete:
+      summary: Eliminar todos los usuarios (solo para administradores)
+      tags:
+        - Usuarios
+      security:
+        - admin: []
+      responses:
+        "200":
+          description: Información de usuarios eliminados
+          schema:
+            type: object
+        "500":
+          description: Error del lado del servidor
+
+  /api/users/delete-by-id:
+    delete:
+      summary: Eliminar usuario por ID
+      tags:
+        - Usuarios
+      parameters:
+        - name: body
+          in: body
+          description: ID del usuario
+          required: true
+          schema:
+            type: object
+            properties:
+              userID:
+                type: string
+      responses:
+        "200":
+          description: Información de usuario eliminado
+          schema:
+            type: object
+        "500":
+          description: Error del lado del servidor
