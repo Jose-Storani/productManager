@@ -1,6 +1,6 @@
 import { ticketsDao } from "../dao/factory.js";
 
-export const createATicket = async(ticketData) =>{
+export const createATicketService = async(ticketData) =>{
     const allTickets = await ticketsDao.getAll();
     //codigo inicial si BD está vacía
     let ticketCode = 10000;
@@ -22,9 +22,8 @@ export const createATicket = async(ticketData) =>{
         purchase_dateTime: dateTimeString,
         amount:ticketData.amount,
         purchaser: ticketData.purchaser,
-				relatedProducts: ticketData.cartPurchaseData
+				relatedProducts: ticketData.cartData
     }
-
     const response = await ticketsDao.createTicket(newTicket);
     return response
 }

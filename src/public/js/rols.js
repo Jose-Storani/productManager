@@ -1,6 +1,7 @@
 const changeRol = document.querySelectorAll(".changeRolButton");
 const deleteUser = document.querySelectorAll(".deleteUser");
-const deleteInactive = document.getElementById("deleteInactiveUsers")
+const deleteInactive = document.getElementById("deleteInactiveUsers");
+const deleteLoading = document.querySelector(".disabled");
 
 changeRol.forEach((button)=>{
 button.addEventListener("click", async ()=>{
@@ -34,13 +35,26 @@ deleteUser.forEach((deleteButton)=>{
 })
 
 deleteInactive.addEventListener("click", async ()=>{
-	let responseJSON = await fetch("/api/users",{
+	try {
+	deleteLoading.setAttribute("class","visible");
+	let response = await fetch("/api/users",{
 		method:"DELETE",
 		headers:{
 			"Content-type": "application/json; charset=UTF-8"
 		}
 	})
-	const response = await responseJSON.json();
+	if(response.ok){
+		const responseJSON = await response.json();
+	deleteLoading.setAttribute("class","disabled");
 	alert("Usuarios inactivos eliminados con éxito");
-	window.location.href("/change-rol");
+	window.location.href="/change-rol";
+	}
+	else{
+		alert("No hay usuarios inactivos para eliminar");
+	}
+	
+}
+	catch (error) {
+		console.log(error)
+	}
 })

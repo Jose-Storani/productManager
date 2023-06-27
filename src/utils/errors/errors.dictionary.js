@@ -40,7 +40,7 @@ export const errors = {
 
     InternalServerError: {
         name: "500_INTERNAL_SERVER_ERROR",
-        message: "An unexpected error occurred on the server.",
+        message: "An unexpected error occurred on the server. Help us improve your experience by sending an error report",
         cause: "An unexpected error occurred on the server.",
         code: 500,
     },
@@ -60,6 +60,8 @@ export const errors = {
         "The server, while acting as a gateway or proxy, did not receive a timely response from an upstream server.",
         code: 504,
     },
+
+		
 
 		
 };

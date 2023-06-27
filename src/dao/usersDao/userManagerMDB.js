@@ -36,12 +36,11 @@ export default class UserManager extends CommonMethods {
 								...userInfo,
 								password: hashNewPassword,
 						  };
-							
-							
-							
-							;
-							return await usersModel.create(newUser);
-					
+
+				await usersModel.create(newUser);
+				//Hago este return porque create no devuelve un objeto plano, y las conversiones que he tratado de realizar no funcionaron, incluso el metodo .toObject de mongoose.
+				await this.updateLoginDate(email);
+				return await usersModel.findOne({email}).lean();
 			}
 		}
 	}
@@ -57,7 +56,6 @@ export default class UserManager extends CommonMethods {
 		});
 		return users;
 	}
-
 
 	async findUser(email, password) {
 		const user = await usersModel.findOne({ email }).lean();
@@ -103,11 +101,9 @@ export default class UserManager extends CommonMethods {
 	}
 
 	async updateUserCartID(email, updateId) {
-		const response = await usersModel.findOneAndUpdate(
-			{ email },
-			{ associatedCart: updateId },
-			{ new: true }
-		).lean();
+		const response = await usersModel
+			.findOneAndUpdate({ email }, { associatedCart: updateId }, { new: true })
+			.lean();
 		return response;
 	}
 
@@ -129,6 +125,4 @@ export default class UserManager extends CommonMethods {
 		await usersModel.deleteMany(condition);
 		return usersForDelete;
 	}
-
-
 }

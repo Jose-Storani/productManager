@@ -3,6 +3,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import { logger } from "../utils/log/logger.js";
 import { usersDao } from "../dao/factory.js";
+import UserDTO from "../dto/User.dto.js"; 
 import config from "../config.js";
 import { githubUserModel } from "../dao/mongoDB/models/users.model.js";
 
@@ -15,18 +16,19 @@ passport.use(
 		{
 			usernameField: "email",
 			passwordField: "password",
-			passReqToCallback: true,
+			passReqToCallback: true
 		},
 		async (req, email, password, done) => {
 			try {
-				const user = await usersDao.createUser(req.body);
+				const newUser = await usersDao.createUser(req.body);
 				
-				if (!user) {
+				if (!newUser) {
 					logger.warning("Usuario existente");
 					return done(null, false);
 				}
-				logger.info(`usuario creado: ${user}`);
-				done(null, user);
+				req.session.userInfo = newUser;
+				logger.info(`usuario creado: ${newUser.email}`);
+				done(null, newUser);
 			} catch (error) {
 				return done("ERROR AL OBTENER EL USUARIO:", error);
 			}
@@ -40,11 +42,13 @@ passport.use(
 		{
 			usernameField: "email",
 			passwordField: "password",
+			passReqToCallback:true
 		},
-		async (email, password, done) => {
+		async (req,email, password, done) => {
 			try {
 				const correctUser = await usersDao.findUser(email, password);
 				if (correctUser) {
+					req.session.userInfo = correctUser;
 					logger.info(`usuario logeado: ${correctUser.email}`);
 					return done(null, correctUser,{message:"logeado"});
 				} else {

@@ -11,6 +11,8 @@ import { errorsMiddleware } from "./middlewares/errors.middleware.js";
 import swaggerUi from "swagger-ui-express"
 import { specs } from "./utils/swagger.js";
 import compression from "express-compression";
+import CustomError from "./utils/errors/customError.js";
+import { errors } from "./utils/errors/errors.dictionary.js";
 import "./passport/passportStrategies.js";
 import "./dao/mongoDB/dbConfig.js"
 
@@ -90,6 +92,8 @@ import usersRouter from "./routes/users.router.js"
 
 
 
+
+
 //middleware de autenticación para todas las rutas, excepto login y registro
 
 app.use("/", viewsRoute);
@@ -101,7 +105,8 @@ app.use("/api/docs", swaggerUi.serve,swaggerUi.setup(specs))
 
 
 app.use((req, res) => {
-    res.status(404).render('invalid-url');
+	CustomError.createError(errors.NotFound)
+    // res.status(404).render('invalid-url');
 });
 
 
