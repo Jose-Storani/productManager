@@ -6,7 +6,7 @@ export default class UserDTO {
 			email: user.email,
 			rol: user.rol,
 			status: user.status,
-			associatedCart : user.associatedCart._id ?? user.associatedCart
+			associatedCart : user.associatedCart?._id ?? user.associatedCart
 
 		};
 	};
