@@ -76,85 +76,9 @@ passport.use(
 	)
 );
 
-//github strategy
 
-passport.use(
-	"github",
-	new GitHubStrategy(
-		{
-			clientID: "Iv1.28bfb8804fcc8a8c",
-			clientSecret: "d8e8699989f922f4148c03186f30b6c1ef4dbf8e",
-			callbackURL: "http://localhost:8080/api/users/github",
-		},
-		async (accessToken, profile, done) => {
-			try {
-				console.log(profile.id, profile._json);
-				// const ghUser = await githubUserModel.findOne({ githubId: profile.id })
 
-				// if(ghUser){
-				// 	const user = await usersDao.getById(ghUser.userID);
-				// 	return(null,user)
-				// }
 
-				// const existingUser = await usersDao.findByEmail(profile._json.email);
-
-				// if(existingUser.length !==0){
-				// 	//como se usa el find, accedo al arrayElement
-				// 	const newGithubUser = {
-				// 		usuario: existingUser[0]._id,
-				// 		githubId: profile.id,
-				// 		githubToken: accessToken
-				// 	};
-				// 	await githubUserModel.create(newGithubUser);
-				// 	return (null,existingUser[0])
-				// }
-				// const newUserFromGH = {
-				// 	first_name: profile._json.name.split(" ")[0],
-				// 	last_name: profile._json.name.split(" ")[1] || " ",
-				// 	email: profile._json.email,
-				// 	password: "1$#522%%",
-				// };
-
-				// const newUser = await usersDao.createUser(newUserFromGH);
-				// await githubUserModel.create({
-				// 	usuario: newUser._id,
-				// 		githubId: profile.id,
-				// 		githubToken: accessToken
-				// })
-
-				passport.use(
-					"github",
-					new GitHubStrategy(
-						{
-							clientID: "Iv1.28bfb8804fcc8a8c",
-							clientSecret: "d8e8699989f922f4148c03186f30b6c1ef4dbf8e",
-							callbackURL: "http://localhost:8080/api/users/github",
-						},
-						async (profile, done) => {
-							try {
-								const newUserGitHub = {
-									first_name: profile._json.name.split(" ")[0],
-									last_name: profile._json.name.split(" ")[1] || " ",
-									email: profile._json.email,
-									password: " ",
-								};
-
-								const user = await usersDao.createUser(newUserGitHub);
-								!user ? done(null, user) : done(null, user);
-							} catch (error) {
-								return done, error;
-							}
-						}
-					)
-				);
-
-				done(null, newUser);
-			} catch (error) {
-				return done, error;
-			}
-		}
-	)
-);
 
 passport.serializeUser((user, done) => {
 	done(null, user._id);
