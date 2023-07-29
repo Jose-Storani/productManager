@@ -58,6 +58,8 @@ Para correrlo de manera local usar: (puerto 8080)
 - Express- Router
 - Bcrypt
 
+## Documentación
+/api/docs
 
 ## Sobre la página
 
